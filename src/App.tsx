@@ -1,13 +1,9 @@
 import React from "react";
 import "./App.css";
-import { Box, Typography } from "@mui/material";
+import { RootNavigation } from "./navigation/RootNavigation";
 
 function App(): JSX.Element {
-	return (
-		<Box>
-			<Typography>hello world</Typography>
-		</Box>
-	);
+	return <RootNavigation />;
 }
 
 export default App;
