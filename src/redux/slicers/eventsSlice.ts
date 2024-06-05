@@ -13,7 +13,7 @@ const initialState: events = {
 
 export const eventsSlice = createSlice({
 	name: "events",
-	initialState: initialState,
+	initialState,
 	reducers: {
 		setEvents: (state, action: PayloadAction<string[]>) => {
 			state.results = action.payload;

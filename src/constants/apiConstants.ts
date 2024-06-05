@@ -1,0 +1,15 @@
+interface apiContants {
+	BACKEND_PROD_BASE_URL: string;
+	BACKEND_DEV_BASE_URL: string;
+	OKTA_APPLICAITON_URL: string;
+	OKTA_APPLICATION_CLIENT_ID: string;
+	ENVIRONMENT: string;
+}
+
+export const API_CONSTANTS: apiContants = {
+	BACKEND_PROD_BASE_URL: process.env.REACT_APP_CRF_BASE_API_URL_PROD ?? "",
+	BACKEND_DEV_BASE_URL: process.env.REACT_APP_CRF_BASE_API_URL_DEV ?? "",
+	OKTA_APPLICAITON_URL: process.env.REACT_APP_OKTA_BASE_DOMAIN ?? "",
+	OKTA_APPLICATION_CLIENT_ID: process.env.REACT_APP_OKTA_CLIENT_ID ?? "",
+	ENVIRONMENT: process.env.NODE_ENV ?? "development",
+};

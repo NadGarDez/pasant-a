@@ -1,10 +1,18 @@
-import { Box, Typography } from "@mui/material";
 import React from "react";
+
+import { SignInWidget } from "../groupedComponents/SignInWidget";
 
 export const LoginPage = (): JSX.Element => {
 	return (
-		<Box>
-			<Typography>Login Page</Typography>
-		</Box>
+		<div>
+			<SignInWidget
+				onError={e => {
+					console.log("super error", e);
+				}}
+				onSuccess={data => {
+					console.log("success", data);
+				}}
+			/>
+		</div>
 	);
 };
