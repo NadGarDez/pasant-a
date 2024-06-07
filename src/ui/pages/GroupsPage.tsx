@@ -1,10 +1,14 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import React from "react";
+import { Header } from "../common/Header";
 
 export const GroupsPage = (): JSX.Element => {
 	return (
-		<Box>
-			<Typography>Groups Page</Typography>
-		</Box>
+		<Container>
+			<Header />
+			<Box>
+				<Typography>Groups Page</Typography>
+			</Box>
+		</Container>
 	);
 };

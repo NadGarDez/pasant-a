@@ -19,7 +19,7 @@ export const RootNavigation = (props: any): JSX.Element => {
 		_oktaAuth: OktaAuth,
 		originalUri: string | undefined,
 	): Promise<void> => {
-		const url = originalUri ?? "/";
+		const url = originalUri ?? "/events";
 		history.replace(toRelativeUrl(url, window.location.origin));
 	};
 	const oktaAuth = new OktaAuth({
