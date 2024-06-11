@@ -1,7 +1,7 @@
 // import { Typography } from "@mui/material";
 // import { Box } from "@mui/system";
 import React from "react";
-import { Route, useHistory } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import { EventsPage } from "../ui/pages/EventsPage";
 import { DisclaimersPage } from "../ui/pages/DisclaimersPage";
 import { GroupsPage } from "../ui/pages/GroupsPage";
@@ -25,11 +25,14 @@ export const RootNavigation = (props: any): JSX.Element => {
 	const oktaAuth = new OktaAuth({
 		issuer: API_CONSTANTS.OKTA_APPLICAITON_URL + "/oauth2/default",
 		clientId: API_CONSTANTS.OKTA_APPLICATION_CLIENT_ID,
-		redirectUri: "http://localhost:8080",
+		redirectUri: window.location.origin + "/login/callback",
 	});
 
 	return (
 		<Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+			<Route exact path="/">
+				<Redirect to="/events" />
+			</Route>
 			<SecureRoute path="/events" component={EventsPage} />
 			<SecureRoute path="/config" component={ConfigPage} />
 			<SecureRoute path="/events/:id/configuration" component={EventsPage} />
@@ -43,7 +46,7 @@ export const RootNavigation = (props: any): JSX.Element => {
 			<SecureRoute path="/groups" component={GroupsPage} />
 			<SecureRoute path="/versions" component={VersionsPage} />
 			<SecureRoute path="/profile" component={ProfilePage} />
-			<Route path="/" component={LoginCallback} />
+			<Route path="/login/callback" component={LoginCallback} />
 		</Security>
 	);
 };
