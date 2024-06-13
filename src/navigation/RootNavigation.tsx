@@ -26,6 +26,7 @@ export const RootNavigation = (props: any): JSX.Element => {
 		issuer: API_CONSTANTS.OKTA_APPLICAITON_URL + "/oauth2/default",
 		clientId: API_CONSTANTS.OKTA_APPLICATION_CLIENT_ID,
 		redirectUri: window.location.origin + "/login/callback",
+		scopes: ["openid profile"],
 	});
 
 	return (

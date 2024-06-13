@@ -1,9 +1,6 @@
-import { takeEvery } from "redux-saga/effects";
-
-function* doSomething(): Generator {
-	console.log("holix");
-}
+import { all } from "redux-saga/effects";
+import internalApi from "./internalApiSagas";
 
 export default function* rootSaga(): Generator {
-	yield takeEvery("SOME_ACTION", doSomething);
+	yield all([internalApi()]);
 }

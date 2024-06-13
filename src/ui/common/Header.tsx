@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from "react";
+import React, { useEffect } from "react";
 import MaterialAppBar from "@mui/material/AppBar";
 import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useOktaAuth } from "@okta/okta-react";
+import { getLoginInternalRequestFromAuthState } from "../../utils/apiRequest";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { startAuthSagas } from "../../redux/slicers/internalSessionSlice";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
+
+	const dispatch = useAppDispatch();
 
 	const handleDrawerToggle = (): void => {};
 
@@ -29,6 +34,17 @@ export const Header = (): JSX.Element => {
 			</Button>
 		);
 	};
+
+	const getDataLogin = async (): Promise<void> => {
+		const data = await getLoginInternalRequestFromAuthState(oktaAuth);
+		dispatch(startAuthSagas(data));
+	};
+
+	useEffect(() => {
+		if (authState !== undefined && authState !== null) {
+			void getDataLogin();
+		}
+	}, []);
 
 	return (
 		<>
