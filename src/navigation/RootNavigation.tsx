@@ -12,6 +12,8 @@ import { LoginCallback, SecureRoute, Security } from "@okta/okta-react";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { API_CONSTANTS } from "../constants/apiConstants";
 import { IndexPage } from "../ui/pages/IndexPage";
+import { Layout } from "../ui/sections/Layout";
+import { EventPage } from "../ui/pages/EventPage";
 
 export const RootNavigation = (props: any): JSX.Element => {
 	const history = useHistory();
@@ -31,23 +33,28 @@ export const RootNavigation = (props: any): JSX.Element => {
 
 	return (
 		<Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-			<Route exact path="/">
-				<Redirect to="/events" />
-			</Route>
-			<SecureRoute path="/events" component={EventsPage} />
-			<SecureRoute path="/config" component={ConfigPage} />
-			<SecureRoute path="/events/:id/configuration" component={EventsPage} />
-			<SecureRoute path="/events/:id/topics" component={EventsPage} />
-			<SecureRoute path="/events/:id/fundamentals" component={IndexPage} />
-			<SecureRoute path="/events/:id/maps" component={EventsPage} />
-			<SecureRoute path="/events/:id/adverticements" component={EventsPage} />
-			<SecureRoute path="/events/:id/polls" component={EventsPage} />
-			<SecureRoute path="/events/:id/livestreams" component={EventsPage} />
-			<SecureRoute path="/disclaimers" component={DisclaimersPage} />
-			<SecureRoute path="/groups" component={GroupsPage} />
-			<SecureRoute path="/versions" component={VersionsPage} />
-			<SecureRoute path="/profile" component={ProfilePage} />
-			<Route path="/login/callback" component={LoginCallback} />
+			<Layout>
+				<>
+					<Route exact path="/">
+						<Redirect to="/events" />
+					</Route>
+					<SecureRoute path="/events" component={EventsPage} />
+					<SecureRoute path="/config" component={ConfigPage} />
+					<SecureRoute path="/event/:id/overview" component={EventPage} />
+					<SecureRoute path="/event/:id/configuration" component={EventPage} />
+					<SecureRoute path="/event/:id/topics" component={EventPage} />
+					<SecureRoute path="/event/:id/fundamentals" component={IndexPage} />
+					<SecureRoute path="/event/:id/maps" component={EventPage} />
+					<SecureRoute path="/event/:id/advertisements" component={EventPage} />
+					<SecureRoute path="/event/:id/polls" component={EventPage} />
+					<SecureRoute path="/event/:id/livestreams" component={EventPage} />
+					<SecureRoute path="/disclaimers" component={DisclaimersPage} />
+					<SecureRoute path="/groups" component={GroupsPage} />
+					<SecureRoute path="/versions" component={VersionsPage} />
+					<SecureRoute path="/profile" component={ProfilePage} />
+					<Route path="/login/callback" component={LoginCallback} />
+				</>
+			</Layout>
 		</Security>
 	);
 };

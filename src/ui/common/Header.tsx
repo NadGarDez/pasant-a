@@ -5,15 +5,20 @@ import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useOktaAuth } from "@okta/okta-react";
 import { getLoginInternalRequestFromAuthState } from "../../utils/apiRequest";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { startAuthSagas } from "../../redux/slicers/internalSessionSlice";
+import { toogleSideBar } from "../../redux/slicers/appSlicer";
+import { currentEventSelector } from "../../redux/slicers/eventsSlice";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
+	const currentEvent = useAppSelector(currentEventSelector);
 
 	const dispatch = useAppDispatch();
 
-	const handleDrawerToggle = (): void => {};
+	const handleDrawerToggle = (): void => {
+		dispatch(toogleSideBar());
+	};
 
 	const login = async (): Promise<void> => {
 		await oktaAuth.signInWithRedirect();
@@ -56,16 +61,23 @@ export const Header = (): JSX.Element => {
 				color="secondary"
 			>
 				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="Open drawer"
-						onClick={handleDrawerToggle}
-						// className={classes.menuButton}
-					>
-						<MenuIcon />
-					</IconButton>
+					{
+						// here validate if exist a current event
+						// eslint-disable-next-line no-constant-condition
+						currentEvent !== null ? (
+							<IconButton
+								color="inherit"
+								aria-label="Open drawer"
+								onClick={handleDrawerToggle}
+								// className={classes.menuButton}
+							>
+								<MenuIcon />
+							</IconButton>
+						) : null
+					}
+
 					<Typography variant="h6" color="inherit" noWrap>
-						CRD
+						CRD Events
 					</Typography>
 					<Box sx={{ flexGrow: 1 }} />
 					<LoginLogoutButton />

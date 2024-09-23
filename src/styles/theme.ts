@@ -2,8 +2,15 @@ import { createTheme } from "@mui/material";
 
 declare module "@mui/material/styles" {
 	interface Theme {
-		status: {
-			danger: string;
+		palette: {
+			primary: {
+				main: string;
+				contrastText: string;
+			};
+			secondary: {
+				main: string;
+				contrastText: string;
+			};
 		};
 	}
 	// allow configuration using `createTheme`
