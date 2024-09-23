@@ -4,7 +4,6 @@ import {
 	List,
 	Toolbar,
 	Typography,
-	useMediaQuery,
 	useTheme,
 } from "@mui/material";
 import React, { memo } from "react";
@@ -18,31 +17,17 @@ const Component = (): JSX.Element => {
 	const open = useAppSelector(sideBarSelector);
 	const dispatch = useAppDispatch();
 
-	const toogle = (): void => {
+	const toggle = (): void => {
 		dispatch(toogleSideBar());
-	};
-
-	const match = useMediaQuery(theme.breakpoints.up("sm"));
-
-	const drawerProps = (): object => {
-		if (!match) {
-			return {
-				open: true,
-				variant: "permanent",
-			};
-		}
-		return {
-			open,
-			variant: "temporary",
-			anchor: "left",
-			onClose: toogle,
-		};
 	};
 
 	return (
 		<div>
 			<Drawer
-				{...drawerProps()}
+				open={open}
+				variant="temporary"
+				anchor="left"
+				onClose={toggle}
 				sx={{
 					"& .MuiDrawer-paper": {
 						boxSizing: "border-box",
