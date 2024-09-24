@@ -11,6 +11,7 @@ import { toogleSideBar } from "../../redux/slicers/appSlicer";
 import { currentEventSelector } from "../../redux/slicers/eventsSlice";
 import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
+import { NavBarAutocomplete } from "../components/NavBarAutocomplete";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
@@ -55,17 +56,10 @@ export const Header = (): JSX.Element => {
 
 	return (
 		<>
-			<MaterialAppBar
-				position="fixed"
-				// className={
-				// //   isLogged && showSidebar ? [classes.appBar, classes.withSidebar] : classes.appBar
-				// }
-				color="secondary"
-			>
+			<MaterialAppBar position="fixed" color="secondary">
 				<Toolbar>
 					{
 						// here validate if exist a current event
-						// eslint-disable-next-line no-constant-condition
 						currentEvent !== null ? (
 							<IconButton
 								color="inherit"
@@ -83,6 +77,7 @@ export const Header = (): JSX.Element => {
 					</Typography>
 					<Box sx={{ flexGrow: 1 }} />
 					<LanguageMenu />
+					{currentEvent !== null ? <NavBarAutocomplete /> : null}
 					<CRDNavBarMenu />
 					<LoginLogoutButton />
 				</Toolbar>
