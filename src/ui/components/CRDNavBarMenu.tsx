@@ -20,7 +20,7 @@ export const CRDNavBarMenu = (): JSX.Element => {
 	const getRouteName = (): string => {
 		const path = window.location.pathname;
 		const result = crdMenuItems.find(item => item.to === path);
-		return result?.label ?? "";
+		return result?.label ?? "Manage";
 	};
 
 	return (

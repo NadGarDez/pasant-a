@@ -10,6 +10,7 @@ import { startAuthSagas } from "../../redux/slicers/internalSessionSlice";
 import { toogleSideBar } from "../../redux/slicers/appSlicer";
 import { currentEventSelector } from "../../redux/slicers/eventsSlice";
 import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
+import { LanguageMenu } from "../components/LanguageMenu";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
@@ -81,6 +82,7 @@ export const Header = (): JSX.Element => {
 						CRD Events
 					</Typography>
 					<Box sx={{ flexGrow: 1 }} />
+					<LanguageMenu />
 					<CRDNavBarMenu />
 					<LoginLogoutButton />
 				</Toolbar>

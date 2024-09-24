@@ -17,3 +17,9 @@ export interface CRDMenuItem {
 	label: string;
 	to: string;
 }
+
+export interface LanguageType {
+	key: string;
+	label: string;
+	flag: string;
+}

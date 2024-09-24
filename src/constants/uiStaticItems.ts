@@ -1,4 +1,8 @@
-import { type CRDMenuItem, type drawerItem } from "../types/uiTypes";
+import {
+	type LanguageType,
+	type CRDMenuItem,
+	type drawerItem,
+} from "../types/uiTypes";
 
 export const drawerItems: drawerItem[] = [
 	{
@@ -108,5 +112,13 @@ export const crdMenuItems: CRDMenuItem[] = [
 		key: "versions",
 		label: "Version List",
 		to: "/versions",
+	},
+];
+
+export const language: LanguageType[] = [
+	{
+		key: "en",
+		label: "EN",
+		flag: "US",
 	},
 ];
