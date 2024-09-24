@@ -1,6 +1,6 @@
-import { type drawerItem } from "../types/drawer";
+import { type CRDMenuItem, type drawerItem } from "../types/uiTypes";
 
-export const items: drawerItem[] = [
+export const drawerItems: drawerItem[] = [
 	{
 		text: "General",
 		icon: "info",
@@ -80,5 +80,33 @@ export const items: drawerItem[] = [
 			},
 		],
 		hideForStates: ["TO_SETUP"],
+	},
+];
+
+export const crdMenuItems: CRDMenuItem[] = [
+	{
+		key: "configs",
+		label: "Config",
+		to: "/configs",
+	},
+	{
+		key: "disclaimers",
+		label: "Disclaimers",
+		to: "/disclaimers",
+	},
+	{
+		key: "events",
+		label: "Event List",
+		to: "/events",
+	},
+	{
+		key: "groups",
+		label: "Group List",
+		to: "/groups",
+	},
+	{
+		key: "versions",
+		label: "Version List",
+		to: "/versions",
 	},
 ];

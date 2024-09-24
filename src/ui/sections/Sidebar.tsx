@@ -7,10 +7,10 @@ import {
 	useTheme,
 } from "@mui/material";
 import React, { memo } from "react";
-import { items } from "../../constants/drawerItems";
 import { DrawerItem } from "../components/DrawerItem";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { sideBarSelector, toogleSideBar } from "../../redux/slicers/appSlicer";
+import { drawerItems } from "../../constants/uiStaticItems";
 
 const Component = (): JSX.Element => {
 	const theme = useTheme();
@@ -51,7 +51,7 @@ const Component = (): JSX.Element => {
 						bgcolor: theme.palette.primary.main,
 					}}
 				>
-					{items.map((item, index) => (
+					{drawerItems.map((item, index) => (
 						<DrawerItem key={index} {...item} />
 					))}
 				</List>

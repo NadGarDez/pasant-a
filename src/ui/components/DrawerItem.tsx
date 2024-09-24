@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Icon from "@mui/material/Icon";
 import React, { useState } from "react";
-import { type drawerItem } from "../../types/drawer";
+import { type drawerItem } from "../../types/uiTypes";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { currentEventSelector } from "../../redux/slicers/eventsSlice";

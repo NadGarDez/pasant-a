@@ -11,3 +11,9 @@ export interface drawerItem {
 	items: drawerSubItem[];
 	hideForStates?: eventStatus[];
 }
+
+export interface CRDMenuItem {
+	key: string;
+	label: string;
+	to: string;
+}
