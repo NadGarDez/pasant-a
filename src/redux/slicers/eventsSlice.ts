@@ -4,27 +4,35 @@ import type { reduxStoreType } from "../../types/reduxTypes";
 import { type event, type eventsSliceInterface } from "../../types/events";
 
 const initialState: eventsSliceInterface = {
-	results: [],
-	currentEvent: {
-		id: "2",
-	},
+	data: [],
+	status: "NEUTRAL",
+	error: null,
 };
 
 export const eventsSlice = createSlice({
 	name: "events",
 	initialState,
 	reducers: {
-		setEvents: (state, action: PayloadAction<event[]>) => {
-			state.results = action.payload;
+		successEventsAction: (state, action: PayloadAction<event[]>) => {
+			state.status = "SUCCESS";
+			state.data = action.payload;
+		},
+		failEventsAction: (state, action: PayloadAction<string>) => {
+			state.status = "ERROR";
+			state.error = action.payload;
+		},
+		loadEventsAction: state => {
+			state.status = "LOADING";
+			state.data = [];
+			state.error = null;
 		},
 	},
 });
 
-export const { setEvents } = eventsSlice.actions;
+export const { loadEventsAction, failEventsAction, successEventsAction } =
+	eventsSlice.actions;
 
 export const eventsSelector = (state: reduxStoreType): event[] =>
-	state.events.results;
-export const currentEventSelector = (state: reduxStoreType): event | null =>
-	state.events.currentEvent;
+	state.events.data;
 
 export default eventsSlice.reducer;

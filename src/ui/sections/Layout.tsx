@@ -4,6 +4,7 @@ import { Header } from "../common/Header";
 import { Sidebar } from "./Sidebar";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { sideBarSelector } from "../../redux/slicers/appSlicer";
+import { useInternalAuth } from "../../hooks/useInternalAuth";
 
 interface props {
 	children: JSX.Element;
@@ -17,6 +18,8 @@ export const Layout = (props: props): JSX.Element => {
 	const { children } = props;
 	const isSidebarVisible = useAppSelector(sideBarSelector);
 	const match = useMediaQuery("(min-width:600px)");
+
+	useInternalAuth();
 
 	if (match) {
 		return (

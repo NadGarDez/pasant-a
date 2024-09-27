@@ -6,14 +6,16 @@ import {
 import { type reduxStoreType } from "../../types/reduxTypes";
 
 interface internalSessionInteface {
-	sessionID: string | null;
+	oktaSessionId: string | null;
+	userId: string | null;
 	status: INTERNAL_LOGIN_POSIBLE_STATUS;
 	errorMesssage?: string;
 }
 
 const initialState: internalSessionInteface = {
-	sessionID: null,
-	status: "AUTHENTICATED",
+	oktaSessionId: null,
+	userId: null,
+	status: "UNAUTHENTICATED",
 };
 
 export const internalSessionSlice = createSlice({
@@ -35,13 +37,15 @@ export const internalSessionSlice = createSlice({
 		},
 		finishAuthenticationWithSuccess: (
 			state,
-			action: PayloadAction<{ sessionId: string }>,
+			action: PayloadAction<{ oktaSessionId: string; userId: string }>,
 		) => {
-			state.sessionID = action.payload.sessionId;
+			state.oktaSessionId = action.payload.oktaSessionId;
+			state.userId = action.payload.userId;
 			state.status = "AUTHENTICATED";
 		},
 		clearInternalSession: state => {
-			state.sessionID = null;
+			state.oktaSessionId = null;
+			state.userId = null;
 			state.errorMesssage = undefined;
 			state.status = "UNAUTHENTICATED";
 		},

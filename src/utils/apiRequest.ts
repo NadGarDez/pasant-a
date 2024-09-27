@@ -5,7 +5,7 @@ import { type OktaAuth } from "@okta/okta-auth-js";
 
 export const internalLoginRequest = async (
 	data: INTERNAL_LOGIN_REQUEST_PARAMS,
-): Promise<object> => {
+): Promise<any> => {
 	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/session/v1/session`;
 	return await axios.post(url, data);
 };
@@ -22,4 +22,17 @@ export const getLoginInternalRequestFromAuthState = async (
 		userId: userId ?? "",
 		oktaSessionId: session.id ?? "",
 	};
+};
+
+export const getEvents = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/events/search`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
 };
