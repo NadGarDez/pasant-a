@@ -1,18 +1,11 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
+	type internalSessionReducerInteface,
 	type INTERNAL_LOGIN_REQUEST_PARAMS,
-	type INTERNAL_LOGIN_POSIBLE_STATUS,
 } from "../../types/internalApiTypes";
 import { type reduxStoreType } from "../../types/reduxTypes";
 
-interface internalSessionInteface {
-	oktaSessionId: string | null;
-	userId: string | null;
-	status: INTERNAL_LOGIN_POSIBLE_STATUS;
-	errorMesssage?: string;
-}
-
-const initialState: internalSessionInteface = {
+const initialState: internalSessionReducerInteface = {
 	oktaSessionId: null,
 	userId: null,
 	status: "UNAUTHENTICATED",
@@ -68,6 +61,6 @@ export const startAuthSagas = (
 
 export const internalSessionSelector = (
 	state: reduxStoreType,
-): internalSessionInteface => state.internalSession;
+): internalSessionReducerInteface => state.internalSession;
 
 export default internalSessionSlice.reducer;

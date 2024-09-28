@@ -6,9 +6,12 @@ import {
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { useOktaAuth } from "@okta/okta-react";
 import { getLoginInternalRequestFromAuthState } from "../utils/apiRequest";
+import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 
-export const useInternalAuth = (): void => {
-	const { status, errorMesssage } = useAppSelector(internalSessionSelector);
+export const useInternalAuth = (): internalSessionReducerInteface => {
+	const { status, errorMesssage, ...rest } = useAppSelector(
+		internalSessionSelector,
+	);
 	const dispatch = useAppDispatch();
 	const { oktaAuth, authState } = useOktaAuth();
 
@@ -31,4 +34,10 @@ export const useInternalAuth = (): void => {
 			}
 		}
 	}, [status, authState]);
+
+	return {
+		...rest,
+		status,
+		errorMesssage,
+	};
 };

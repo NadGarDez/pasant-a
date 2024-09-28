@@ -5,7 +5,6 @@ import { Sidebar } from "./Sidebar";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { sideBarSelector } from "../../redux/slicers/appSlicer";
 import { useInternalAuth } from "../../hooks/useInternalAuth";
-
 interface props {
 	children: JSX.Element;
 }
