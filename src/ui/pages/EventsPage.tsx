@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { AbstractTable } from "../components/AbstractTable";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
-	const { data, status } = useGetEvents();
+	const { data, status, totalCount } = useGetEvents();
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (
@@ -18,10 +18,16 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 		);
 	}
 
+	const onChangePagination = (page: number, rowsPerPage: number): void => {
+		console.log(page, rowsPerPage);
+	};
+
 	return (
 		<AbstractTable<event>
 			cols={eventsTableStructure}
 			rows={data}
+			total={totalCount}
+			onChangePagination={onChangePagination}
 			renderActions={item => (
 				<IconButton
 					color="default"

@@ -30,7 +30,7 @@ function* getEventsSaga(): object {
 				value.oktaSessionId,
 				{},
 			);
-			yield put(successEventsAction(result.data.items));
+			yield put(successEventsAction(result.data));
 		} else {
 			yield put(failEventsAction("super error"));
 		}

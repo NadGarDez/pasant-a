@@ -50,5 +50,6 @@ export interface event {
 export interface eventsSliceInterface {
 	status: eventReducerStatus;
 	data: event[];
+	totalCount: number;
 	error: string | null;
 }

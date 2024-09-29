@@ -7,15 +7,20 @@ const initialState: eventsSliceInterface = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
+	totalCount: 0,
 };
 
 export const eventsSlice = createSlice({
 	name: "events",
 	initialState,
 	reducers: {
-		successEventsAction: (state, action: PayloadAction<event[]>) => {
+		successEventsAction: (
+			state,
+			action: PayloadAction<{ items: event[]; totalCount: number }>,
+		) => {
 			state.status = "SUCCESS";
-			state.data = action.payload;
+			state.data = action.payload.items;
+			state.totalCount = action.payload.totalCount;
 		},
 		failEventsAction: (state, action: PayloadAction<string>) => {
 			state.status = "ERROR";
