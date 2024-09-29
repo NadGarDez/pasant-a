@@ -70,7 +70,7 @@ export const DrawerItem = (props: drawerItem): JSX.Element => {
 							key={`drawer-child-${index}`}
 							onClick={() => {
 								if (currentEvent !== null) {
-									onClickSubItem(child.url(currentEvent.id));
+									onClickSubItem(child.url(currentEvent.idEvent));
 								}
 							}}
 						>

@@ -32,7 +32,7 @@ export const eventsSlice = createSlice({
 export const { loadEventsAction, failEventsAction, successEventsAction } =
 	eventsSlice.actions;
 
-export const eventsSelector = (state: reduxStoreType): event[] =>
-	state.events.data;
+export const eventsSelector = (state: reduxStoreType): eventsSliceInterface =>
+	state.events;
 
 export default eventsSlice.reducer;
