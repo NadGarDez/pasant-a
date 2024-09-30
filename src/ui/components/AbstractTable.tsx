@@ -37,7 +37,7 @@ export const AbstractTable = <T extends object>(
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	): void => {
-		onChangePagination(page, parseInt(event.target.value, 10));
+		onChangePagination(0, parseInt(event.target.value, 10));
 	};
 
 	return (

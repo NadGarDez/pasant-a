@@ -38,11 +38,13 @@ function* getEventsSaga(
 					limit: action.payload.limit,
 				},
 			);
+			console.log(result, "super result");
 			yield put(successEventsAction(result.data));
 		} else {
 			yield put(failEventsAction("super error"));
 		}
 	} catch (error) {
+		alert(JSON.stringify(error));
 		console.log(error, "super error");
 		yield put(failEventsAction("super error"));
 	}
