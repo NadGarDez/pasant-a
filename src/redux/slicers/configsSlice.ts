@@ -4,9 +4,9 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 } from "../../types/reduxTypes";
-import { type event } from "../../types/events";
+import { type config } from "../../types/configTypes";
 
-const initialState: listReducerInterface<event> = {
+const initialState: listReducerInterface<config> = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
@@ -15,23 +15,23 @@ const initialState: listReducerInterface<event> = {
 	limit: 5,
 };
 
-export const eventsSlice = createSlice({
-	name: "events",
+export const configsSlice = createSlice({
+	name: "configs",
 	initialState,
 	reducers: {
-		successEventsAction: (
+		successConfigsAction: (
 			state,
-			action: PayloadAction<{ items: event[]; totalCount: number }>,
+			action: PayloadAction<{ items: config[]; totalCount: number }>,
 		) => {
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
 			state.totalCount = action.payload.totalCount;
 		},
-		failEventsAction: (state, action: PayloadAction<string>) => {
+		failConfigsAction: (state, action: PayloadAction<string>) => {
 			state.status = "ERROR";
 			state.error = action.payload;
 		},
-		loadEventsAction: (
+		loadConfigsAction: (
 			state,
 			action: PayloadAction<{ page: number; limit: number }>,
 		) => {
@@ -44,11 +44,11 @@ export const eventsSlice = createSlice({
 	},
 });
 
-export const { loadEventsAction, failEventsAction, successEventsAction } =
-	eventsSlice.actions;
+export const { loadConfigsAction, failConfigsAction, successConfigsAction } =
+	configsSlice.actions;
 
-export const eventsSelector = (
+export const configsSelector = (
 	state: reduxStoreType,
-): listReducerInterface<event> => state.events;
+): listReducerInterface<config> => state.configs;
 
-export default eventsSlice.reducer;
+export default configsSlice.reducer;

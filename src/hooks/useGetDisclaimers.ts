@@ -2,19 +2,19 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { type listReducerInterface } from "../types/reduxTypes";
 import { type config } from "../types/configTypes";
-import { configsSelector } from "../redux/slicers/configsSlice";
-import { getConfigsSagasAction } from "../sagas/configSagas";
+import { disclaimersSelector } from "../redux/slicers/disclaimersSlice";
+import { getDisclaimersSagasAction } from "../sagas/disclaimerSagas";
 
 interface reload {
 	reload: (params: { page: number; limit: number }) => void;
 }
 
-export const useGetConfigs = (): listReducerInterface<config> & reload => {
-	const configs = useAppSelector(configsSelector);
+export const useGetDisclaimers = (): listReducerInterface<config> & reload => {
+	const configs = useAppSelector(disclaimersSelector);
 	const dispatch = useAppDispatch();
 
 	const reload = (params: { page: number; limit: number }): void => {
-		dispatch(getConfigsSagasAction(params));
+		dispatch(getDisclaimersSagasAction(params));
 	};
 
 	useEffect(() => {
@@ -22,7 +22,7 @@ export const useGetConfigs = (): listReducerInterface<config> & reload => {
 
 		if (status === "NEUTRAL") {
 			dispatch(
-				getConfigsSagasAction({
+				getDisclaimersSagasAction({
 					page,
 					limit,
 				}),

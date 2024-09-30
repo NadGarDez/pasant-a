@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
+import { Box, Icon, IconButton, LinearProgress, Paper } from "@mui/material";
 import React, { useEffect } from "react";
 import { withInternalSession } from "../../HOCs/withInternalSession";
 import { useGetEvents } from "../../hooks/useGetEvents";
@@ -44,24 +44,29 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	}
 
 	return (
-		<AbstractTable<event>
-			cols={eventsTableStructure}
-			rows={data}
-			limit={limit}
-			page={page}
-			total={totalCount}
-			onChangePagination={onChangePagination}
-			renderActions={item => (
-				<IconButton
-					color="default"
-					aria-label="Info"
-					onClick={() => {
-						handleClick(item);
-					}}
-				>
-					<Icon fontSize="inherit">error_outline</Icon>
-				</IconButton>
-			)}
-		/>
+		<Paper
+			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
+			elevation={3}
+		>
+			<AbstractTable<event>
+				cols={eventsTableStructure}
+				rows={data}
+				limit={limit}
+				page={page}
+				total={totalCount}
+				onChangePagination={onChangePagination}
+				renderActions={item => (
+					<IconButton
+						color="default"
+						aria-label="Info"
+						onClick={() => {
+							handleClick(item);
+						}}
+					>
+						<Icon fontSize="inherit">error_outline</Icon>
+					</IconButton>
+				)}
+			/>
+		</Paper>
 	);
 });

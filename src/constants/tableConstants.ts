@@ -51,3 +51,24 @@ export const configTableStructure: keyValueInterface[] = [
 		label: "Value",
 	},
 ];
+
+export const disclaimerTableStructure: keyValueInterface[] = [
+	{
+		key: "idDisclaimer",
+		label: "id",
+	},
+
+	{
+		key: "title",
+		label: "Title",
+	},
+	{
+		key: "cloudStorageLocation",
+		label: "Url",
+	},
+	{
+		key: "status",
+		label: "Status",
+		cellFormatter: value => (value === 1 ? "Active" : "Inactive"),
+	},
+];

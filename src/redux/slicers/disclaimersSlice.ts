@@ -4,34 +4,34 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 } from "../../types/reduxTypes";
-import { type config } from "../../types/configTypes";
+import { type disclaimer } from "../../types/disclaimerTypes";
 
-const initialState: listReducerInterface<config> = {
+const initialState: listReducerInterface<disclaimer> = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
 	totalCount: 0,
-	page: 1,
+	page: 0,
 	limit: 5,
 };
 
-export const configsSlice = createSlice({
-	name: "configs",
+export const disclaimersSlice = createSlice({
+	name: "disclaimer",
 	initialState,
 	reducers: {
-		successConfigsAction: (
+		successDisclaimersAction: (
 			state,
-			action: PayloadAction<{ items: config[]; totalCount: number }>,
+			action: PayloadAction<{ items: disclaimer[]; totalCount: number }>,
 		) => {
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
 			state.totalCount = action.payload.totalCount;
 		},
-		failConfigsAction: (state, action: PayloadAction<string>) => {
+		failDisclaimersAction: (state, action: PayloadAction<string>) => {
 			state.status = "ERROR";
 			state.error = action.payload;
 		},
-		loadConfigsAction: (
+		loadDisclaimersAction: (
 			state,
 			action: PayloadAction<{ page: number; limit: number }>,
 		) => {
@@ -44,11 +44,14 @@ export const configsSlice = createSlice({
 	},
 });
 
-export const { loadConfigsAction, failConfigsAction, successConfigsAction } =
-	configsSlice.actions;
+export const {
+	loadDisclaimersAction,
+	failDisclaimersAction,
+	successDisclaimersAction,
+} = disclaimersSlice.actions;
 
-export const configsSelector = (
+export const disclaimersSelector = (
 	state: reduxStoreType,
-): listReducerInterface<config> => state.configs;
+): listReducerInterface<disclaimer> => state.disclaimers;
 
-export default configsSlice.reducer;
+export default disclaimersSlice.reducer;

@@ -1,4 +1,4 @@
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress, Paper } from "@mui/material";
 import React from "react";
 import { useGetConfigs } from "../../hooks/useGetConfig";
 import { AbstractTable } from "../components/AbstractTable";
@@ -25,13 +25,18 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 	}
 
 	return (
-		<AbstractTable<config>
-			cols={configTableStructure}
-			rows={data}
-			limit={limit}
-			page={page}
-			total={totalCount}
-			onChangePagination={onChangePagination}
-		/>
+		<Paper
+			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
+			elevation={3}
+		>
+			<AbstractTable<config>
+				cols={configTableStructure}
+				rows={data}
+				limit={limit}
+				page={page}
+				total={totalCount}
+				onChangePagination={onChangePagination}
+			/>
+		</Paper>
 	);
 });

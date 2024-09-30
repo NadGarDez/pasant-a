@@ -1,62 +1,61 @@
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
-import { getConfigs } from "../utils/apiRequest";
+import { getDisclaimers } from "../utils/apiRequest";
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
 import {
-	failConfigsAction,
-	loadConfigsAction,
-	successConfigsAction,
-} from "../redux/slicers/configsSlice";
-import { type config } from "../types/configTypes";
+	failDisclaimersAction,
+	loadDisclaimersAction,
+	successDisclaimersAction,
+} from "../redux/slicers/disclaimersSlice";
+import { type disclaimer } from "../types/disclaimerTypes";
 
 // sagas function
 
-interface getConfigsResponse {
+interface getDisclaimerssResponse {
 	totalCount: number;
-	items: config[];
+	items: disclaimer[];
 }
 
-function* getConfigsSagas(
+function* getDisclaimersSagas(
 	action: PayloadAction<{
 		page: number;
 		limit: number;
 	}>,
 ): object {
-	console.log("get configs sagas");
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadConfigsAction(action.payload));
-			const result: AxiosResponse<getConfigsResponse> = yield call(
-				getConfigs,
+			yield put(loadDisclaimersAction(action.payload));
+			const result: AxiosResponse<getDisclaimerssResponse> = yield call(
+				getDisclaimers,
 				value.oktaSessionId,
 				{
 					index: action.payload.limit * action.payload.page,
 					limit: action.payload.limit,
 				},
 			);
-			yield put(successConfigsAction(result.data));
+			yield put(successDisclaimersAction(result.data));
 		} else {
-			yield put(failConfigsAction("super error"));
+			yield put(failDisclaimersAction("super error"));
 		}
 	} catch (error) {
 		console.log(error);
-		yield put(failConfigsAction("super error"));
+		yield put(failDisclaimersAction("super error"));
 	}
 }
 
 // watchers
-export function* configsWatcher(): any {
-	yield takeEvery("GET_CONFIGS", getConfigsSagas);
+export function* disclaimersWatcher(): any {
+	yield takeEvery("GET_DISCLAIMERS", getDisclaimersSagas);
 }
 
 // action creators
 
-export const getConfigsSagasAction = createAction<{
+export const getDisclaimersSagasAction = createAction<{
 	page: number;
 	limit: number;
-}>("GET_CONFIGS");
+}>("GET_DISCLAIMERS");

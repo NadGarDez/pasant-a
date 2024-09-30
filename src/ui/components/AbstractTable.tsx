@@ -1,5 +1,4 @@
 import {
-	Paper,
 	Table,
 	TableBody,
 	TableCell,
@@ -41,67 +40,58 @@ export const AbstractTable = <T extends object>(
 	};
 
 	return (
-		<Paper
-			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
-			elevation={3}
-		>
-			<Table>
-				<TableHead>
-					<TableRow>
-						{cols.map((item, index) => (
-							<TableCell key={`table_headier_item_${index}`}>
-								{item.label}
-							</TableCell>
-						))}
+		<Table>
+			<TableHead>
+				<TableRow>
+					{cols.map((item, index) => (
+						<TableCell key={`table_headier_item_${index}`}>
+							{item.label}
+						</TableCell>
+					))}
+					{renderActions !== undefined ? <TableCell>Actions</TableCell> : null}
+				</TableRow>
+			</TableHead>
+			<TableBody>
+				{rows.map((item, indexItem) => (
+					<TableRow key={`row_${indexItem}`}>
+						{cols.map((subItem, subItemIndex) => {
+							const cellValue = item[subItem.key as keyof T];
+							return (
+								<TableCell key={`table_cell_item_${subItemIndex}`}>
+									{
+										(subItem.cellFormatter !== undefined
+											? subItem.cellFormatter(cellValue)
+											: cellValue) as string
+									}
+								</TableCell>
+							);
+						})}
 						{renderActions !== undefined ? (
-							<TableCell>Actions</TableCell>
+							<TableCell>{renderActions(item)}</TableCell>
 						) : null}
 					</TableRow>
-				</TableHead>
-				<TableBody>
-					{rows.map((item, indexItem) => (
-						<TableRow key={`row_${indexItem}`}>
-							{cols.map((subItem, subItemIndex) => {
-								const cellValue = item[subItem.key as keyof T];
-								return (
-									<TableCell key={`table_cell_item_${subItemIndex}`}>
-										{
-											(subItem.cellFormatter !== undefined
-												? subItem.cellFormatter(cellValue)
-												: cellValue) as string
-										}
-									</TableCell>
-								);
-							})}
-							<TableCell>
-								{renderActions !== undefined ? (
-									<>{renderActions(item)}</>
-								) : null}
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25]}
-							count={total}
-							rowsPerPage={limit}
-							page={page}
-							slotProps={{
-								select: {
-									inputProps: {
-										"aria-label": "rows per page",
-									},
-									native: true,
+				))}
+			</TableBody>
+			<TableFooter>
+				<TableRow>
+					<TablePagination
+						rowsPerPageOptions={[5, 10, 25]}
+						count={total}
+						rowsPerPage={limit}
+						page={page}
+						slotProps={{
+							select: {
+								inputProps: {
+									"aria-label": "rows per page",
 								},
-							}}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
-					</TableRow>
-				</TableFooter>
-			</Table>
-		</Paper>
+								native: true,
+							},
+						}}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+					/>
+				</TableRow>
+			</TableFooter>
+		</Table>
 	);
 };
