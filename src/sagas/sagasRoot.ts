@@ -3,6 +3,8 @@ import internalApi from "./internalApiSagas";
 import { eventsWatcher } from "./eventSagas";
 import { configsWatcher } from "./configSagas";
 import { disclaimersWatcher } from "./disclaimerSagas";
+import { groupsWatcher } from "./groupSagas";
+import { versionWatcher } from "./versionSagas";
 
 export default function* rootSaga(): Generator {
 	yield all([
@@ -10,5 +12,7 @@ export default function* rootSaga(): Generator {
 		eventsWatcher(),
 		configsWatcher(),
 		disclaimersWatcher(),
+		groupsWatcher(),
+		versionWatcher(),
 	]);
 }

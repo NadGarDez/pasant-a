@@ -1,24 +1,24 @@
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
-import { getConfigs } from "../utils/apiRequest";
+import { getVersionsRequest } from "../utils/apiRequest";
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
+import { type version } from "../types/versionTypes";
 import {
-	failConfigsAction,
-	loadConfigsAction,
-	successConfigsAction,
-} from "../redux/slicers/configsSlice";
-import { type config } from "../types/configTypes";
+	failVersionsAction,
+	loadVersionsAction,
+	successVersionsAction,
+} from "../redux/slicers/versionSlice";
 
 // sagas function
 
-interface getConfigsResponse {
+interface getVersionsResponse {
 	totalCount: number;
-	items: config[];
+	items: version[];
 }
 
-function* getConfigsSagas(
+function* getVersionsSagas(
 	action: PayloadAction<{
 		page: number;
 		limit: number;
@@ -29,33 +29,34 @@ function* getConfigsSagas(
 	);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadConfigsAction(action.payload));
-			const result: AxiosResponse<getConfigsResponse> = yield call(
-				getConfigs,
+			yield put(loadVersionsAction(action.payload));
+			const result: AxiosResponse<getVersionsResponse> = yield call(
+				getVersionsRequest,
 				value.oktaSessionId,
 				{
 					index: action.payload.limit * action.payload.page,
 					limit: action.payload.limit,
 				},
 			);
-			yield put(successConfigsAction(result.data));
+			console.log(result, "result");
+			yield put(successVersionsAction(result.data));
 		} else {
-			yield put(failConfigsAction("super error"));
+			yield put(failVersionsAction("super error"));
 		}
 	} catch (error) {
 		console.log(error);
-		yield put(failConfigsAction("super error"));
+		yield put(failVersionsAction("super error"));
 	}
 }
 
 // watchers
-export function* configsWatcher(): any {
-	yield takeEvery("GET_CONFIGS", getConfigsSagas);
+export function* versionWatcher(): any {
+	yield takeEvery("GET_VERSIONS", getVersionsSagas);
 }
 
 // action creators
 
-export const getConfigsSagasAction = createAction<{
+export const getVersionsSagasAction = createAction<{
 	page: number;
 	limit: number;
-}>("GET_CONFIGS");
+}>("GET_VERSIONS");

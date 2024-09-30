@@ -7,6 +7,8 @@ import appSlicer from "./slicers/appSlicer";
 import currentEventSlice from "./slicers/currentEventSlice";
 import configsSlice from "./slicers/configsSlice";
 import disclaimersSlice from "./slicers/disclaimersSlice";
+import groupsSlice from "./slicers/groupsSlice";
+import versionsSlice from "./slicers/versionSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 export const reduxRoot = configureStore({
@@ -14,6 +16,8 @@ export const reduxRoot = configureStore({
 		events: eventsSlice,
 		configs: configsSlice,
 		disclaimers: disclaimersSlice,
+		groups: groupsSlice,
+		versions: versionsSlice,
 		internalSession: internalSessionSlice,
 		appState: appSlicer,
 		currentEvent: currentEventSlice,

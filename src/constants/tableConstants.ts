@@ -72,3 +72,43 @@ export const disclaimerTableStructure: keyValueInterface[] = [
 		cellFormatter: value => (value === 1 ? "Active" : "Inactive"),
 	},
 ];
+
+export const groupsTableStructure: keyValueInterface[] = [
+	{
+		key: "idProfile",
+		label: "idProfile",
+	},
+	{
+		key: "name",
+		label: "Name",
+	},
+	{
+		key: "oktaId",
+		label: "oktaId",
+	},
+	{
+		key: "role",
+		label: "Role",
+	},
+];
+
+export const versionsTableStructure: keyValueInterface[] = [
+	{
+		key: "idVersion",
+		label: "id",
+	},
+	{
+		key: "name",
+		label: "Name",
+	},
+
+	{
+		key: "versionNumber",
+		label: "Version Number",
+	},
+
+	{
+		key: "status",
+		label: "Status Name",
+	},
+];
