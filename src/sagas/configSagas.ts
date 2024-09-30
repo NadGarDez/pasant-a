@@ -1,61 +1,64 @@
 import { call, put, select, takeEvery } from "redux-saga/effects";
 import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
-import {
-	failEventsAction,
-	loadEventsAction,
-	successEventsAction,
-} from "../redux/slicers/eventsSlice";
-import { getEvents } from "../utils/apiRequest";
+import { getConfigs } from "../utils/apiRequest";
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
-import { type event } from "../types/events";
+import {
+	failConfigsAction,
+	loadConfigsAction,
+	successConfigsAction,
+} from "../redux/slicers/configSlice";
+import { type config } from "../types/configTypes";
 
 // sagas function
 
 interface getEventsResponse {
 	totalCount: number;
-	items: event[];
+	items: config[];
 }
 
-function* getEventsSaga(
+function* getConfigsSagas(
 	action: PayloadAction<{
 		page: number;
 		limit: number;
 	}>,
 ): object {
+	console.log("get configs sagas");
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
+	console.log("here", value);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadEventsAction(action.payload));
+			yield put(loadConfigsAction(action.payload));
 			const result: AxiosResponse<getEventsResponse> = yield call(
-				getEvents,
+				getConfigs,
 				value.oktaSessionId,
 				{
 					index: action.payload.limit * action.payload.page,
 					limit: action.payload.limit,
 				},
 			);
-			yield put(successEventsAction(result.data));
+			console.log(result, "sagas");
+			yield put(successConfigsAction(result.data));
 		} else {
-			yield put(failEventsAction("super error"));
+			yield put(failConfigsAction("super error"));
 		}
 	} catch (error) {
-		alert(JSON.stringify(error));
-		yield put(failEventsAction("super error"));
+		console.log(error);
+		yield put(failConfigsAction("super error"));
 	}
 }
 
 // watchers
-export function* eventsWatcher(): any {
-	yield takeEvery("GET_EVENTS", getEventsSaga);
+export function* configsWatcher(): any {
+	yield takeEvery("GET_CONFIGS", getConfigsSagas);
 }
 
 // action creators
 
-export const getEventsSagasAction = createAction<{
+export const getConfigsSagasAction = createAction<{
 	page: number;
 	limit: number;
-}>("GET_EVENTS");
+}>("GET_CONFIGS");

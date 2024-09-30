@@ -36,3 +36,68 @@ export const getEvents = async (
 		params,
 	});
 };
+
+export const getDisclaimers = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/disclaimers/v1/disclaimers`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
+};
+
+export const getGroups = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/profile/v1/profiles`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
+};
+
+export const getConfigs = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/utils/v1/configs/search`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
+};
+
+export const getLatestVersion = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/versions/v1/latest`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
+};
+
+export const getVersionsRequest = async (
+	session: string,
+	params: object,
+): Promise<object> => {
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/versions/v1/versions`;
+	return await axios.get(url, {
+		headers: {
+			Authorization: session,
+		},
+		params,
+	});
+};

@@ -36,3 +36,18 @@ export const eventsTableStructure: keyValueInterface[] = [
 		cellFormatter: value => moment(value as MomentInput).format(DATE_FORMAT),
 	},
 ];
+
+export const configTableStructure: keyValueInterface[] = [
+	{
+		key: "idConfig",
+		label: "id",
+	},
+	{
+		key: "configKey",
+		label: "Key",
+	},
+	{
+		key: "configValue",
+		label: "Value",
+	},
+];

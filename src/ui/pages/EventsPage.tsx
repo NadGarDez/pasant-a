@@ -6,31 +6,22 @@ import { eventsTableStructure } from "../../constants/tableConstants";
 import { type event } from "../../types/events";
 import { AbstractTable } from "../components/AbstractTable";
 import { useHistory } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
 	clearCurrentEvent,
 	currentEventSelector,
 	setEvent,
 } from "../../redux/slicers/currentEventSlice";
-import { useSelector } from "react-redux";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetEvents();
-	const currentEvents = useSelector(currentEventSelector);
+	const currentEvents = useAppSelector(currentEventSelector);
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(clearCurrentEvent());
 	}, [currentEvents]);
-
-	if (status === "LOADING" || status === "NEUTRAL") {
-		return (
-			<Box sx={{ width: "100%" }}>
-				<LinearProgress color="primary" />
-			</Box>
-		);
-	}
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
@@ -43,6 +34,14 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 		dispatch(setEvent(item));
 		history.push(`event/${item.idEvent}`);
 	};
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
 
 	return (
 		<AbstractTable<event>

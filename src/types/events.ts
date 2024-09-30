@@ -1,5 +1,4 @@
 export type eventStatus = "TO_SETUP" | "PUBLISHED" | "READY" | "INACTIVE";
-export type eventReducerStatus = "NEUTRAL" | "LOADING" | "SUCCESS" | "ERROR";
 
 export interface event {
 	idEvent: string;
@@ -8,7 +7,7 @@ export interface event {
 	startDate: string;
 	endDate: string;
 	creationDate: string;
-	status: "READY" | string; // Allows for future status types
+	status: "READY" | string;
 	comingSoonUrl: string;
 	mobileLoginPage: boolean;
 	regenerate: boolean;
@@ -46,12 +45,4 @@ export interface event {
 	disclaimerCycle: number;
 	featured: boolean;
 	comingSoon: boolean;
-}
-export interface eventsSliceInterface {
-	status: eventReducerStatus;
-	data: event[];
-	totalCount: number;
-	error: string | null;
-	page: number;
-	limit: number;
 }

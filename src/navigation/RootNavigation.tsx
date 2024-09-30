@@ -39,7 +39,7 @@ export const RootNavigation = (props: any): JSX.Element => {
 						<Redirect to="/events" />
 					</Route>
 					<SecureRoute path="/events" component={EventsPage} />
-					<SecureRoute path="/config" component={ConfigPage} />
+					<SecureRoute path="/configs" component={ConfigPage} />
 					<SecureRoute path="/event/:id/overview" component={EventPage} />
 					<SecureRoute path="/event/:id/configuration" component={EventPage} />
 					<SecureRoute path="/event/:id/topics" component={EventPage} />
