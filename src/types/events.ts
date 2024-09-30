@@ -52,4 +52,6 @@ export interface eventsSliceInterface {
 	data: event[];
 	totalCount: number;
 	error: string | null;
+	page: number;
+	limit: number;
 }

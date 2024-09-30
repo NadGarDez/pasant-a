@@ -5,20 +5,27 @@ import { eventsSelector } from "../redux/slicers/eventsSlice";
 import { getEventsSagasAction } from "../sagas/eventSagas";
 
 interface reload {
-	reload: () => void;
+	reload: (params: { page: number; limit: number }) => void;
 }
 
 export const useGetEvents = (): eventsSliceInterface & reload => {
-	const reload = (): void => {
-		dispatch(getEventsSagasAction());
+	const reload = (params: { page: number; limit: number }): void => {
+		dispatch(getEventsSagasAction(params));
 	};
 
 	const events = useAppSelector(eventsSelector);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (events.status === "NEUTRAL") {
-			dispatch(getEventsSagasAction());
+		const { status, page, limit } = events;
+
+		if (status === "NEUTRAL") {
+			dispatch(
+				getEventsSagasAction({
+					page,
+					limit,
+				}),
+			);
 		}
 	}, []);
 

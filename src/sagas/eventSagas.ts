@@ -6,7 +6,7 @@ import {
 	successEventsAction,
 } from "../redux/slicers/eventsSlice";
 import { getEvents } from "../utils/apiRequest";
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
 import { type event } from "../types/events";
@@ -18,17 +18,25 @@ interface getEventsResponse {
 	items: event[];
 }
 
-function* getEventsSaga(): object {
+function* getEventsSaga(
+	action: PayloadAction<{
+		page: number;
+		limit: number;
+	}>,
+): object {
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadEventsAction());
+			yield put(loadEventsAction(action.payload));
 			const result: AxiosResponse<getEventsResponse> = yield call(
 				getEvents,
 				value.oktaSessionId,
-				{},
+				{
+					index: action.payload.limit * action.payload.page,
+					limit: action.payload.limit,
+				},
 			);
 			yield put(successEventsAction(result.data));
 		} else {
@@ -47,4 +55,7 @@ export function* eventsWatcher(): any {
 
 // action creators
 
-export const getEventsSagasAction = createAction("GET_EVENTS");
+export const getEventsSagasAction = createAction<{
+	page: number;
+	limit: number;
+}>("GET_EVENTS");

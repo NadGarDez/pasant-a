@@ -18,10 +18,13 @@ export const eventSlice = createSlice({
 		setEvent: (state, action: PayloadAction<event>) => {
 			state.event = action.payload;
 		},
+		clearCurrentEvent: state => {
+			state.event = null;
+		},
 	},
 });
 
-export const { setEvent } = eventSlice.actions;
+export const { setEvent, clearCurrentEvent } = eventSlice.actions;
 
 export const currentEventSelector = (state: reduxStoreType): event | null =>
 	state.currentEvent.event;

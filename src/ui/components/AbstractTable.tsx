@@ -8,12 +8,14 @@ import {
 	TablePagination,
 	TableRow,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { type keyValueInterface } from "../../constants/tableConstants";
 
 interface props<T> {
 	cols: keyValueInterface[];
 	rows: T[];
+	page: number;
+	limit: number;
 	total: number;
 	renderActions?: (item: T) => JSX.Element;
 	onChangePagination: (page: number, rowsPerPage: number) => void;
@@ -22,28 +24,21 @@ interface props<T> {
 export const AbstractTable = <T extends object>(
 	props: props<T>,
 ): JSX.Element => {
-	const { cols, rows, renderActions, total, onChangePagination } = props;
-
-	const [page, setPage] = useState<number>(0);
-	const [rowsPerPage, setRowsPerPage] = useState<number>(0);
+	const { cols, rows, limit, page, renderActions, total, onChangePagination } =
+		props;
 
 	const handleChangePage = (
 		event: React.MouseEvent<HTMLButtonElement> | null,
 		newPage: number,
 	): void => {
-		setPage(newPage);
+		onChangePagination(newPage, limit);
 	};
 
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	): void => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
+		onChangePagination(page, parseInt(event.target.value, 10));
 	};
-
-	useEffect(() => {
-		onChangePagination(page, rowsPerPage);
-	}, [page, rowsPerPage]);
 
 	return (
 		<Paper
@@ -89,9 +84,9 @@ export const AbstractTable = <T extends object>(
 				<TableFooter>
 					<TableRow>
 						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+							rowsPerPageOptions={[5, 10, 25]}
 							count={total}
-							rowsPerPage={rowsPerPage}
+							rowsPerPage={limit}
 							page={page}
 							slotProps={{
 								select: {

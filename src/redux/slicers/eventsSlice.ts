@@ -8,6 +8,8 @@ const initialState: eventsSliceInterface = {
 	status: "NEUTRAL",
 	error: null,
 	totalCount: 0,
+	page: 1,
+	limit: 5,
 };
 
 export const eventsSlice = createSlice({
@@ -26,8 +28,13 @@ export const eventsSlice = createSlice({
 			state.status = "ERROR";
 			state.error = action.payload;
 		},
-		loadEventsAction: state => {
+		loadEventsAction: (
+			state,
+			action: PayloadAction<{ page: number; limit: number }>,
+		) => {
 			state.status = "LOADING";
+			state.page = action.payload.page;
+			state.limit = action.payload.limit;
 			state.data = [];
 			state.error = null;
 		},
