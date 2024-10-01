@@ -16,6 +16,7 @@ import { baseEventSelector } from "../../redux/slicers/currentEventSlice";
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
 	const currentEvent = useAppSelector(baseEventSelector);
+	console.log(currentEvent, "super");
 
 	const dispatch = useAppDispatch();
 

@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { reduxStoreType } from "../../types/reduxTypes";
-import {
-	type fullDataInterface,
-	type currentEvent,
-	type event,
-} from "../../types/events";
+import { type fullDataInterface, type currentEvent } from "../../types/events";
 
 const initialState: currentEvent = {
 	baseEvent: null,
@@ -18,13 +14,14 @@ export const eventSlice = createSlice({
 	name: "currentEvent",
 	initialState,
 	reducers: {
-		setBaseEvent: (state, action: PayloadAction<event>) => {
+		setBaseEvent: (state, action: PayloadAction<string>) => {
 			state.baseEvent = action.payload;
 		},
 		clearCurrentEvent: state => {
 			state.baseEvent = null;
 			state.fullData = null;
 			state.error = null;
+			state.status = "NEUTRAL";
 		},
 		successReadEventAction: (
 			state,
@@ -32,15 +29,17 @@ export const eventSlice = createSlice({
 		) => {
 			state.status = "SUCCESS";
 			state.fullData = action.payload;
+			state.baseEvent = action.payload.idEvent;
 		},
 		failReadEventAction: (state, action: PayloadAction<string>) => {
 			state.status = "ERROR";
 			state.error = action.payload;
 		},
-		loadReadEventAction: state => {
+		loadReadEventAction: (state, action: PayloadAction<string>) => {
 			state.status = "LOADING";
 			state.fullData = null;
 			state.error = null;
+			state.baseEvent = action.payload;
 		},
 	},
 });
@@ -53,7 +52,7 @@ export const {
 	loadReadEventAction,
 } = eventSlice.actions;
 
-export const baseEventSelector = (state: reduxStoreType): event | null =>
+export const baseEventSelector = (state: reduxStoreType): string | null =>
 	state.currentEvent.baseEvent;
 
 export const currentEventSelector = (state: reduxStoreType): currentEvent =>

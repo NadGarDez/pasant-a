@@ -32,7 +32,7 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	};
 
 	const handleClick = (item: event): void => {
-		dispatch(setBaseEvent(item));
+		dispatch(setBaseEvent(item.idEvent));
 		history.push(`event/${item.idEvent}/overview`);
 	};
 

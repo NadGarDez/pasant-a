@@ -64,7 +64,7 @@ function* getFullEventInformationSagas(action: PayloadAction<string>): object {
 	);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadReadEventAction());
+			yield put(loadReadEventAction(action.payload));
 			const [a, b, c]: AxiosResponse[] = yield all([
 				call(getEventRequest, value.oktaSessionId, action.payload),
 				call(getEventVersionRequest, value.oktaSessionId, action.payload),

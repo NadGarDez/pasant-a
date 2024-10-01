@@ -30,17 +30,6 @@ export const drawerItems: drawerItem[] = [
 		],
 	},
 	{
-		text: "Children",
-		icon: "map",
-		items: [
-			{
-				text: "Set Children",
-				url: () => "#",
-			},
-		],
-		hideForStates: ["INACTIVE", "PUBLISHED", "READY"],
-	},
-	{
 		text: "Manage content",
 		icon: "perm_media",
 		items: [

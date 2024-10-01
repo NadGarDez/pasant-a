@@ -18,18 +18,41 @@ import { useParams } from "react-router-dom";
 import { useEvent } from "../../hooks/useEvent";
 import { withInternalSession } from "../../HOCs/withInternalSession";
 import moment from "moment";
-import { GetApp, Loop, PowerSettingsNew, Redo } from "@mui/icons-material";
+import {
+	Error,
+	GetApp,
+	Loop,
+	PowerSettingsNew,
+	Redo,
+} from "@mui/icons-material";
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
-	const { baseEvent, fullData, status } = useEvent(id);
+	const { baseEvent, fullData, status, error } = useEvent(id);
 
-	console.log(baseEvent, fullData);
+	console.log(baseEvent, fullData, status);
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (
 			<Box sx={{ width: "100%" }}>
 				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
+
+	if (status === "ERROR") {
+		return (
+			<Box
+				sx={{
+					width: "80%",
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
+					margin: "0 auto",
+				}}
+			>
+				<Error color="error" sx={{ marginRight: 1 }} />
+				<Typography>{error ?? ""}</Typography>
 			</Box>
 		);
 	}
@@ -64,7 +87,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 					title={fullData?.name ?? ""}
 					sx={{
 						background:
-							baseEvent?.status === "PUBLISHED" ? "#5DC24C" : "#FAD738",
+							fullData?.status === "PUBLISHED" ? "#5DC24C" : "#FAD738",
 					}}
 				/>
 				<CardContent>

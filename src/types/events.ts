@@ -55,7 +55,7 @@ export interface fullDataInterface {
 	startDate: string;
 	endDate: string;
 	creationDate: string;
-	status: currentEventStatus;
+	status: eventStatus;
 	comingSoonUrl: string;
 	mobileLoginPage: boolean;
 	regenerate: boolean;
@@ -104,7 +104,7 @@ export interface fullDataInterface {
 }
 
 export interface currentEvent {
-	baseEvent: event | null;
+	baseEvent: string | null;
 	status: currentEventStatus;
 	fullData: fullDataInterface | null;
 	error: string | null;

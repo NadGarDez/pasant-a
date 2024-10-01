@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { type currentEvent } from "../types/events";
 import { getFullEventSagasAction } from "../sagas/eventSagas";
-import { currentEventSelector } from "../redux/slicers/currentEventSlice";
+import {
+	clearCurrentEvent,
+	currentEventSelector,
+} from "../redux/slicers/currentEventSlice";
 
 interface reload {
 	reload: () => void;
@@ -17,11 +20,11 @@ export const useEvent = (idEvent: string): currentEvent & reload => {
 	};
 
 	useEffect(() => {
-		const { status } = event;
-		if (status === "NEUTRAL") {
-			dispatch(getFullEventSagasAction(idEvent));
-		}
-	}, [idEvent]);
+		dispatch(getFullEventSagasAction(idEvent));
+		return () => {
+			dispatch(clearCurrentEvent());
+		};
+	}, []);
 
 	return {
 		reload,
