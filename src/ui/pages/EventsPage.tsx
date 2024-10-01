@@ -12,6 +12,7 @@ import {
 	currentEventSelector,
 	setEvent,
 } from "../../redux/slicers/currentEventSlice";
+import { PageToolbar } from "../components/PageToolbar";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetEvents();
@@ -48,6 +49,12 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 			elevation={3}
 		>
+			<PageToolbar
+				title="Events"
+				onAdd={() => {
+					console.log("adding");
+				}}
+			/>
 			<AbstractTable<event>
 				cols={eventsTableStructure}
 				rows={data}

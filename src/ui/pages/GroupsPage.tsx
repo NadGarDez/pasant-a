@@ -5,6 +5,7 @@ import type { group } from "../../types/groupTypes";
 import { useGetGroups } from "../../hooks/useGetGroups";
 import { groupsTableStructure } from "../../constants/tableConstants";
 import { withInternalSession } from "../../HOCs/withInternalSession";
+import { PageToolbar } from "../components/PageToolbar";
 
 export const GroupsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetGroups();
@@ -29,6 +30,12 @@ export const GroupsPage = withInternalSession((): JSX.Element => {
 			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 			elevation={3}
 		>
+			<PageToolbar
+				title="Groups"
+				onAdd={() => {
+					console.log("adding");
+				}}
+			/>
 			<AbstractTable<group>
 				cols={groupsTableStructure}
 				rows={data}

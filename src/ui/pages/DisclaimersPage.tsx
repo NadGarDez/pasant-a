@@ -5,6 +5,7 @@ import { AbstractTable } from "../components/AbstractTable";
 import type { disclaimer } from "../../types/disclaimerTypes";
 import { useGetDisclaimers } from "../../hooks/useGetDisclaimers";
 import { disclaimerTableStructure } from "../../constants/tableConstants";
+import { PageToolbar } from "../components/PageToolbar";
 
 export const DisclaimersPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetDisclaimers();
@@ -29,6 +30,12 @@ export const DisclaimersPage = withInternalSession((): JSX.Element => {
 			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 			elevation={3}
 		>
+			<PageToolbar
+				title="Disclaimers"
+				onAdd={() => {
+					console.log("adding");
+				}}
+			/>
 			<AbstractTable<disclaimer>
 				cols={disclaimerTableStructure}
 				rows={data}

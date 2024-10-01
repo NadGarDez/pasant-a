@@ -5,6 +5,7 @@ import { AbstractTable } from "../components/AbstractTable";
 import { type config } from "../../types/configTypes";
 import { configTableStructure } from "../../constants/tableConstants";
 import { withInternalSession } from "../../HOCs/withInternalSession";
+import { PageToolbar } from "../components/PageToolbar";
 
 export const ConfigPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetConfigs();
@@ -29,6 +30,12 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 			elevation={3}
 		>
+			<PageToolbar
+				title="Configs"
+				onAdd={() => {
+					console.log("adding");
+				}}
+			/>
 			<AbstractTable<config>
 				cols={configTableStructure}
 				rows={data}

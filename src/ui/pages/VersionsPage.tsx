@@ -5,6 +5,7 @@ import { type version } from "../../types/versionTypes";
 import { useGetVersions } from "../../hooks/useGetVersions";
 import { versionsTableStructure } from "../../constants/tableConstants";
 import { withInternalSession } from "../../HOCs/withInternalSession";
+import { PageToolbar } from "../components/PageToolbar";
 
 export const VersionsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetVersions();
@@ -31,6 +32,12 @@ export const VersionsPage = withInternalSession((): JSX.Element => {
 			sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 			elevation={3}
 		>
+			<PageToolbar
+				title="Versions"
+				onAdd={() => {
+					console.log("adding");
+				}}
+			/>
 			<AbstractTable<version>
 				cols={versionsTableStructure}
 				rows={data}
