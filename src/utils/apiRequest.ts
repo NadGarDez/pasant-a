@@ -101,3 +101,56 @@ export const getVersionsRequest = async (
 		params,
 	});
 };
+
+export const getEventRequest = async (
+	session: string,
+	eventId: string,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}`,
+		{
+			headers: {
+				Authorization: session,
+			},
+		},
+	);
+};
+export const getEventMetadataRequest = async (
+	session: string,
+	eventId: string,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/metadata`,
+		{
+			headers: {
+				Authorization: session,
+			},
+		},
+	);
+};
+export const getEventVersionRequest = async (
+	session: string,
+	eventId: string,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/version`,
+		{
+			headers: {
+				Authorization: session,
+			},
+		},
+	);
+};
+export const getEventBackupRequest = async (
+	session: string,
+	eventId: string,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/getBackupData`,
+		{
+			headers: {
+				Authorization: session,
+			},
+		},
+	);
+};

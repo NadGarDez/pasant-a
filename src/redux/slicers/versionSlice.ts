@@ -23,13 +23,11 @@ export const versionsSlice = createSlice({
 			state,
 			action: PayloadAction<{ items: version[]; totalCount: number }>,
 		) => {
-			console.log("success");
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
 			state.totalCount = action.payload.totalCount;
 		},
 		failVersionsAction: (state, action: PayloadAction<string>) => {
-			console.log("fail");
 			state.status = "ERROR";
 			state.error = action.payload;
 		},
@@ -37,7 +35,6 @@ export const versionsSlice = createSlice({
 			state,
 			action: PayloadAction<{ page: number; limit: number }>,
 		) => {
-			console.log("load", action);
 			state.status = "LOADING";
 			state.page = action.payload.page;
 			state.limit = action.payload.limit;

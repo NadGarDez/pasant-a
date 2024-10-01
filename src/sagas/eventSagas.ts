@@ -1,15 +1,25 @@
-import { call, put, select, takeEvery } from "redux-saga/effects";
+import { all, call, put, select, takeEvery } from "redux-saga/effects";
 import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
 import {
 	failEventsAction,
 	loadEventsAction,
 	successEventsAction,
 } from "../redux/slicers/eventsSlice";
-import { getEvents } from "../utils/apiRequest";
+import {
+	getEventMetadataRequest,
+	getEventRequest,
+	getEvents,
+	getEventVersionRequest,
+} from "../utils/apiRequest";
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
-import { type AxiosResponse } from "axios";
-import { type event } from "../types/events";
+import { type AxiosError, type AxiosResponse } from "axios";
+import { type fullDataInterface, type event } from "../types/events";
+import {
+	failReadEventAction,
+	loadReadEventAction,
+	successReadEventAction,
+} from "../redux/slicers/currentEventSlice";
 
 // sagas function
 
@@ -43,14 +53,43 @@ function* getEventsSaga(
 			yield put(failEventsAction("super error"));
 		}
 	} catch (error) {
-		alert(JSON.stringify(error));
-		yield put(failEventsAction("super error"));
+		const axiosError = error as AxiosError;
+		yield put(failEventsAction(axiosError.message));
+	}
+}
+
+function* getFullEventInformationSagas(action: PayloadAction<string>): object {
+	const value: internalSessionReducerInteface = yield select(
+		internalSessionSelector,
+	);
+	try {
+		if (value.oktaSessionId !== null) {
+			yield put(loadReadEventAction());
+			const [a, b, c]: AxiosResponse[] = yield all([
+				call(getEventRequest, value.oktaSessionId, action.payload),
+				call(getEventVersionRequest, value.oktaSessionId, action.payload),
+				call(getEventMetadataRequest, value.oktaSessionId, action.payload),
+			]);
+
+			const results: fullDataInterface = {
+				...a.data,
+				...b.data,
+				...c.data,
+			};
+			yield put(successReadEventAction(results));
+		} else {
+			yield put(failEventsAction("Unauthenticate"));
+		}
+	} catch (error) {
+		const axiosError = error as AxiosError;
+		yield put(failReadEventAction(axiosError.message));
 	}
 }
 
 // watchers
 export function* eventsWatcher(): any {
 	yield takeEvery("GET_EVENTS", getEventsSaga);
+	yield takeEvery("GET_FULL_EVENT_INFORMATION", getFullEventInformationSagas);
 }
 
 // action creators
@@ -59,3 +98,7 @@ export const getEventsSagasAction = createAction<{
 	page: number;
 	limit: number;
 }>("GET_EVENTS");
+
+export const getFullEventSagasAction = createAction<string>(
+	"GET_FULL_EVENT_INFORMATION",
+);

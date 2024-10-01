@@ -10,8 +10,6 @@ import { PageToolbar } from "../components/PageToolbar";
 export const VersionsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetVersions();
 
-	console.log(status, data, totalCount);
-
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
 			page,

@@ -17,7 +17,7 @@ import { currentEventSelector } from "../../redux/slicers/currentEventSlice";
 export const DrawerItem = (props: drawerItem): JSX.Element => {
 	const { text, icon, items } = props;
 	const [active, setActive] = useState<boolean>(false);
-	const currentEvent = useAppSelector(currentEventSelector);
+	const { baseEvent } = useAppSelector(currentEventSelector);
 	const navigate = useHistory();
 
 	const toggleColapse = (): void => {
@@ -69,8 +69,8 @@ export const DrawerItem = (props: drawerItem): JSX.Element => {
 						<ListItem
 							key={`drawer-child-${index}`}
 							onClick={() => {
-								if (currentEvent !== null) {
-									onClickSubItem(child.url(currentEvent.idEvent));
+								if (baseEvent !== null) {
+									onClickSubItem(child.url(baseEvent.idEvent));
 								}
 							}}
 						>

@@ -11,11 +11,11 @@ import { toogleSideBar } from "../../redux/slicers/appSlicer";
 import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
 import { NavBarAutocomplete } from "../components/NavBarAutocomplete";
-import { currentEventSelector } from "../../redux/slicers/currentEventSlice";
+import { baseEventSelector } from "../../redux/slicers/currentEventSlice";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
-	const currentEvent = useAppSelector(currentEventSelector);
+	const currentEvent = useAppSelector(baseEventSelector);
 
 	const dispatch = useAppDispatch();
 

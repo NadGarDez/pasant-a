@@ -9,14 +9,14 @@ import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
 	clearCurrentEvent,
-	currentEventSelector,
-	setEvent,
+	baseEventSelector,
+	setBaseEvent,
 } from "../../redux/slicers/currentEventSlice";
 import { PageToolbar } from "../components/PageToolbar";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetEvents();
-	const currentEvents = useAppSelector(currentEventSelector);
+	const currentEvents = useAppSelector(baseEventSelector);
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 
@@ -32,8 +32,8 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	};
 
 	const handleClick = (item: event): void => {
-		dispatch(setEvent(item));
-		history.push(`event/${item.idEvent}`);
+		dispatch(setBaseEvent(item));
+		history.push(`event/${item.idEvent}/overview`);
 	};
 
 	if (status === "LOADING" || status === "NEUTRAL") {
