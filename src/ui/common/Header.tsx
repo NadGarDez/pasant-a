@@ -4,9 +4,7 @@ import MaterialAppBar from "@mui/material/AppBar";
 import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useOktaAuth } from "@okta/okta-react";
-// import { getLoginInternalRequestFromAuthState } from "../../utils/apiRequest";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-// import { startAuthSagas } from "../../redux/slicers/internalSessionSlice";
 import { toogleSideBar } from "../../redux/slicers/appSlicer";
 import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
@@ -43,11 +41,6 @@ export const Header = (): JSX.Element => {
 			</Button>
 		);
 	};
-
-	// const getDataLogin = async (): Promise<void> => {
-	// 	const data = await getLoginInternalRequestFromAuthState(oktaAuth);
-	// 	dispatch(startAuthSagas(data));
-	// };
 
 	return (
 		<>

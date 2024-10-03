@@ -1,5 +1,3 @@
-// import { Typography } from "@mui/material";
-// import { Box } from "@mui/system";
 import React from "react";
 import { Redirect, Route, useHistory } from "react-router-dom";
 import { EventsPage } from "../ui/pages/EventsPage";

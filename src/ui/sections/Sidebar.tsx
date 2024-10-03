@@ -1,3 +1,4 @@
+import React from "react";
 import {
 	Divider,
 	Drawer,
@@ -6,13 +7,12 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import React, { memo } from "react";
 import { DrawerItem } from "../components/DrawerItem";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { sideBarSelector, toogleSideBar } from "../../redux/slicers/appSlicer";
 import { drawerItems } from "../../constants/uiStaticItems";
 
-const Component = (): JSX.Element => {
+export const Sidebar = (): JSX.Element => {
 	const theme = useTheme();
 	const open = useAppSelector(sideBarSelector);
 	const dispatch = useAppDispatch();
@@ -59,5 +59,3 @@ const Component = (): JSX.Element => {
 		</div>
 	);
 };
-
-export const Sidebar = memo(Component);

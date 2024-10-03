@@ -1,6 +1,7 @@
 {
   "*.{ts,jsx,tsx}": [
     "prettier --config .prettierrc --write",
-    "eslint src/ --ext .ts,.tsx"
+    "eslint src/ --ext .ts,.tsx",
+    "yarn test"
   ]
 }
