@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React from "react";
 import MaterialAppBar from "@mui/material/AppBar";
-import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { Box, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useOktaAuth } from "@okta/okta-react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
@@ -10,6 +10,7 @@ import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
 import { NavBarAutocomplete } from "../components/NavBarAutocomplete";
 import { baseEventSelector } from "../../redux/slicers/currentEventSlice";
+import { LoginLogoutButton } from "../components/LoginLogoutButton";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
@@ -28,18 +29,6 @@ export const Header = (): JSX.Element => {
 
 	const logout = async (): Promise<void> => {
 		await oktaAuth.closeSession();
-	};
-
-	const LoginLogoutButton = (): JSX.Element => {
-		return authState?.isAuthenticated === true ? (
-			<Button onClick={logout} color="inherit">
-				logout
-			</Button>
-		) : (
-			<Button onClick={login} color="inherit">
-				login
-			</Button>
-		);
 	};
 
 	return (
@@ -67,7 +56,11 @@ export const Header = (): JSX.Element => {
 					<LanguageMenu />
 					{currentEvent !== null ? <NavBarAutocomplete /> : null}
 					<CRDNavBarMenu />
-					<LoginLogoutButton />
+					<LoginLogoutButton
+						isAuthenticated={authState?.isAuthenticated ?? false}
+						login={login}
+						logout={logout}
+					/>
 				</Toolbar>
 			</MaterialAppBar>
 			<Toolbar />

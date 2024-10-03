@@ -12,6 +12,7 @@ import { API_CONSTANTS } from "../constants/apiConstants";
 import { IndexPage } from "../ui/pages/IndexPage";
 import { Layout } from "../ui/sections/Layout";
 import { EventPage } from "../ui/pages/EventPage";
+import { EventConfigurationPage } from "../ui/pages/EventConfigurationPage";
 
 export const RootNavigation = (props: any): JSX.Element => {
 	const history = useHistory();
@@ -39,7 +40,10 @@ export const RootNavigation = (props: any): JSX.Element => {
 					<SecureRoute path="/events" component={EventsPage} />
 					<SecureRoute path="/configs" component={ConfigPage} />
 					<SecureRoute path="/event/:id/overview" component={EventPage} />
-					<SecureRoute path="/event/:id/configuration" component={EventPage} />
+					<SecureRoute
+						path="/event/:id/configuration"
+						component={EventConfigurationPage}
+					/>
 					<SecureRoute path="/event/:id/topics" component={EventPage} />
 					<SecureRoute path="/event/:id/fundamentals" component={IndexPage} />
 					<SecureRoute path="/event/:id/maps" component={EventPage} />
