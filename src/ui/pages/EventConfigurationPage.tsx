@@ -7,7 +7,12 @@ const formStructure: fieldMetadaInteface[] = [
 	{
 		name: "test",
 		label: "text",
-		type: "string",
+		type: "text",
+	},
+	{
+		name: "test2",
+		label: "number",
+		type: "number",
 	},
 ];
 
@@ -15,22 +20,24 @@ const schema = Yup.object({
 	test: Yup.string()
 		.max(15, "Must be 15 characters or less")
 		.required("Required"),
+	test2: Yup.number(),
 });
 
 type formType = Yup.InferType<typeof schema>;
 
 const initialValue: formType = {
-	test: "",
+	test: "Hey jud",
+	test2: 1,
 };
 
 export const EventConfigurationPage = (): JSX.Element => {
 	return (
 		<AbstractForm<formType>
 			fields={formStructure}
-			onSubmit={() => {
-				console.log("submit");
+			onSubmit={(values: any) => {
+				console.log(values);
 			}}
-			initialValue={initialValue}
+			initialValues={initialValue}
 			scheme={schema}
 		/>
 	);
