@@ -28,9 +28,7 @@ import {
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
-	const { baseEvent, fullData, status, error } = useEvent(id);
-
-	console.log(baseEvent, fullData, status);
+	const { fullData, status, error } = useEvent(id);
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (

@@ -15,7 +15,6 @@ import { LoginLogoutButton } from "../components/LoginLogoutButton";
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
 	const currentEvent = useAppSelector(baseEventSelector);
-	console.log(currentEvent, "super");
 
 	const dispatch = useAppDispatch();
 

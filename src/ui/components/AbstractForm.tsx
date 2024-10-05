@@ -15,11 +15,17 @@ export const AbstractForm = <T extends object>(
 	props: props<T>,
 ): JSX.Element => {
 	const { fields, scheme, initialValues, onSubmit } = props;
-	const { handleChange, values, submitForm } = useFormik({
+	const { values, submitForm, setFieldValue, setFieldTouched } = useFormik({
 		validationSchema: scheme,
 		onSubmit,
 		initialValues,
 	});
+
+	const handleChange = (name: string, value: any): any => {
+		void setFieldValue(name, value);
+		void setFieldTouched(name);
+	};
+
 	return (
 		<Box
 			flex={1}
