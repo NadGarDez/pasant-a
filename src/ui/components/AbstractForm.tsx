@@ -24,7 +24,7 @@ export const AbstractForm = <T extends object>(
 	const handleChange = (name: string, value: any): any => {
 		void setFieldValue(name, value);
 		void setFieldTouched(name);
-	};
+	}; // fdsafdasfdsa
 
 	return (
 		<Box
