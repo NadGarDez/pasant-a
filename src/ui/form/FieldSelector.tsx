@@ -9,6 +9,7 @@ import {
 	Typography,
 } from "@mui/material";
 import _ from "underscore";
+import { MuiColorInput } from "mui-color-input";
 
 type props = fieldMetadaInteface & {
 	onChange: (name: string, value: any) => any;
@@ -130,8 +131,19 @@ export const FieldSelector = (props: props): JSX.Element => {
 		}
 
 		case "color": {
-			return <></>;
+			return (
+				<Box flex={1} mb={2}>
+					<MuiColorInput
+						onChange={(value, colors) => {
+							onChange(name, value);
+						}}
+						fullWidth
+						value={value}
+					/>
+				</Box>
+			);
 		}
+
 		default: {
 			return <></>;
 		}

@@ -12,7 +12,7 @@ const formStructure: fieldMetadaInteface[] = [
 	{
 		name: "test2",
 		label: "number",
-		type: "boolean",
+		type: "color",
 	},
 	{
 		name: "test3",
@@ -37,7 +37,7 @@ const schema = Yup.object({
 	test: Yup.string()
 		.max(15, "Must be 15 characters or less")
 		.required("Required"),
-	test2: Yup.boolean(),
+	test2: Yup.string(),
 	test3: Yup.object({
 		test1: Yup.number(),
 		test2: Yup.string(),
@@ -48,7 +48,7 @@ type formType = Yup.InferType<typeof schema>;
 
 const initialValue: formType = {
 	test: "Hey jud",
-	test2: true,
+	test2: "#000000",
 	test3: {
 		test1: 1,
 		test2: "anc",
