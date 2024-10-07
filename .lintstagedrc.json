@@ -1,6 +1,6 @@
 {
   "*.{ts,jsx,tsx}": [
-    "yarn test",
+    "yarn test --passWithNoTests",
     "prettier --config .prettierrc --write",
     "eslint src/ --ext .ts,.tsx"
   ]

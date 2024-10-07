@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { AbstractForm } from "../components/AbstractForm";
 import { type fieldMetadaInteface } from "../../types/fomTypes";
 import * as Yup from "yup";
+import { ModalForm } from "../components/ModalForm";
+import { Box } from "@mui/material";
 
 const formStructure: fieldMetadaInteface[] = [
 	{
@@ -56,14 +58,24 @@ const initialValue: formType = {
 };
 
 export const EventConfigurationPage = (): JSX.Element => {
+	const [open, setOpen] = useState<boolean>(true);
+	const close = (): void => {
+		setOpen(false);
+	};
+
 	return (
-		<AbstractForm<formType>
-			fields={formStructure}
-			onSubmit={(values: any) => {
-				console.log(values);
-			}}
-			initialValues={initialValue}
-			scheme={schema}
-		/>
+		<ModalForm open={open} handleClose={close} title="Title Form">
+			<Box flex={1} pt={1}>
+				<AbstractForm<formType>
+					fields={formStructure}
+					onSubmit={(values: any) => {
+						console.log(values);
+					}}
+					onDimiss={close}
+					initialValues={initialValue}
+					scheme={schema}
+				/>
+			</Box>
+		</ModalForm>
 	);
 };

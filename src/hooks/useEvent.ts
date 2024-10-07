@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { type currentEvent } from "../types/events";
 import { getFullEventSagasAction } from "../sagas/eventSagas";
 import {
-	clearCurrentEvent,
+	// clearCurrentEvent,
 	currentEventSelector,
 } from "../redux/slicers/currentEventSlice";
 
@@ -21,9 +21,9 @@ export const useEvent = (idEvent: string): currentEvent & reload => {
 
 	useEffect(() => {
 		dispatch(getFullEventSagasAction(idEvent));
-		return () => {
-			dispatch(clearCurrentEvent());
-		};
+		// return () => {
+		// 	dispatch(clearCurrentEvent());
+		// };
 	}, []);
 
 	return {

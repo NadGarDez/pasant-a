@@ -9,12 +9,13 @@ interface props<T> {
 	initialValues: T;
 	scheme: object;
 	onSubmit: (values: any) => void;
+	onDimiss?: () => void;
 }
 
 export const AbstractForm = <T extends object>(
 	props: props<T>,
 ): JSX.Element => {
-	const { fields, scheme, initialValues, onSubmit } = props;
+	const { fields, scheme, initialValues, onSubmit, onDimiss } = props;
 	const { values, submitForm, setFieldValue, setFieldTouched } = useFormik({
 		validationSchema: scheme,
 		onSubmit,
@@ -24,13 +25,12 @@ export const AbstractForm = <T extends object>(
 	const handleChange = (name: string, value: any): any => {
 		void setFieldValue(name, value);
 		void setFieldTouched(name);
-	}; // fdsafdasfdsa
+	};
 
 	return (
 		<Box
 			flex={1}
 			sx={{
-				padding: "16px",
 				widows: "100%",
 			}}
 		>
@@ -43,13 +43,33 @@ export const AbstractForm = <T extends object>(
 						{...item}
 					/>
 				))}
-				<Button
-					onClick={() => {
-						void submitForm();
-					}}
+				<Box
+					display="flex"
+					flex={1}
+					pt={2}
+					flexDirection="row"
+					justifyContent="flex-end"
 				>
-					Submit
-				</Button>
+					{onDimiss !== undefined ? (
+						<Button
+							variant="outlined"
+							sx={{
+								marginRight: 2,
+							}}
+							onClick={onDimiss}
+						>
+							Cancel
+						</Button>
+					) : null}
+					<Button
+						variant="contained"
+						onClick={() => {
+							void submitForm();
+						}}
+					>
+						Submit
+					</Button>
+				</Box>
 			</form>
 		</Box>
 	);
