@@ -1,21 +1,20 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
-import { type currentEvent } from "../types/events";
+import { type event } from "../types/events";
 import { getFullEventSagasAction } from "../sagas/eventSagas";
-import {
-	// clearCurrentEvent,
-	currentEventSelector,
-} from "../redux/slicers/currentEventSlice";
+import { activeEventSelector } from "../redux/slicers/eventsSlice";
+import { type listActiveItemInterface } from "../types/reduxTypes";
 
-interface reload {
-	reload: () => void;
+interface hookReturn {
+	get: () => void;
+	activeItem: listActiveItemInterface<event>;
 }
 
-export const useEvent = (idEvent: string): currentEvent & reload => {
-	const event = useAppSelector(currentEventSelector);
+export const useEvent = (idEvent: string): hookReturn => {
+	const activeItem = useAppSelector(activeEventSelector);
 	const dispatch = useAppDispatch();
 
-	const reload = (): void => {
+	const get = (): void => {
 		dispatch(getFullEventSagasAction(idEvent));
 	};
 
@@ -27,7 +26,7 @@ export const useEvent = (idEvent: string): currentEvent & reload => {
 	}, []);
 
 	return {
-		reload,
-		...event,
+		get,
+		activeItem,
 	};
 };

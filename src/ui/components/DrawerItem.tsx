@@ -12,12 +12,12 @@ import React, { useState } from "react";
 import { type drawerItem } from "../../types/uiTypes";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
-import { currentEventSelector } from "../../redux/slicers/currentEventSlice";
+import { activeEventSelector } from "../../redux/slicers/eventsSlice";
 
 export const DrawerItem = (props: drawerItem): JSX.Element => {
 	const { text, icon, items } = props;
 	const [active, setActive] = useState<boolean>(false);
-	const { baseEvent } = useAppSelector(currentEventSelector);
+	const { data } = useAppSelector(activeEventSelector);
 	const navigate = useHistory();
 
 	const toggleColapse = (): void => {
@@ -69,8 +69,8 @@ export const DrawerItem = (props: drawerItem): JSX.Element => {
 						<ListItem
 							key={`drawer-child-${index}`}
 							onClick={() => {
-								if (baseEvent !== null) {
-									onClickSubItem(child.url(baseEvent));
+								if (data !== null) {
+									onClickSubItem(child.url(data.idEvent));
 								}
 							}}
 						>

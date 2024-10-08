@@ -3,12 +3,20 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type {
 	reduxStoreType,
 	listReducerInterface,
+	listActiveItemInterface,
 } from "../../types/reduxTypes";
 import { type version } from "../../types/versionTypes";
+
+const activeItemInitialStatus: listActiveItemInterface<version> = {
+	data: null,
+	status: "BLANK",
+	error: null,
+};
 
 const initialState: listReducerInterface<version> = {
 	data: [],
 	status: "NEUTRAL",
+	activeItem: activeItemInitialStatus,
 	error: null,
 	totalCount: 0,
 	page: 0,

@@ -4,7 +4,6 @@ import rootSaga from "../sagas/sagasRoot";
 import createSagaMiddleware from "@redux-saga/core";
 import internalSessionSlice from "./slicers/internalSessionSlice";
 import appSlicer from "./slicers/appSlicer";
-import currentEventSlice from "./slicers/currentEventSlice";
 import configsSlice from "./slicers/configsSlice";
 import disclaimersSlice from "./slicers/disclaimersSlice";
 import groupsSlice from "./slicers/groupsSlice";
@@ -20,7 +19,6 @@ export const reduxRoot = configureStore({
 		versions: versionsSlice,
 		internalSession: internalSessionSlice,
 		appState: appSlicer,
-		currentEvent: currentEventSlice,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware().concat(sagaMiddleware),

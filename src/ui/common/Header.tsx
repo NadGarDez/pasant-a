@@ -9,12 +9,12 @@ import { toogleSideBar } from "../../redux/slicers/appSlicer";
 import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
 import { NavBarAutocomplete } from "../components/NavBarAutocomplete";
-import { baseEventSelector } from "../../redux/slicers/currentEventSlice";
 import { LoginLogoutButton } from "../components/LoginLogoutButton";
+import { activeEventSelector } from "../../redux/slicers/eventsSlice";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
-	const currentEvent = useAppSelector(baseEventSelector);
+	const activeEvent = useAppSelector(activeEventSelector);
 
 	const dispatch = useAppDispatch();
 
@@ -36,7 +36,7 @@ export const Header = (): JSX.Element => {
 				<Toolbar>
 					{
 						// here validate if exist a current event
-						currentEvent !== null ? (
+						activeEvent !== null ? (
 							<IconButton
 								color="inherit"
 								aria-label="Open drawer"
@@ -53,7 +53,7 @@ export const Header = (): JSX.Element => {
 					</Typography>
 					<Box sx={{ flexGrow: 1 }} />
 					<LanguageMenu />
-					{currentEvent !== null ? <NavBarAutocomplete /> : null}
+					{activeEvent !== null ? <NavBarAutocomplete /> : null}
 					<CRDNavBarMenu />
 					<LoginLogoutButton
 						isAuthenticated={authState?.isAuthenticated ?? false}

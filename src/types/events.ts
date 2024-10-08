@@ -46,6 +46,14 @@ export interface event {
 	disclaimerCycle: number;
 	featured: boolean;
 	comingSoon: boolean;
+	idFeedVersion?: string; // optionall for full data
+	attendeeVersion?: string;
+	categoryVersion?: string;
+	exhibitorVersion?: string;
+	facultyVersion?: string;
+	scheduleVersion?: string;
+	venueVersion?: string;
+	lastUpdated?: string;
 }
 
 export interface fullDataInterface {

@@ -7,21 +7,21 @@ import { type event } from "../../types/events";
 import { AbstractTable } from "../components/AbstractTable";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import {
-	clearCurrentEvent,
-	baseEventSelector,
-	setBaseEvent,
-} from "../../redux/slicers/currentEventSlice";
 import { PageToolbar } from "../components/PageToolbar";
+import {
+	activeEventSelector,
+	clearActiveEventAction,
+	initializeActiveEventItemAction,
+} from "../../redux/slicers/eventsSlice";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetEvents();
-	const currentEvents = useAppSelector(baseEventSelector);
+	const currentEvents = useAppSelector(activeEventSelector);
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(clearCurrentEvent());
+		dispatch(clearActiveEventAction());
 	}, [currentEvents]);
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
@@ -32,7 +32,7 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	};
 
 	const handleClick = (item: event): void => {
-		dispatch(setBaseEvent(item.idEvent));
+		dispatch(initializeActiveEventItemAction(item));
 		history.push(`event/${item.idEvent}/overview`);
 	};
 

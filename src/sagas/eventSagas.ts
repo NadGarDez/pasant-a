@@ -2,8 +2,11 @@ import { all, call, put, select, takeEvery } from "redux-saga/effects";
 import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
 import {
 	failEventsAction,
+	failReadActiveEventAction,
 	loadEventsAction,
+	loadReadActiveEventAction,
 	successEventsAction,
+	successReadActiveEventAction,
 } from "../redux/slicers/eventsSlice";
 import {
 	getEventMetadataRequest,
@@ -15,11 +18,6 @@ import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosError, type AxiosResponse } from "axios";
 import { type fullDataInterface, type event } from "../types/events";
-import {
-	failReadEventAction,
-	loadReadEventAction,
-	successReadEventAction,
-} from "../redux/slicers/currentEventSlice";
 
 // sagas function
 
@@ -64,7 +62,7 @@ function* getFullEventInformationSagas(action: PayloadAction<string>): object {
 	);
 	try {
 		if (value.oktaSessionId !== null) {
-			yield put(loadReadEventAction(action.payload));
+			yield put(loadReadActiveEventAction());
 			const [a, b, c]: AxiosResponse[] = yield all([
 				call(getEventRequest, value.oktaSessionId, action.payload),
 				call(getEventVersionRequest, value.oktaSessionId, action.payload),
@@ -76,13 +74,13 @@ function* getFullEventInformationSagas(action: PayloadAction<string>): object {
 				...b.data,
 				...c.data,
 			};
-			yield put(successReadEventAction(results));
+			yield put(successReadActiveEventAction(results));
 		} else {
-			yield put(failEventsAction("Unauthenticate"));
+			yield put(failReadActiveEventAction("Unauthenticate"));
 		}
 	} catch (error) {
 		const axiosError = error as AxiosError;
-		yield put(failReadEventAction(axiosError.message));
+		yield put(failReadActiveEventAction(axiosError.message));
 	}
 }
 

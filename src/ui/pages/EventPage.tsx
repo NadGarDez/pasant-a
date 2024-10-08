@@ -28,7 +28,9 @@ import {
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
-	const { fullData, status, error } = useEvent(id);
+	const {
+		activeItem: { data, status, error },
+	} = useEvent(id);
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (
@@ -82,10 +84,9 @@ export const EventPage = withInternalSession((): JSX.Element => {
 				}}
 			>
 				<CardHeader
-					title={fullData?.name ?? ""}
+					title={data?.name ?? ""}
 					sx={{
-						background:
-							fullData?.status === "PUBLISHED" ? "#5DC24C" : "#FAD738",
+						background: data?.status === "PUBLISHED" ? "#5DC24C" : "#FAD738",
 					}}
 				/>
 				<CardContent>
@@ -106,7 +107,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 								}}
 								align="right"
 							>
-								{fullData?.status ?? "-"}
+								{data?.status ?? "-"}
 							</TableCell>
 						</TableRow>
 						<TableRow>
@@ -125,7 +126,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 								}}
 								align="right"
 							>
-								{fullData?.dbVersion ?? "-"}
+								{data?.dbVersion ?? "-"}
 							</TableCell>
 						</TableRow>
 						<TableRow>
@@ -163,8 +164,8 @@ export const EventPage = withInternalSession((): JSX.Element => {
 								}}
 								align="right"
 							>
-								{fullData !== null
-									? moment(fullData.creationDate).format("LL LTS")
+								{data !== null
+									? moment(data.creationDate).format("LL LTS")
 									: "-"}
 							</TableCell>
 						</TableRow>
@@ -184,8 +185,8 @@ export const EventPage = withInternalSession((): JSX.Element => {
 								}}
 								align="right"
 							>
-								{fullData !== null
-									? moment(fullData.lastUpdated).format("LL LTS")
+								{data !== null
+									? moment(data.lastUpdated).format("LL LTS")
 									: "-"}
 							</TableCell>
 						</TableRow>
