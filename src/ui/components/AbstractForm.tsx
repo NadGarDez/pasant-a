@@ -1,20 +1,18 @@
 import React from "react";
-import { type fieldMetadaInteface } from "../../types/fomTypes";
+import { type groupOfFields } from "../../types/fomTypes";
 import { Box, Button } from "@mui/material";
 import { useFormik } from "formik";
-import { FieldSelector } from "../form/FieldSelector";
+import { FormGroup } from "../form/FormGroup";
 
-interface props<T> {
-	fields: fieldMetadaInteface[];
-	initialValues: T;
+interface props {
+	fields: groupOfFields[];
+	initialValues: object;
 	scheme: object;
 	onSubmit: (values: any) => void;
 	onDimiss?: () => void;
 }
 
-export const AbstractForm = <T extends object>(
-	props: props<T>,
-): JSX.Element => {
+export const AbstractForm = (props: props): JSX.Element => {
 	const { fields, scheme, initialValues, onSubmit, onDimiss } = props;
 	const { values, submitForm, setFieldValue, setFieldTouched } = useFormik({
 		validationSchema: scheme,
@@ -35,11 +33,11 @@ export const AbstractForm = <T extends object>(
 			}}
 		>
 			<form>
-				{fields.map(item => (
-					<FieldSelector
-						key={`field_${item.name}`}
-						value={values[item.name as keyof T]}
+				{fields.map((item, index) => (
+					<FormGroup
+						values={values}
 						onChange={handleChange}
+						key={`group_form_${index}`}
 						{...item}
 					/>
 				))}

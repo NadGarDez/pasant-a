@@ -1,5 +1,5 @@
 export interface hookVerbsInterface<Item> {
-	delete: () => void;
+	del: () => void;
 	put: (value: Item) => void;
 	post: (value: Item) => void;
 }

@@ -12,3 +12,8 @@ export interface fieldMetadaInteface {
 	label: string;
 	subItems?: fieldMetadaInteface[];
 }
+
+export interface groupOfFields {
+	name?: string;
+	fields: fieldMetadaInteface[];
+}
