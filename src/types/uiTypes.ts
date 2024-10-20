@@ -23,3 +23,9 @@ export interface LanguageType {
 	label: string;
 	flag: string;
 }
+
+export interface tab {
+	label: string;
+	name: string;
+	icon: string;
+}

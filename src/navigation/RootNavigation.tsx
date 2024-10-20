@@ -13,6 +13,10 @@ import { IndexPage } from "../ui/pages/IndexPage";
 import { Layout } from "../ui/sections/Layout";
 import { EventPage } from "../ui/pages/EventPage";
 import { EventConfigurationPage } from "../ui/pages/EventConfigurationPage";
+import { Maps } from "../ui/pages/Maps";
+import { SectionsPage } from "../ui/pages/SectionsPage";
+import { BannersPage } from "../ui/pages/BannersPage";
+import { LivestreamsPage } from "../ui/pages/LivestreamsPage";
 
 export const RootNavigation = (props: any): JSX.Element => {
 	const history = useHistory();
@@ -46,10 +50,17 @@ export const RootNavigation = (props: any): JSX.Element => {
 					/>
 					<SecureRoute path="/event/:id/topics" component={EventPage} />
 					<SecureRoute path="/event/:id/fundamentals" component={IndexPage} />
-					<SecureRoute path="/event/:id/maps" component={EventPage} />
-					<SecureRoute path="/event/:id/advertisements" component={EventPage} />
+					<SecureRoute path="/event/:id/maps" component={Maps} />
+					<SecureRoute
+						path="/event/:id/advertisements"
+						component={BannersPage}
+					/>
 					<SecureRoute path="/event/:id/polls" component={EventPage} />
-					<SecureRoute path="/event/:id/livestreams" component={EventPage} />
+					<SecureRoute
+						path="/event/:id/livestreams"
+						component={LivestreamsPage}
+					/>
+					<SecureRoute path="/event/:id/sections" component={SectionsPage} />
 					<SecureRoute path="/disclaimers" component={DisclaimersPage} />
 					<SecureRoute path="/groups" component={GroupsPage} />
 					<SecureRoute path="/versions" component={VersionsPage} />

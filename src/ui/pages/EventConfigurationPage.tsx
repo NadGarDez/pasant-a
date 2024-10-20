@@ -1,13 +1,13 @@
 import React from "react";
 import { AbstractForm } from "../components/AbstractForm";
 import type * as Yup from "yup";
-import { Box } from "@mui/material";
 import {
 	eventConfigurationFieldStructure,
 	eventConfigurationFormSchema,
 } from "../../constants/formConstants";
 import { useEventVerbs } from "../../hooks/useEventVerbs";
 import { type event } from "../../types/events";
+import { Body } from "../sections/Body";
 
 type formType = Yup.InferType<typeof eventConfigurationFormSchema>;
 
@@ -31,7 +31,7 @@ export const EventConfigurationPage = (): JSX.Element => {
 	};
 
 	return (
-		<Box flex={1} pt={1}>
+		<Body>
 			<AbstractForm
 				fields={eventConfigurationFieldStructure}
 				onSubmit={onSubmit}
@@ -39,6 +39,6 @@ export const EventConfigurationPage = (): JSX.Element => {
 				initialValues={initialValue}
 				scheme={eventConfigurationFormSchema}
 			/>
-		</Box>
+		</Body>
 	);
 };
