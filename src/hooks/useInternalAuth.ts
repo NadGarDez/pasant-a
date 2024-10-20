@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import {
-	internalSessionSelector,
-	startAuthSagas,
-} from "../redux/slicers/internalSessionSlice";
+import { internalSessionSelector } from "../redux/slicers/internalSessionSlice";
 import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { useOktaAuth } from "@okta/okta-react";
 import { getLoginInternalRequestFromAuthState } from "../utils/apiRequest";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
+import { startAuthSagas } from "../sagas/internalApiSagas";
 
 export const useInternalAuth = (): internalSessionReducerInteface => {
 	const { status, errorMesssage, ...rest } = useAppSelector(

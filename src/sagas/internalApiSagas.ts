@@ -4,7 +4,7 @@ import {
 	finishAuthenticationWithSuccess,
 	startAuthentication,
 } from "../redux/slicers/internalSessionSlice";
-import { type PayloadAction } from "@reduxjs/toolkit";
+import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { internalLoginRequest } from "../utils/apiRequest";
 import { type INTERNAL_LOGIN_REQUEST_PARAMS } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
@@ -43,3 +43,7 @@ function* watchInternalApiFech(): any {
 export default function* internalApi(): any {
 	yield all([watchInternalApiFech()]);
 }
+
+export const startAuthSagas = createAction<INTERNAL_LOGIN_REQUEST_PARAMS>(
+	"SAGAS_INTERNAL_LOGIN",
+);

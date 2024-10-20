@@ -1,8 +1,5 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {
-	type internalSessionReducerInteface,
-	type INTERNAL_LOGIN_REQUEST_PARAMS,
-} from "../../types/internalApiTypes";
+import { type internalSessionReducerInteface } from "../../types/internalApiTypes";
 import { type reduxStoreType } from "../../types/reduxTypes";
 
 const initialState: internalSessionReducerInteface = {
@@ -51,13 +48,6 @@ export const {
 	finishAuthenticationWithSuccess,
 	clearInternalSession,
 } = internalSessionSlice.actions;
-
-export const startAuthSagas = (
-	data: INTERNAL_LOGIN_REQUEST_PARAMS,
-): PayloadAction<INTERNAL_LOGIN_REQUEST_PARAMS> => ({
-	type: "SAGAS_INTERNAL_LOGIN",
-	payload: data,
-});
 
 export const internalSessionSelector = (
 	state: reduxStoreType,
