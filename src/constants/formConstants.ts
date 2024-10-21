@@ -138,3 +138,135 @@ export const eventConfigurationFormSchema = Yup.object({
 });
 
 // end of event configuration form constants
+
+export const eventFundamentalFieldStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "Event name",
+				type: "text",
+			},
+			{
+				name: "crfName",
+				label: "CRF name",
+				type: "text",
+			},
+			{
+				name: "mnemonic",
+				label: "Mnemonic",
+				type: "text",
+			},
+			{
+				name: "startDate",
+				label: "Start Date",
+				type: "text",
+			},
+			{
+				name: "endDate",
+				label: "End Date",
+				type: "text",
+			},
+		],
+	},
+	{
+		name: "Multi-event configuration",
+		fields: [
+			{
+				name: "comingSoon",
+				label:
+					"List your guide as 'Coming Soon'. Event guides listed as 'Coming Soon' appear in the Eventbase app but cannot be downloaded while this option is selected",
+				type: "boolean",
+			},
+			{
+				name: "comingSoonFeature",
+				label: "Promote this event in the 'Featured' section of the app",
+				type: "boolean",
+			},
+		],
+	},
+	{
+		fields: [
+			{
+				name: "portraitBannerURL",
+				label: "Banner Image",
+				type: "text",
+			},
+			{
+				name: "portraitBannerURLV2",
+				label: "Banner Image V2",
+				type: "text",
+			},
+		],
+	},
+	{
+		name: "Location",
+		fields: [
+			{
+				name: "address",
+				label: "Address",
+				type: "text",
+			},
+			{
+				name: "city",
+				label: "City",
+				type: "text",
+			},
+			{
+				name: "state",
+				label: "State",
+				type: "text",
+			},
+			{
+				name: "country",
+				label: "Country",
+				type: "text",
+			},
+			{
+				name: "timezone",
+				label: "Timezone",
+				type: "text",
+			},
+		],
+	},
+	{
+		name: "Data feeds",
+		fields: [
+			{
+				name: "schedule",
+				label: "Schedule Endpoint",
+				type: "text",
+			},
+			{
+				name: "faculty",
+				label: "Faculty Endpoint",
+				type: "text",
+			},
+			{
+				name: "category",
+				label: "Category Endpoint",
+				type: "text",
+			},
+			{
+				name: "venues",
+				label: "Venues Endpoint",
+				type: "text",
+			},
+			{
+				name: "exhibitors",
+				label: "Exhibitors Endpoint",
+				type: "text",
+			},
+			{
+				name: "attendee",
+				label: "Attendee Endpoint",
+				type: "text",
+			},
+		],
+	},
+];
+
+export const eventFundamentalsFormSchema = Yup.object({
+	name: Yup.string(),
+	crfName: Yup.string(),
+});

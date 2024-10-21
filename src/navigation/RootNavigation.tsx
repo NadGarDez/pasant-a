@@ -9,7 +9,6 @@ import { ConfigPage } from "../ui/pages/ConfigPage";
 import { LoginCallback, SecureRoute, Security } from "@okta/okta-react";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { API_CONSTANTS } from "../constants/apiConstants";
-import { IndexPage } from "../ui/pages/IndexPage";
 import { Layout } from "../ui/sections/Layout";
 import { EventPage } from "../ui/pages/EventPage";
 import { EventConfigurationPage } from "../ui/pages/EventConfigurationPage";
@@ -17,6 +16,7 @@ import { Maps } from "../ui/pages/Maps";
 import { SectionsPage } from "../ui/pages/SectionsPage";
 import { BannersPage } from "../ui/pages/BannersPage";
 import { LivestreamsPage } from "../ui/pages/LivestreamsPage";
+import { FundamentalPage } from "../ui/pages/FundamentalsPage";
 
 export const RootNavigation = (props: any): JSX.Element => {
 	const history = useHistory();
@@ -49,7 +49,10 @@ export const RootNavigation = (props: any): JSX.Element => {
 						component={EventConfigurationPage}
 					/>
 					<SecureRoute path="/event/:id/topics" component={EventPage} />
-					<SecureRoute path="/event/:id/fundamentals" component={IndexPage} />
+					<SecureRoute
+						path="/event/:id/fundamentals"
+						component={FundamentalPage}
+					/>
 					<SecureRoute path="/event/:id/maps" component={Maps} />
 					<SecureRoute
 						path="/event/:id/advertisements"
