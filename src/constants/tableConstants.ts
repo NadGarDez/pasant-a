@@ -112,3 +112,113 @@ export const versionsTableStructure: keyValueInterface[] = [
 		label: "Status Name",
 	},
 ];
+
+export const mapTableStructure: keyValueInterface[] = [
+	{
+		key: "name",
+		label: "Name",
+	},
+	{
+		key: "type",
+		label: "Type",
+		cellFormatter: value => value,
+
+		// 	{
+		//   const type = MAPS_TYPE.find(current => current.value === value);
+		//   return (type && type.label) || value;
+		// }
+	},
+];
+
+export const sectionTableStructure: keyValueInterface[] = [
+	{
+		key: "name",
+		label: "Section",
+	},
+	{
+		key: "templateId",
+		label: "Template",
+		cellFormatter: value => value,
+		// 	{
+		//   const components = (props.manage && props.manage.components) || [];
+		//   const component = components.find(current => current.id === value);
+		//   return (component && component.name) || value;
+		// }
+	},
+	{
+		key: "type",
+		label: "Type",
+		cellFormatter: value => value,
+		// 	{
+		//   const component = TYPE_STATUS.find(current => current.value === value);
+		//   return (component && component.label) || value;
+		// }
+	},
+	{
+		key: "idSection",
+		label: "Attributes",
+		cellFormatter: (value /*, ownProps: propAttributes */) => value,
+		// 	{
+		//   const {
+		// 	manage: { data }
+		//   } = ownProps;
+		//   const instance = data.find(item => item.idSection === value);
+		//   return (
+		// 	<div style={{ display: 'flex', flexDirection: 'row' }}>
+		// 	  <div style={{ marginRight: 5 }}>
+		// 		{shouldRenderVisibleIcon(instance) === true ? (
+		// 		  <VectorIcons font="Entypo" name="eye-with-line" size={20} />
+		// 		) : null}
+		// 	  </div>
+		// 	  {shouldRenderLockIcon(instance) === true ? (
+		// 		<VectorIcons font="FontAwesome" name="lock" size={20} />
+		// 	  ) : null}
+		// 	</div>
+		//   );
+		// }
+	},
+];
+
+export const bannersTableStructure: keyValueInterface[] = [
+	{
+		key: "cloudStorageLocation",
+		label: "Banner Image",
+	},
+	{
+		key: "title",
+		label: "Title",
+	},
+	{
+		key: "redirectUrl",
+		label: "On tap, go to",
+	},
+	{
+		key: "sections",
+		label: "Appears on",
+	},
+];
+
+export const videosTableStructure: keyValueInterface[] = [
+	{
+		key: "name",
+		label: "Channel name",
+	},
+	{
+		key: "url",
+		label: "Channel url",
+	},
+	{
+		key: "category",
+		label: "Category",
+	},
+	{
+		key: "type",
+		label: "Video type",
+		cellFormatter: value => value,
+	},
+	{
+		key: "startDate",
+		label: "Start time",
+		cellFormatter: value => moment(value as string).format(DATE_FORMAT),
+	},
+];
