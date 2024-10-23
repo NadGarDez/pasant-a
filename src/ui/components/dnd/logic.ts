@@ -3,7 +3,6 @@ import type { dndAction, dndInterface } from "./types";
 export const initialState: dndInterface = {
 	errorMessage: null,
 	preview: null,
-	remoteImageUrl: null,
 	status: "VOID",
 };
 
@@ -30,7 +29,6 @@ export const reducer = (
 			return {
 				...state,
 				status: "FILLED",
-				remoteImageUrl: payload,
 			};
 		}
 

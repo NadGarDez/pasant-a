@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Box, Button, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useReducer } from "react";
+import React, { useCallback, useReducer } from "react";
 import { initialState, reducer } from "./logic";
 import { useDropzone } from "react-dropzone";
 import { saveImage } from "../../../utils/apiRequest";
@@ -16,8 +16,10 @@ interface props {
 }
 
 export const DragAndDropField = (props: props): JSX.Element => {
-	const [{ status, remoteImageUrl, preview, errorMessage }, dispatch] =
-		useReducer(reducer, initialState);
+	const [{ status, preview, errorMessage }, dispatch] = useReducer(
+		reducer,
+		initialState,
+	);
 
 	const { label, onChange, name } = props;
 
@@ -42,6 +44,10 @@ export const DragAndDropField = (props: props): JSX.Element => {
 				type: "FILL",
 				payload: remoteUrl,
 			});
+
+			onChange(name, remoteUrl);
+			onChange("width", width);
+			onChange("height", height);
 		} catch (error) {
 			dispatch({
 				type: "FAIL",
@@ -65,12 +71,6 @@ export const DragAndDropField = (props: props): JSX.Element => {
 			"image/jpg": [".jpg"],
 		},
 	});
-
-	useEffect(() => {
-		if (remoteImageUrl !== null) {
-			onChange(name, remoteImageUrl);
-		}
-	}, [remoteImageUrl]);
 
 	if (status === "FILLED" || status === "ERROR") {
 		return (

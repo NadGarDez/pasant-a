@@ -1,7 +1,6 @@
 export interface dndInterface {
 	status: "VOID" | "LOADING" | "FILLED" | "ERROR";
 	preview: string | null;
-	remoteImageUrl: string | null;
 	errorMessage: string | null;
 }
 
