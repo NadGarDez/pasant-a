@@ -154,3 +154,17 @@ export const getEventBackupRequest = async (
 		},
 	);
 };
+
+export const saveImage = async (
+	data: File,
+): Promise<{
+	remoteUrl: string;
+}> => {
+	return await new Promise(resolve => {
+		setTimeout(() => {
+			resolve({
+				remoteUrl: "https://www.google.com",
+			});
+		}, 3000);
+	});
+};

@@ -4,7 +4,8 @@ export type fieldType =
 	| "boolean"
 	| "color"
 	| "object"
-	| "array";
+	| "array"
+	| "file";
 
 export interface fieldMetadaInteface {
 	type: fieldType;

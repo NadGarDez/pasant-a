@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import _ from "underscore";
 import { MuiColorInput } from "mui-color-input";
+import { DragAndDropField } from "../components/dnd";
 
 type props = fieldMetadaInteface & {
-	onChange: (name: string, value: any) => any;
+	onChange: (name: string, value: any) => void;
 	value: any;
 };
 
@@ -143,6 +144,13 @@ export const FieldSelector = (props: props): JSX.Element => {
 				</Box>
 			);
 		}
+
+		case "file":
+			return (
+				<Box flex={1} mb={2}>
+					<DragAndDropField name={name} onChange={onChange} label={label} />
+				</Box>
+			);
 
 		default: {
 			return <></>;
