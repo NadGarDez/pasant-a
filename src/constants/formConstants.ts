@@ -75,7 +75,11 @@ export const eventConfigurationFieldStructure: groupOfFields[] = [
 			{
 				name: "pollBannerUrl",
 				label: "Banner Image (width:250px / height:250px)",
-				type: "text",
+				type: "file",
+				additionalProps: {
+					requiredWidth: 250,
+					requiredHeight: 250,
+				},
 			},
 		],
 	},
@@ -190,12 +194,20 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 			{
 				name: "portraitBannerURL",
 				label: "Banner Image",
-				type: "text",
+				type: "file",
+				additionalProps: {
+					requiredWidth: 250,
+					requiredHeight: 250,
+				},
 			},
 			{
 				name: "portraitBannerURLV2",
 				label: "Banner Image V2",
-				type: "text",
+				type: "file",
+				additionalProps: {
+					requiredWidth: 250,
+					requiredHeight: 250,
+				},
 			},
 		],
 	},

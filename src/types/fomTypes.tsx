@@ -12,6 +12,10 @@ export interface fieldMetadaInteface {
 	name: string;
 	label: string;
 	subItems?: fieldMetadaInteface[];
+	additionalProps?: {
+		requiredWidth: number;
+		requiredHeight: number;
+	};
 }
 
 export interface groupOfFields {

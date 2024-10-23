@@ -21,7 +21,6 @@ export const reducer = (
 			return {
 				...state,
 				status: "LOADING",
-				preview: payload,
 			};
 		}
 
@@ -29,6 +28,7 @@ export const reducer = (
 			return {
 				...state,
 				status: "FILLED",
+				preview: payload,
 			};
 		}
 
@@ -37,6 +37,14 @@ export const reducer = (
 				...state,
 				status: "ERROR",
 				errorMessage: payload,
+			};
+		}
+
+		case "REFILL": {
+			return {
+				...initialState,
+				status: "FILLED",
+				preview: payload,
 			};
 		}
 

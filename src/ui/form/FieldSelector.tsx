@@ -23,7 +23,15 @@ const getSubItemKeyName = (name: string): string => {
 };
 
 export const FieldSelector = (props: props): JSX.Element => {
-	const { type, label, onChange, subItems = [], name, value } = props;
+	const {
+		type,
+		label,
+		onChange,
+		subItems = [],
+		name,
+		value,
+		additionalProps,
+	} = props;
 
 	switch (type) {
 		case "text": {
@@ -148,7 +156,14 @@ export const FieldSelector = (props: props): JSX.Element => {
 		case "file":
 			return (
 				<Box flex={1} mb={2}>
-					<DragAndDropField name={name} onChange={onChange} label={label} />
+					<DragAndDropField
+						name={name}
+						onChange={onChange}
+						label={label}
+						initialValue={value}
+						requiredHeight={additionalProps?.requiredHeight ?? 250}
+						requiredWidth={additionalProps?.requiredWidth ?? 250}
+					/>
 				</Box>
 			);
 

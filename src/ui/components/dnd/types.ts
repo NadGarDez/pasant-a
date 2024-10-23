@@ -5,6 +5,6 @@ export interface dndInterface {
 }
 
 export interface dndAction {
-	type: "NEUTRALIZE" | "LOAD" | "FILL" | "FAIL";
+	type: "NEUTRALIZE" | "LOAD" | "FILL" | "FAIL" | "REFILL";
 	payload?: string;
 }

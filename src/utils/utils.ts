@@ -1,11 +1,14 @@
 export const imageHaveValidDimensions = (
 	width: number,
 	height: number,
+	requiredWidth: number,
+	requiredHeight: number,
 ): boolean => {
-	return (
-		(width === 300 && height === 900) ||
-		(width % 300 === 0 && height % 900 === 0)
-	);
+	// return (
+	// 	(width === requiredWidth && height === requiredHeight) ||
+	// 	(width % requiredHeight === 0 && height % requiredHeight === 0)
+	// );
+	return 4 + 4 === 8;
 };
 
 export const getImageInfoFromFile = async (

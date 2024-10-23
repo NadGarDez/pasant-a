@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Box, Button, Typography } from "@mui/material";
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 import { initialState, reducer } from "./logic";
 import { useDropzone } from "react-dropzone";
 import { saveImage } from "../../../utils/apiRequest";
@@ -12,7 +12,10 @@ import {
 interface props {
 	label: string;
 	name: string;
+	requiredWidth: number;
+	requiredHeight: number;
 	onChange: (name: string, value: any) => void;
+	initialValue?: string;
 }
 
 export const DragAndDropField = (props: props): JSX.Element => {
@@ -21,39 +24,42 @@ export const DragAndDropField = (props: props): JSX.Element => {
 		initialState,
 	);
 
-	const { label, onChange, name } = props;
+	const { label, onChange, name, initialValue, requiredHeight, requiredWidth } =
+		props;
 
 	const onDrop = useCallback(async (acceptedFiles: File[]): Promise<void> => {
-		const { width, height, url } = await getImageInfoFromFile(acceptedFiles[0]);
+		const { width, height } = await getImageInfoFromFile(acceptedFiles[0]);
 
 		dispatch({
 			type: "LOAD",
-			payload: url,
 		});
 
-		if (!imageHaveValidDimensions(width, height)) {
+		if (
+			!imageHaveValidDimensions(width, height, requiredWidth, requiredHeight)
+		) {
 			dispatch({
 				type: "FAIL",
-				payload: "Is required an image with the following dimemsions: 300*900",
+				payload: `Is required an image with the following dimemsions: ${requiredWidth}*${requiredHeight}`,
 			});
+		} else {
+			try {
+				const { remoteUrl } = await saveImage(acceptedFiles[0]);
+				dispatch({
+					type: "FILL",
+					payload: remoteUrl,
+				});
+
+				onChange(name, remoteUrl);
+				onChange("width", width);
+				onChange("height", height);
+			} catch (error) {
+				dispatch({
+					type: "FAIL",
+					payload: "Error saving the image",
+				});
+			}
 		}
 
-		try {
-			const { remoteUrl } = await saveImage(acceptedFiles[0]);
-			dispatch({
-				type: "FILL",
-				payload: remoteUrl,
-			});
-
-			onChange(name, remoteUrl);
-			onChange("width", width);
-			onChange("height", height);
-		} catch (error) {
-			dispatch({
-				type: "FAIL",
-				payload: "Error saving the image",
-			});
-		}
 		// Do something with the files
 	}, []);
 
@@ -72,6 +78,15 @@ export const DragAndDropField = (props: props): JSX.Element => {
 		},
 	});
 
+	useEffect(() => {
+		if (initialValue !== undefined) {
+			dispatch({
+				type: "REFILL",
+				payload: initialValue,
+			});
+		}
+	}, [initialValue]);
+
 	if (status === "FILLED" || status === "ERROR") {
 		return (
 			<>
@@ -88,7 +103,11 @@ export const DragAndDropField = (props: props): JSX.Element => {
 					}}
 				>
 					<Box flex={1}>
-						<img src={preview ?? ""} width={200} />
+						{status === "FILLED" ? (
+							<img src={preview ?? ""} width={200} />
+						) : (
+							<Typography color="red">{errorMessage}</Typography>
+						)}
 					</Box>
 					<Button
 						variant="outlined"
@@ -101,7 +120,6 @@ export const DragAndDropField = (props: props): JSX.Element => {
 						Clear
 					</Button>
 				</Box>
-				<Typography color="red">{errorMessage}</Typography>
 			</>
 		);
 	}
