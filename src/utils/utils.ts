@@ -1,3 +1,5 @@
+import { type event } from "../types/events";
+
 export const imageHaveValidDimensions = (
 	width: number,
 	height: number,
@@ -31,4 +33,19 @@ export const getImageInfoFromFile = async (
 		};
 		image.src = url;
 	});
+};
+
+export const getOptionsFromEventData = (
+	data: event[],
+): Array<{
+	label: string;
+	id: number;
+}> =>
+	data.map(item => ({
+		label: item.name,
+		id: parseInt(item.idEvent),
+	}));
+
+export const getEventIdFromEventObject = (data: event | null): string => {
+	return data?.idEvent ?? "";
 };

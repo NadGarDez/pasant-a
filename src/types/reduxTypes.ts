@@ -15,6 +15,15 @@ export interface listActiveItemInterface<T> {
 export interface listReducerInterface<T> {
 	status: machineStatus;
 	data: T[];
+	totalCount: number;
+	error: string | null;
+	page: number;
+	limit: number;
+}
+
+export interface eventslistReducerInterface<T> {
+	status: machineStatus;
+	data: T[];
 	activeItem: listActiveItemInterface<T>;
 	totalCount: number;
 	error: string | null;

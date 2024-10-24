@@ -19,7 +19,7 @@ export const useEvent = (idEvent: string): hookReturn => {
 	};
 
 	useEffect(() => {
-		dispatch(getFullEventSagasAction(idEvent));
+		// dispatch(getFullEventSagasAction(idEvent));
 		// return () => {
 		// 	dispatch(clearCurrentEvent());
 		// };

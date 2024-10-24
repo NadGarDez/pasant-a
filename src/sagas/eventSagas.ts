@@ -17,7 +17,7 @@ import {
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosError, type AxiosResponse } from "axios";
-import { type fullDataInterface, type event } from "../types/events";
+import { type event } from "../types/events";
 
 // sagas function
 
@@ -69,7 +69,7 @@ function* getFullEventInformationSagas(action: PayloadAction<string>): object {
 				call(getEventMetadataRequest, value.oktaSessionId, action.payload),
 			]);
 
-			const results: fullDataInterface = {
+			const results: event = {
 				...a.data,
 				...b.data,
 				...c.data,

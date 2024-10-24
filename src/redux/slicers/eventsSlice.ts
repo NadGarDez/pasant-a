@@ -4,6 +4,7 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 	listActiveItemInterface,
+	eventslistReducerInterface,
 } from "../../types/reduxTypes";
 import { type event } from "../../types/events";
 
@@ -13,7 +14,7 @@ const activeItemInitialStatus: listActiveItemInterface<event> = {
 	error: null,
 };
 
-const initialState: listReducerInterface<event> = {
+const initialState: eventslistReducerInterface<event> = {
 	data: [],
 	status: "NEUTRAL",
 	activeItem: activeItemInitialStatus,

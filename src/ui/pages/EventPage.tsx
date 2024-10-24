@@ -13,7 +13,7 @@ import {
 	TableRow,
 	Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useEvent } from "../../hooks/useEvent";
 import { withInternalSession } from "../../HOCs/withInternalSession";
@@ -28,9 +28,15 @@ import {
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+
 	const {
 		activeItem: { data, status, error },
+		get,
 	} = useEvent(id);
+
+	useEffect(() => {
+		get();
+	}, [id]);
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (

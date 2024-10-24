@@ -10,11 +10,15 @@ import { CRDNavBarMenu } from "../components/CRDNavBarMenu";
 import { LanguageMenu } from "../components/LanguageMenu";
 import { NavBarAutocomplete } from "../components/NavBarAutocomplete";
 import { LoginLogoutButton } from "../components/LoginLogoutButton";
-import { activeEventSelector } from "../../redux/slicers/eventsSlice";
+import {
+	activeEventSelector,
+	eventsSelector,
+} from "../../redux/slicers/eventsSlice";
 
 export const Header = (): JSX.Element => {
 	const { authState, oktaAuth } = useOktaAuth();
-	const activeEvent = useAppSelector(activeEventSelector);
+	const { data } = useAppSelector(activeEventSelector);
+	const { data: eventsData } = useAppSelector(eventsSelector);
 
 	const dispatch = useAppDispatch();
 
@@ -36,7 +40,7 @@ export const Header = (): JSX.Element => {
 				<Toolbar>
 					{
 						// here validate if exist a current event
-						activeEvent !== null ? (
+						data !== null ? (
 							<IconButton
 								color="inherit"
 								aria-label="Open drawer"
@@ -53,7 +57,9 @@ export const Header = (): JSX.Element => {
 					</Typography>
 					<Box sx={{ flexGrow: 1 }} />
 					<LanguageMenu />
-					{activeEvent !== null ? <NavBarAutocomplete /> : null}
+					{data !== null && eventsData.length > 0 ? (
+						<NavBarAutocomplete />
+					) : null}
 					<CRDNavBarMenu />
 					<LoginLogoutButton
 						isAuthenticated={authState?.isAuthenticated ?? false}

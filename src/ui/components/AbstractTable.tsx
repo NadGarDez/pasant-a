@@ -13,11 +13,11 @@ import { type keyValueInterface } from "../../constants/tableConstants";
 interface props<T> {
 	cols: keyValueInterface[];
 	rows: T[];
-	page: number;
-	limit: number;
-	total: number;
+	page?: number;
+	limit?: number;
+	total?: number;
 	renderActions?: (item: T) => JSX.Element;
-	onChangePagination: (page: number, rowsPerPage: number) => void;
+	onChangePagination?: (page: number, rowsPerPage: number) => void;
 }
 
 export const AbstractTable = <T extends object>(
@@ -30,13 +30,17 @@ export const AbstractTable = <T extends object>(
 		event: React.MouseEvent<HTMLButtonElement> | null,
 		newPage: number,
 	): void => {
-		onChangePagination(newPage, limit);
+		if (onChangePagination !== undefined) {
+			onChangePagination(newPage, limit ?? 0);
+		}
 	};
 
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	): void => {
-		onChangePagination(0, parseInt(event.target.value, 10));
+		if (onChangePagination !== undefined) {
+			onChangePagination(0, parseInt(event.target.value, 10));
+		}
 	};
 
 	return (
@@ -72,26 +76,28 @@ export const AbstractTable = <T extends object>(
 					</TableRow>
 				))}
 			</TableBody>
-			<TableFooter>
-				<TableRow>
-					<TablePagination
-						rowsPerPageOptions={[5, 10, 25]}
-						count={total}
-						rowsPerPage={limit}
-						page={page}
-						slotProps={{
-							select: {
-								inputProps: {
-									"aria-label": "rows per page",
+			{onChangePagination !== undefined ? (
+				<TableFooter>
+					<TableRow>
+						<TablePagination
+							rowsPerPageOptions={[5, 10, 25]}
+							count={total ?? cols.length}
+							rowsPerPage={limit ?? 0}
+							page={page ?? 0}
+							slotProps={{
+								select: {
+									inputProps: {
+										"aria-label": "rows per page",
+									},
+									native: true,
 								},
-								native: true,
-							},
-						}}
-						onPageChange={handleChangePage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
-				</TableRow>
-			</TableFooter>
+							}}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</TableRow>
+				</TableFooter>
+			) : null}
 		</Table>
 	);
 };

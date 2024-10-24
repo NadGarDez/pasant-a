@@ -1,15 +1,20 @@
 // @flow
-import { Add } from "@mui/icons-material";
+import { Add, Queue } from "@mui/icons-material";
 import { Box, Fab, Toolbar, Typography } from "@mui/material";
 import React from "react";
 
 interface props {
-	title: string;
+	title?: string;
 	onAdd: () => void;
+	onQueue?: () => void;
 }
 
-export const PageToolbar = ({ title, onAdd }: props): JSX.Element => (
-	<Toolbar>
+export const PageToolbar = ({ title, onAdd, onQueue }: props): JSX.Element => (
+	<Toolbar
+		sx={{
+			padding: 0,
+		}}
+	>
 		<Box
 			flexDirection="row"
 			justifyContent="space-between"
@@ -19,9 +24,24 @@ export const PageToolbar = ({ title, onAdd }: props): JSX.Element => (
 				<Fab size="small" color="primary" aria-label="Add" onClick={onAdd}>
 					<Add />
 				</Fab>
-				<Typography variant="h6" id="tableTitle" ml={20 / 8}>
-					{title}
-				</Typography>
+				{onQueue !== undefined ? (
+					<Fab
+						size="small"
+						color="primary"
+						aria-label="Add"
+						onClick={onQueue}
+						sx={{
+							marginLeft: 2,
+						}}
+					>
+						<Queue />
+					</Fab>
+				) : null}
+				{title !== undefined ? (
+					<Typography variant="h6" id="tableTitle" ml={20 / 8}>
+						{title}
+					</Typography>
+				) : null}
 			</Box>
 		</Box>
 	</Toolbar>
