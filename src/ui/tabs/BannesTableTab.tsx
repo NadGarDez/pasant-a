@@ -1,30 +1,24 @@
 import { Paper, Box, Switch, IconButton, Icon } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
 import { bannersTableStructure } from "../../constants/tableConstants";
-import { useAppSelector } from "../../hooks/reduxHooks";
-import { activeEventSelector } from "../../redux/slicers/eventsSlice";
-import { getBannersRequest } from "../../utils/apiRequest";
-import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useList } from "../../hooks/useList";
+import { type eventBanner } from "../../types/events";
+import { bannersSelector } from "../../redux/slicers/bannersSlice";
+import { getBannersSagasAction } from "../../sagas/EventSubItemsSagas";
+import { useParams } from "react-router-dom";
 
 export const BannersTableTab = (): JSX.Element => {
-	const { data } = useAppSelector(activeEventSelector);
-	const { oktaSessionId } = useAppSelector(internalSessionSelector);
+	const { id } = useParams<{ id: string }>();
 
-	const superRequest = async (): Promise<void> => {
-		const result = await getBannersRequest(
-			oktaSessionId ?? "",
-			data?.idEvent ?? "",
-		);
-		console.log(result);
-	};
-
-	useEffect(() => {
-		if (data !== null) {
-			void superRequest();
-		}
-	}, []);
+	const { data: bannersData } = useList<eventBanner>({
+		selector: bannersSelector,
+		action: getBannersSagasAction,
+		aditionalProps: {
+			eventId: id,
+		},
+	});
 
 	return (
 		<>
@@ -46,7 +40,7 @@ export const BannersTableTab = (): JSX.Element => {
 				<Box flex={1} pl={3} pr={3}>
 					<AbstractTable<object>
 						cols={bannersTableStructure}
-						rows={[]}
+						rows={bannersData}
 						renderActions={item => (
 							<Box
 								sx={{

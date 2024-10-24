@@ -55,3 +55,16 @@ export interface event {
 	venueVersion?: string;
 	lastUpdated?: string;
 }
+
+export interface eventBanner {
+	idResource: string;
+	type: number;
+	cloudStorageLocation: string;
+	redirectUrl: string;
+	status: number;
+	height: number;
+	width: number;
+	creationDate: string; // Can be improved for date parsing
+	modificationDate: string; // Can be improved for date parsing
+	idEvent: string;
+}

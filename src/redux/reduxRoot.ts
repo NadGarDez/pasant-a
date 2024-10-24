@@ -8,6 +8,10 @@ import configsSlice from "./slicers/configsSlice";
 import disclaimersSlice from "./slicers/disclaimersSlice";
 import groupsSlice from "./slicers/groupsSlice";
 import versionsSlice from "./slicers/versionSlice";
+import banners from "./slicers/bannersSlice";
+import maps from "./slicers/MapsSlice";
+import sections from "./slicers/sectionsSlice";
+import videos from "./slicers/videoStreamsSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 export const reduxRoot = configureStore({
@@ -19,6 +23,10 @@ export const reduxRoot = configureStore({
 		versions: versionsSlice,
 		internalSession: internalSessionSlice,
 		appState: appSlicer,
+		banners,
+		maps,
+		sections,
+		videos,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware().concat(sagaMiddleware),

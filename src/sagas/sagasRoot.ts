@@ -5,6 +5,7 @@ import { configsWatcher } from "./configSagas";
 import { disclaimersWatcher } from "./disclaimerSagas";
 import { groupsWatcher } from "./groupSagas";
 import { versionWatcher } from "./versionSagas";
+import { eventSubitemWatcher } from "./EventSubItemsSagas";
 
 export default function* rootSaga(): Generator {
 	yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga(): Generator {
 		disclaimersWatcher(),
 		groupsWatcher(),
 		versionWatcher(),
+		eventSubitemWatcher(),
 	]);
 }

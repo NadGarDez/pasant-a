@@ -3,8 +3,22 @@ import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { mapTableStructure } from "../../constants/tableConstants";
 import { AbstractTable } from "../components/AbstractTable";
+import { useParams } from "react-router-dom";
+import { useList } from "../../hooks/useList";
+import { mapsSelector } from "../../redux/slicers/MapsSlice";
+import { getMapsSagasActions } from "../../sagas/EventSubItemsSagas";
 
 export const MapsTableTab = (): JSX.Element => {
+	const { id } = useParams<{ id: string }>();
+
+	const { data: mapsData } = useList<object>({
+		selector: mapsSelector,
+		action: getMapsSagasActions,
+		aditionalProps: {
+			eventId: id,
+		},
+	});
+
 	return (
 		<>
 			<Paper
@@ -25,7 +39,7 @@ export const MapsTableTab = (): JSX.Element => {
 				<Box flex={1} pl={3} pr={3}>
 					<AbstractTable<object>
 						cols={mapTableStructure}
-						rows={[]}
+						rows={mapsData}
 						renderActions={item => (
 							<Box
 								sx={{

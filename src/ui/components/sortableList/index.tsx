@@ -33,8 +33,6 @@ export const SortableList = <T extends object>(
 		onChange(data);
 	};
 
-	console.log(data === initialData);
-
 	return (
 		<Box flex={1}>
 			<SortableContainer onSortEnd={onSortEnd}>

@@ -3,8 +3,24 @@ import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
 import { videosTableStructure } from "../../constants/tableConstants";
+import { useParams } from "react-router-dom";
+import { videoStreamsSelector } from "../../redux/slicers/videoStreamsSlice";
+import { useList } from "../../hooks/useList";
+import { getVideoStreamsSagasAction } from "../../sagas/EventSubItemsSagas";
 
 export const VideoTableTab = (): JSX.Element => {
+	const { id } = useParams<{ id: string }>();
+
+	const { data: videoStreamsData } = useList<object>({
+		selector: videoStreamsSelector,
+		action: getVideoStreamsSagasAction,
+		aditionalProps: {
+			eventId: id,
+		},
+	});
+
+	console.log(videoStreamsData, "hey jud");
+
 	return (
 		<>
 			<Paper
@@ -25,7 +41,7 @@ export const VideoTableTab = (): JSX.Element => {
 				<Box flex={1} pl={3} pr={3}>
 					<AbstractTable<object>
 						cols={videosTableStructure}
-						rows={[]}
+						rows={videoStreamsData}
 						renderActions={item => (
 							<Box
 								sx={{

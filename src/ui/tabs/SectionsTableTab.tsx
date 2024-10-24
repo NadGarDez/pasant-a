@@ -3,8 +3,21 @@ import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
 import { sectionTableStructure } from "../../constants/tableConstants";
+import { useList } from "../../hooks/useList";
+import { useParams } from "react-router-dom";
+import { sectionsSelector } from "../../redux/slicers/sectionsSlice";
+import { getSectionsSagasActions } from "../../sagas/EventSubItemsSagas";
 
 export const SectionsTableTab = (): JSX.Element => {
+	const { id } = useParams<{ id: string }>();
+
+	const { data: sectionsData } = useList<object>({
+		selector: sectionsSelector,
+		action: getSectionsSagasActions,
+		aditionalProps: {
+			eventId: id,
+		},
+	});
 	return (
 		<>
 			<Paper
@@ -25,7 +38,7 @@ export const SectionsTableTab = (): JSX.Element => {
 				<Box flex={1} pl={3} pr={3}>
 					<AbstractTable<object>
 						cols={sectionTableStructure}
-						rows={[]}
+						rows={sectionsData}
 						renderActions={item => (
 							<Box
 								sx={{

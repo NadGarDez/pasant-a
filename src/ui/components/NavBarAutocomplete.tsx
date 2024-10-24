@@ -19,7 +19,6 @@ export const NavBarAutocomplete = (): JSX.Element => {
 
 	const options = getOptionsFromEventData(data);
 
-	console.log(options[0], activeEventData);
 	return (
 		<>
 			<Autocomplete

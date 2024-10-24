@@ -173,6 +173,7 @@ export const saveImage = async (
 export const getBannersRequest = async (
 	session: string,
 	eventId: string,
+	params: object,
 ): Promise<object> => {
 	return await axios.get(
 		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resources`,
@@ -180,9 +181,7 @@ export const getBannersRequest = async (
 			headers: {
 				Authorization: session,
 			},
-			params: {
-				loading: false,
-			},
+			params,
 		},
 	);
 };
