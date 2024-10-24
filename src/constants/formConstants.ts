@@ -282,3 +282,162 @@ export const eventFundamentalsFormSchema = Yup.object({
 	name: Yup.string(),
 	crfName: Yup.string(),
 });
+
+export const advertisementForm: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "title",
+				label: "crf.events.advertisements.title",
+				type: "text",
+			},
+			{
+				name: "redirectUrl",
+				label: "crf.events.advertisements.redirectUrl",
+				type: "text",
+			},
+			{
+				name: "sections",
+				label: "crf.events.advertisements.sections",
+				type: "text",
+				//   options: [
+				// 	{
+				// 	  value: 'abstracts',
+				// 	  label: 'Abstracts'
+				// 	},
+				// 	{
+				// 	  value: 'attendees',
+				// 	  label: 'Attendees'
+				// 	},
+				// 	{
+				// 	  value: 'events',
+				// 	  label: 'Events'
+				// 	},
+				// 	{
+				// 	  value: 'faculty',
+				// 	  label: 'Faculty'
+				// 	},
+				// 	{
+				// 	  value: 'program',
+				// 	  label: 'Program'
+				// 	}
+				//   ]
+			},
+			{
+				name: "cloudStorageLocation",
+				label: "crf.events.advertisements.image",
+				type: "file",
+			},
+		],
+	},
+];
+
+export const sectionFormFieldStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "Name",
+				type: "text",
+			},
+			{
+				name: "authenticated",
+				label: "Need auth",
+				type: "boolean",
+			},
+			{
+				name: "sideMenu",
+				label: "Enabled",
+				type: "boolean",
+			},
+			{
+				name: "homeScreen",
+				label: "Show In Tab Bar",
+				type: "boolean",
+			},
+		],
+	},
+	{
+		fields: [
+			{
+				name: "templateId",
+				label: "Template",
+				type: "text",
+			},
+		],
+	},
+];
+
+export const videoStreamFormFieldStructure: groupOfFields[] = [
+	{
+		fields: [
+			// {
+			// 	name: "type",
+			// 	label: "Type",
+			// 	type: "text",
+			// },
+			{
+				name: "name",
+				label: "Channel Name",
+				type: "text",
+			},
+			{
+				name: "url",
+				label: "Channel Url",
+				type: "text",
+			},
+		],
+	},
+	{
+		name: "Filters",
+		fields: [
+			{
+				name: "category",
+				label: "Channel Name",
+				type: "text",
+			},
+			{
+				name: "sessionTitle",
+				label: "Session Title",
+				type: "text",
+			},
+			{
+				name: "venue",
+				label: "Venue",
+				type: "text",
+			},
+		],
+	},
+	{
+		fields: [
+			{
+				name: "status",
+				label: "Channel Name",
+				type: "text",
+			},
+		],
+	},
+];
+
+export const mapsFormFieldStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "Map Name",
+				type: "text",
+			},
+			{
+				name: "type",
+				label: "Map type",
+				type: "text",
+			},
+
+			{
+				name: "addressField",
+				label: "Address",
+				type: "text",
+			},
+		],
+	},
+];

@@ -169,3 +169,68 @@ export const saveImage = async (
 		}, 3000);
 	});
 };
+
+export const getBannersRequest = async (
+	session: string,
+	eventId: string,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resources`,
+		{
+			headers: {
+				Authorization: session,
+			},
+			params: {
+				loading: false,
+			},
+		},
+	);
+};
+
+export const getVideostreamsRequest = async (
+	session: string,
+	eventId: string,
+	params: object,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/livestreams/`,
+		{
+			headers: {
+				Authorization: session,
+			},
+			params,
+		},
+	);
+};
+
+export const getSectionsRequest = async (
+	session: string,
+	eventId: string,
+	params: object,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections`,
+		{
+			headers: {
+				Authorization: session,
+			},
+			params,
+		},
+	);
+};
+
+export const getMapsRequest = async (
+	session: string,
+	eventId: string,
+	params: object,
+): Promise<object> => {
+	return await axios.get(
+		`${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/maps`,
+		{
+			headers: {
+				Authorization: session,
+			},
+			params,
+		},
+	);
+};

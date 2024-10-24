@@ -1,5 +1,20 @@
 import moment, { type MomentInput } from "moment";
 
+const MAPS_TYPE = [
+	{
+		value: 0,
+		label: "Map area",
+	},
+	{
+		value: 1,
+		label: "Level Image",
+	},
+	{
+		value: 2,
+		label: "Web View Map",
+	},
+];
+
 export const DATE_FORMAT = "L [at] LTS";
 export interface keyValueInterface {
 	key: string;
@@ -121,12 +136,10 @@ export const mapTableStructure: keyValueInterface[] = [
 	{
 		key: "type",
 		label: "Type",
-		cellFormatter: value => value,
-
-		// 	{
-		//   const type = MAPS_TYPE.find(current => current.value === value);
-		//   return (type && type.label) || value;
-		// }
+		cellFormatter: value => {
+			const type = MAPS_TYPE.find(current => current.value === value);
+			return type?.label ?? value;
+		},
 	},
 ];
 
