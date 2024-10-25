@@ -332,6 +332,10 @@ export const advertisementForm: groupOfFields[] = [
 	},
 ];
 
+export const advertisementFormSchema = Yup.object({
+	title: Yup.string().required(),
+});
+
 export const sectionFormFieldStructure: groupOfFields[] = [
 	{
 		fields: [

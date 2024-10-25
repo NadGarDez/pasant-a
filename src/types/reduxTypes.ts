@@ -6,7 +6,7 @@ export type appDispatch = typeof reduxRoot.dispatch;
 
 export type machineStatus = "NEUTRAL" | "LOADING" | "SUCCESS" | "ERROR";
 
-export interface listActiveItemInterface<T> {
+export interface listActiveItemInterface<T = object> {
 	status: "BLANK" | "NEUTRAL" | "LOADING" | "SUCCESS" | "ERROR";
 	data: T | null;
 	error: string | null;

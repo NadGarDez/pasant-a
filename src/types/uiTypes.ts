@@ -29,3 +29,5 @@ export interface tab {
 	name: string;
 	icon: string;
 }
+
+export type modalFormStatus = "HIDDEN" | "CREATE" | "EDIT";

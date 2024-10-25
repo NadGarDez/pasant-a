@@ -12,6 +12,7 @@ import banners from "./slicers/bannersSlice";
 import maps from "./slicers/MapsSlice";
 import sections from "./slicers/sectionsSlice";
 import videos from "./slicers/videoStreamsSlice";
+import activeItem from "./slicers/activeItemSlicer";
 
 const sagaMiddleware = createSagaMiddleware();
 export const reduxRoot = configureStore({
@@ -27,6 +28,7 @@ export const reduxRoot = configureStore({
 		maps,
 		sections,
 		videos,
+		activeItem,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware().concat(sagaMiddleware),

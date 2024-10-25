@@ -17,9 +17,29 @@ import { type eventBanner } from "../../types/events";
 import { bannersSelector } from "../../redux/slicers/bannersSlice";
 import { getBannersSagasAction } from "../../sagas/EventSubItemsSagas";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+	hideModalForm,
+	modalFormStatusSelector,
+	startModalForm,
+} from "../../redux/slicers/appSlicer";
+import { ModalForm } from "../components/ModalForm";
+import { AbstractForm } from "../components/AbstractForm";
+import {
+	advertisementForm,
+	advertisementFormSchema,
+} from "../../constants/formConstants";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import {
+	clearActiveItem,
+	initializeActiveItem,
+} from "../../redux/slicers/activeItemSlicer";
+import { type modalFormStatus } from "../../types/uiTypes";
 
 export const BannersTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+	const formStatus = useSelector(modalFormStatusSelector);
+	const dispatch = useAppDispatch();
 
 	const {
 		data: bannersData,
@@ -43,6 +63,50 @@ export const BannersTableTab = (): JSX.Element => {
 			limit: rowsPerPage,
 			eventId: id,
 		});
+	};
+
+	const closeModal = (): void => {
+		dispatch(hideModalForm());
+		dispatch(clearActiveItem());
+	};
+
+	const openModal = (mode: modalFormStatus): void => {
+		dispatch(startModalForm(mode));
+	};
+
+	const startActiveItem = (item: object): void => {
+		dispatch(initializeActiveItem(item));
+	};
+
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
+	};
+
+	const onEdit = (item: eventBanner): void => {
+		startActiveItem(item as object);
+		openModal("EDIT");
+	};
+
+	const onDelete = (id: string): void => {
+		console.log(id);
+	};
+
+	const onSubmit = (values: eventBanner): void => {
+		if (formStatus === "CREATE") {
+			// dispatch(
+			// 	postBannerSagasAction({
+			// 		data: values,
+			// 	}),
+			// );
+		} else if (formStatus === "EDIT") {
+			// dispatch(
+			// 	putBannerSagasAction({
+			// 		data: values,
+			// 		id: values.idBanner,
+			// 	}),
+			// );
+		}
 	};
 
 	if (status === "ERROR") {
@@ -88,12 +152,12 @@ export const BannersTableTab = (): JSX.Element => {
 			>
 				<PageToolbar
 					onAdd={() => {
-						// onCreate();
+						onCreate();
 					}}
 					onQueue={() => {}}
 				/>
 				<Box flex={1} pl={3} pr={3}>
-					<AbstractTable<object>
+					<AbstractTable<eventBanner>
 						cols={bannersTableStructure}
 						rows={bannersData}
 						limit={limit}
@@ -118,7 +182,7 @@ export const BannersTableTab = (): JSX.Element => {
 								/>
 								<IconButton
 									onClick={() => {
-										console.log(item);
+										onEdit(item);
 									}}
 								>
 									<Icon color="primary" fontSize="inherit">
@@ -127,7 +191,7 @@ export const BannersTableTab = (): JSX.Element => {
 								</IconButton>
 								<IconButton
 									onClick={() => {
-										console.log(item); // should be the item ids
+										onDelete(item.idResource);
 									}}
 								>
 									<Icon color="error" fontSize="inherit">
@@ -139,20 +203,20 @@ export const BannersTableTab = (): JSX.Element => {
 					/>
 				</Box>
 			</Paper>
-			{/* <ModalForm
-				open={modalStatus !== "HIDDEN"}
-				title={appMenuModalTitles[modalStatus]}
+			<ModalForm
+				open={formStatus !== "HIDDEN"}
+				title={"Banners"}
 				handleClose={closeModal}
 			>
 				<AbstractForm
-					fields={appMenuFormStructure}
-					scheme={appMenuFormSchema}
-					initialValues={activeItemData ?? {}}
+					fields={advertisementForm}
+					scheme={advertisementFormSchema}
+					initialValues={{}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
 			</ModalForm>
-			<
+			{/* <
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
 				open={activeItemStatus === "ERROR" || activeItemStatus === "SUCCESS"}
 				message={activeItemError ?? "Operation completed successfully"}
