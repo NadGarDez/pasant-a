@@ -16,9 +16,29 @@ import { useParams } from "react-router-dom";
 import { videoStreamsSelector } from "../../redux/slicers/videoStreamsSlice";
 import { useList } from "../../hooks/useList";
 import { getVideoStreamsSagasAction } from "../../sagas/EventSubItemsSagas";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import {
+	hideModalForm,
+	modalFormStatusSelector,
+	startModalForm,
+} from "../../redux/slicers/appSlicer";
+import {
+	clearActiveItem,
+	initializeActiveItem,
+} from "../../redux/slicers/activeItemSlicer";
+import { type eventVideo } from "../../types/events";
+import { ModalForm } from "../components/ModalForm";
+import { AbstractForm } from "../components/AbstractForm";
+import {
+	videoStreamFormFieldStructure,
+	videoStreamsFormSchema,
+} from "../../constants/formConstants";
+import { type modalFormStatus } from "../../types/uiTypes";
 
 export const VideoTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+	const formStatus = useAppSelector(modalFormStatusSelector);
+	const dispatch = useAppDispatch();
 
 	const {
 		data: videoStreamsData,
@@ -28,7 +48,7 @@ export const VideoTableTab = (): JSX.Element => {
 		limit,
 		totalCount,
 		page,
-	} = useList<object>({
+	} = useList<eventVideo>({
 		selector: videoStreamsSelector,
 		action: getVideoStreamsSagasAction,
 		aditionalProps: {
@@ -44,6 +64,50 @@ export const VideoTableTab = (): JSX.Element => {
 			limit: rowsPerPage,
 			eventId: id,
 		});
+	};
+
+	const closeModal = (): void => {
+		dispatch(hideModalForm());
+		dispatch(clearActiveItem());
+	};
+
+	const openModal = (mode: modalFormStatus): void => {
+		dispatch(startModalForm(mode));
+	};
+
+	const startActiveItem = (item: object): void => {
+		dispatch(initializeActiveItem(item));
+	};
+
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
+	};
+
+	const onEdit = (item: eventVideo): void => {
+		startActiveItem(item as object);
+		openModal("EDIT");
+	};
+
+	const onDelete = (id: string): void => {
+		console.log(id);
+	};
+
+	const onSubmit = (values: eventVideo): void => {
+		if (formStatus === "CREATE") {
+			// dispatch(
+			// 	postBannerSagasAction({
+			// 		data: values,
+			// 	}),
+			// );
+		} else if (formStatus === "EDIT") {
+			// dispatch(
+			// 	putBannerSagasAction({
+			// 		data: values,
+			// 		id: values.idBanner,
+			// 	}),
+			// );
+		}
 	};
 
 	if (status === "ERROR") {
@@ -90,11 +154,12 @@ export const VideoTableTab = (): JSX.Element => {
 				<PageToolbar
 					onAdd={() => {
 						// onCreate();
+						onCreate();
 					}}
 					onQueue={() => {}}
 				/>
 				<Box flex={1} pl={3} pr={3}>
-					<AbstractTable<object>
+					<AbstractTable<eventVideo>
 						cols={videosTableStructure}
 						rows={videoStreamsData}
 						limit={limit}
@@ -120,6 +185,7 @@ export const VideoTableTab = (): JSX.Element => {
 								<IconButton
 									onClick={() => {
 										console.log(item);
+										onEdit(item);
 									}}
 								>
 									<Icon color="primary" fontSize="inherit">
@@ -129,6 +195,7 @@ export const VideoTableTab = (): JSX.Element => {
 								<IconButton
 									onClick={() => {
 										console.log(item); // should be the item ids
+										onDelete(item.idLiveStream);
 									}}
 								>
 									<Icon color="error" fontSize="inherit">
@@ -140,20 +207,20 @@ export const VideoTableTab = (): JSX.Element => {
 					/>
 				</Box>
 			</Paper>
-			{/* <ModalForm
-				open={modalStatus !== "HIDDEN"}
-				title={appMenuModalTitles[modalStatus]}
+			<ModalForm
+				open={formStatus !== "HIDDEN"}
+				title="Videos"
 				handleClose={closeModal}
 			>
 				<AbstractForm
-					fields={appMenuFormStructure}
-					scheme={appMenuFormSchema}
-					initialValues={activeItemData ?? {}}
+					fields={videoStreamFormFieldStructure}
+					scheme={videoStreamsFormSchema}
+					initialValues={{}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
 			</ModalForm>
-			<
+			{/* <
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
 				open={activeItemStatus === "ERROR" || activeItemStatus === "SUCCESS"}
 				message={activeItemError ?? "Operation completed successfully"}

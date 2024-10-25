@@ -423,6 +423,10 @@ export const videoStreamFormFieldStructure: groupOfFields[] = [
 	},
 ];
 
+export const videoStreamsFormSchema = Yup.object({
+	name: Yup.string().required(),
+});
+
 export const mapsFormFieldStructure: groupOfFields[] = [
 	{
 		fields: [
@@ -445,3 +449,7 @@ export const mapsFormFieldStructure: groupOfFields[] = [
 		],
 	},
 ];
+
+export const mapsFormSchema = Yup.object({
+	name: Yup.string().required(),
+});

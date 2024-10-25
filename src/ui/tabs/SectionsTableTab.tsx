@@ -16,9 +16,31 @@ import { useList } from "../../hooks/useList";
 import { useParams } from "react-router-dom";
 import { sectionsSelector } from "../../redux/slicers/sectionsSlice";
 import { getSectionsSagasActions } from "../../sagas/EventSubItemsSagas";
+import { useSelector } from "react-redux";
+import {
+	hideModalForm,
+	modalFormStatusSelector,
+	startModalForm,
+} from "../../redux/slicers/appSlicer";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import {
+	clearActiveItem,
+	initializeActiveItem,
+} from "../../redux/slicers/activeItemSlicer";
+import { type eventSection } from "../../types/events";
+import { type modalFormStatus } from "../../types/uiTypes";
+import { ModalForm } from "../components/ModalForm";
+import { AbstractForm } from "../components/AbstractForm";
+import {
+	sectionFormFieldStructure,
+	videoStreamsFormSchema,
+} from "../../constants/formConstants";
 
 export const SectionsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+
+	const formStatus = useSelector(modalFormStatusSelector);
+	const dispatch = useAppDispatch();
 
 	const {
 		data: sectionsData,
@@ -28,7 +50,7 @@ export const SectionsTableTab = (): JSX.Element => {
 		page,
 		limit,
 		totalCount,
-	} = useList<object>({
+	} = useList<eventSection>({
 		selector: sectionsSelector,
 		action: getSectionsSagasActions,
 		aditionalProps: {
@@ -42,6 +64,50 @@ export const SectionsTableTab = (): JSX.Element => {
 			limit: rowsPerPage,
 			eventId: id,
 		});
+	};
+
+	const closeModal = (): void => {
+		dispatch(hideModalForm());
+		dispatch(clearActiveItem());
+	};
+
+	const openModal = (mode: modalFormStatus): void => {
+		dispatch(startModalForm(mode));
+	};
+
+	const startActiveItem = (item: object): void => {
+		dispatch(initializeActiveItem(item));
+	};
+
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
+	};
+
+	const onEdit = (item: eventSection): void => {
+		startActiveItem(item as object);
+		openModal("EDIT");
+	};
+
+	const onDelete = (id: string): void => {
+		console.log(id);
+	};
+
+	const onSubmit = (values: eventSection): void => {
+		if (formStatus === "CREATE") {
+			// dispatch(
+			// 	postBannerSagasAction({
+			// 		data: values,
+			// 	}),
+			// );
+		} else if (formStatus === "EDIT") {
+			// dispatch(
+			// 	putBannerSagasAction({
+			// 		data: values,
+			// 		id: values.idBanner,
+			// 	}),
+			// );
+		}
 	};
 
 	if (status === "ERROR") {
@@ -87,12 +153,12 @@ export const SectionsTableTab = (): JSX.Element => {
 			>
 				<PageToolbar
 					onAdd={() => {
-						// onCreate();
+						onCreate();
 					}}
 					onQueue={() => {}}
 				/>
 				<Box flex={1} pl={3} pr={3}>
-					<AbstractTable<object>
+					<AbstractTable<eventSection>
 						cols={sectionTableStructure}
 						rows={sectionsData}
 						limit={limit}
@@ -117,7 +183,7 @@ export const SectionsTableTab = (): JSX.Element => {
 								/>
 								<IconButton
 									onClick={() => {
-										console.log(item);
+										onEdit(item); // should be the item ids
 									}}
 								>
 									<Icon color="primary" fontSize="inherit">
@@ -126,7 +192,7 @@ export const SectionsTableTab = (): JSX.Element => {
 								</IconButton>
 								<IconButton
 									onClick={() => {
-										console.log(item); // should be the item ids
+										onDelete(item.idSection);
 									}}
 								>
 									<Icon color="error" fontSize="inherit">
@@ -138,19 +204,20 @@ export const SectionsTableTab = (): JSX.Element => {
 					/>
 				</Box>
 			</Paper>
-			{/* <ModalForm
-				open={modalStatus !== "HIDDEN"}
-				title={appMenuModalTitles[modalStatus]}
+			<ModalForm
+				open={formStatus !== "HIDDEN"}
+				title="Sections"
 				handleClose={closeModal}
 			>
 				<AbstractForm
-					fields={appMenuFormStructure}
-					scheme={appMenuFormSchema}
-					initialValues={activeItemData ?? {}}
+					fields={sectionFormFieldStructure}
+					scheme={videoStreamsFormSchema}
+					initialValues={{}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
 			</ModalForm>
+			{/* 
 			<
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
 				open={activeItemStatus === "ERROR" || activeItemStatus === "SUCCESS"}
