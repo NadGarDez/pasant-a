@@ -68,3 +68,38 @@ export interface eventBanner {
 	modificationDate: string; // Can be improved for date parsing
 	idEvent: string;
 }
+
+export interface eventMap {
+	idEventMap: string;
+	name: string;
+	geoLocation?: string;
+	imageUrl?: string;
+	type: number;
+	creationDate: string; // Consider using a Date object for better date handling
+	idEvent: string;
+}
+export interface eventSection {
+	idSection: string;
+	name: string;
+	jsonConfig: Record<string, any>;
+	templateId: number;
+	authenticated: boolean;
+	sideMenu: boolean;
+	homeScreen: boolean;
+	type: number;
+	sortOrder: number;
+	idEvent: string;
+}
+
+export interface eventVideo {
+	idLiveStream: string;
+	name: string;
+	url: string;
+	imageUrl: string;
+	category: string;
+	sessionTitle?: string; // Optional property
+	venue?: string; // Optional property
+	type: number;
+	status: number;
+	idEvent: string;
+}

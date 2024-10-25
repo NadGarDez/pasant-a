@@ -4,9 +4,9 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 } from "../../types/reduxTypes";
-import { type eventBanner } from "../../types/events";
+import { type eventSection } from "../../types/events";
 
-const initialState: listReducerInterface<eventBanner> = {
+const initialState: listReducerInterface<eventSection> = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
@@ -21,7 +21,7 @@ export const sectionsSlice = createSlice({
 	reducers: {
 		successSectionsAction: (
 			state,
-			action: PayloadAction<{ items: eventBanner[]; totalCount: number }>,
+			action: PayloadAction<{ items: eventSection[]; totalCount: number }>,
 		) => {
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
@@ -52,6 +52,6 @@ export const {
 
 export const sectionsSelector = (
 	state: reduxStoreType,
-): listReducerInterface<eventBanner> => state.sections;
+): listReducerInterface<eventSection> => state.sections;
 
 export default sectionsSlice.reducer;

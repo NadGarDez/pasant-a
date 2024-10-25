@@ -4,9 +4,9 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 } from "../../types/reduxTypes";
-import { type eventBanner } from "../../types/events";
+import { type eventMap } from "../../types/events";
 
-const initialState: listReducerInterface<eventBanner> = {
+const initialState: listReducerInterface<eventMap> = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
@@ -21,7 +21,7 @@ export const mapsSlice = createSlice({
 	reducers: {
 		successMapsAction: (
 			state,
-			action: PayloadAction<{ items: eventBanner[]; totalCount: number }>,
+			action: PayloadAction<{ items: eventMap[]; totalCount: number }>,
 		) => {
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
@@ -49,6 +49,6 @@ export const { loadMapsAction, failMapsAction, successMapsAction } =
 
 export const mapsSelector = (
 	state: reduxStoreType,
-): listReducerInterface<eventBanner> => state.maps;
+): listReducerInterface<eventMap> => state.maps;
 
 export default mapsSlice.reducer;

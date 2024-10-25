@@ -14,7 +14,12 @@ import {
 	loadBannersAction,
 	successBannersAction,
 } from "../redux/slicers/bannersSlice";
-import { type eventBanner } from "../types/events";
+import {
+	type eventMap,
+	type eventBanner,
+	type eventSection,
+	type eventVideo,
+} from "../types/events";
 import {
 	failVideoStreamsAction,
 	loadVideoStreamsAction,
@@ -33,9 +38,9 @@ import {
 
 // sagas function
 
-interface getGroupsResponse {
+interface getGroupsResponse<T> {
 	totalCount: number;
-	items: eventBanner[];
+	items: T[];
 }
 
 function* getBannersSagas(
@@ -52,7 +57,7 @@ function* getBannersSagas(
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadBannersAction(action.payload));
-			const result: AxiosResponse<getGroupsResponse> = yield call(
+			const result: AxiosResponse<getGroupsResponse<eventBanner>> = yield call(
 				getBannersRequest,
 				value.oktaSessionId,
 				action.payload.eventId,
@@ -87,7 +92,7 @@ function* getVideoStreamsSagas(
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadVideoStreamsAction(action.payload));
-			const result: AxiosResponse<getGroupsResponse> = yield call(
+			const result: AxiosResponse<getGroupsResponse<eventVideo>> = yield call(
 				getVideostreamsRequest,
 				value.oktaSessionId,
 				action.payload.eventId,
@@ -122,7 +127,7 @@ function* getMapsSagas(
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadMapsAction(action.payload));
-			const result: AxiosResponse<getGroupsResponse> = yield call(
+			const result: AxiosResponse<getGroupsResponse<eventMap>> = yield call(
 				getMapsRequest,
 				value.oktaSessionId,
 				action.payload.eventId,
@@ -157,7 +162,7 @@ function* getSectionsSagas(
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadSectionsAAction(action.payload));
-			const result: AxiosResponse<getGroupsResponse> = yield call(
+			const result: AxiosResponse<getGroupsResponse<eventSection>> = yield call(
 				getSectionsRequest,
 				value.oktaSessionId,
 				action.payload.eventId,

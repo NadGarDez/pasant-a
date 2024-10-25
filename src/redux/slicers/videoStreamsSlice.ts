@@ -4,9 +4,9 @@ import type {
 	reduxStoreType,
 	listReducerInterface,
 } from "../../types/reduxTypes";
-import { type eventBanner } from "../../types/events";
+import { type eventVideo } from "../../types/events";
 
-const initialState: listReducerInterface<eventBanner> = {
+const initialState: listReducerInterface<eventVideo> = {
 	data: [],
 	status: "NEUTRAL",
 	error: null,
@@ -21,7 +21,7 @@ export const videoStreamsSlice = createSlice({
 	reducers: {
 		successVideoStreamsAction: (
 			state,
-			action: PayloadAction<{ items: eventBanner[]; totalCount: number }>,
+			action: PayloadAction<{ items: eventVideo[]; totalCount: number }>,
 		) => {
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
@@ -52,6 +52,6 @@ export const {
 
 export const videoStreamsSelector = (
 	state: reduxStoreType,
-): listReducerInterface<eventBanner> => state.videos;
+): listReducerInterface<eventVideo> => state.videos;
 
 export default videoStreamsSlice.reducer;
