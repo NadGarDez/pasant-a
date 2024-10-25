@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { type keyValueInterface } from "../../constants/tableConstants";
+import { cellSelector } from "../../utils/cellSelector";
 
 interface props<T> {
 	cols: keyValueInterface[];
@@ -63,8 +64,8 @@ export const AbstractTable = <T extends object>(
 							return (
 								<TableCell key={`table_cell_item_${subItemIndex}`}>
 									{
-										(subItem.cellFormatter !== undefined
-											? subItem.cellFormatter(cellValue)
+										(subItem.cellComponent !== undefined
+											? cellSelector[subItem.cellComponent](cellValue)
 											: cellValue) as string
 									}
 								</TableCell>
