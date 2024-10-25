@@ -1,4 +1,13 @@
-import { Box, Icon, IconButton, Paper, Switch } from "@mui/material";
+import {
+	Alert,
+	Box,
+	Button,
+	Icon,
+	IconButton,
+	LinearProgress,
+	Paper,
+	Switch,
+} from "@mui/material";
 import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
@@ -11,13 +20,60 @@ import { getSectionsSagasActions } from "../../sagas/EventSubItemsSagas";
 export const SectionsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 
-	const { data: sectionsData } = useList<object>({
+	const {
+		data: sectionsData,
+		status,
+		error,
+		reload,
+		page,
+		limit,
+		totalCount,
+	} = useList<object>({
 		selector: sectionsSelector,
 		action: getSectionsSagasActions,
 		aditionalProps: {
 			eventId: id,
 		},
 	});
+
+	const onChangePagination = (page: number, rowsPerPage: number): void => {
+		reload({
+			page,
+			limit: rowsPerPage,
+			eventId: id,
+		});
+	};
+
+	if (status === "ERROR") {
+		return (
+			<Alert
+				severity="error"
+				action={
+					<Button
+						size="small"
+						variant="outlined"
+						color="error"
+						onClick={() => {
+							reload({});
+						}}
+					>
+						Reload
+					</Button>
+				}
+			>
+				{error ?? ""}
+			</Alert>
+		);
+	}
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
+
 	return (
 		<>
 			<Paper
@@ -39,6 +95,10 @@ export const SectionsTableTab = (): JSX.Element => {
 					<AbstractTable<object>
 						cols={sectionTableStructure}
 						rows={sectionsData}
+						limit={limit}
+						page={page}
+						total={totalCount}
+						onChangePagination={onChangePagination}
 						renderActions={item => (
 							<Box
 								sx={{

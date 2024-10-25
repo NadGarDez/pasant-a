@@ -1,4 +1,13 @@
-import { Paper, Box, Switch, IconButton, Icon } from "@mui/material";
+import {
+	Paper,
+	Box,
+	Switch,
+	IconButton,
+	Icon,
+	Alert,
+	Button,
+	LinearProgress,
+} from "@mui/material";
 import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
@@ -12,13 +21,59 @@ import { useParams } from "react-router-dom";
 export const BannersTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 
-	const { data: bannersData } = useList<eventBanner>({
+	const {
+		data: bannersData,
+		status,
+		reload,
+		error,
+		page,
+		totalCount,
+		limit,
+	} = useList<eventBanner>({
 		selector: bannersSelector,
 		action: getBannersSagasAction,
 		aditionalProps: {
 			eventId: id,
 		},
 	});
+
+	const onChangePagination = (page: number, rowsPerPage: number): void => {
+		reload({
+			page,
+			limit: rowsPerPage,
+			eventId: id,
+		});
+	};
+
+	if (status === "ERROR") {
+		return (
+			<Alert
+				severity="error"
+				action={
+					<Button
+						size="small"
+						variant="outlined"
+						color="error"
+						onClick={() => {
+							reload({});
+						}}
+					>
+						Reload
+					</Button>
+				}
+			>
+				{error ?? ""}
+			</Alert>
+		);
+	}
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -41,6 +96,10 @@ export const BannersTableTab = (): JSX.Element => {
 					<AbstractTable<object>
 						cols={bannersTableStructure}
 						rows={bannersData}
+						limit={limit}
+						page={page}
+						total={totalCount}
+						onChangePagination={onChangePagination}
 						renderActions={item => (
 							<Box
 								sx={{

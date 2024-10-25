@@ -1,4 +1,13 @@
-import { Box, Icon, IconButton, Paper, Switch } from "@mui/material";
+import {
+	Alert,
+	Box,
+	Button,
+	Icon,
+	IconButton,
+	LinearProgress,
+	Paper,
+	Switch,
+} from "@mui/material";
 import React from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
@@ -11,7 +20,15 @@ import { getVideoStreamsSagasAction } from "../../sagas/EventSubItemsSagas";
 export const VideoTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 
-	const { data: videoStreamsData } = useList<object>({
+	const {
+		data: videoStreamsData,
+		status,
+		error,
+		reload,
+		limit,
+		totalCount,
+		page,
+	} = useList<object>({
 		selector: videoStreamsSelector,
 		action: getVideoStreamsSagasAction,
 		aditionalProps: {
@@ -20,6 +37,44 @@ export const VideoTableTab = (): JSX.Element => {
 	});
 
 	console.log(videoStreamsData, "hey jud");
+
+	const onChangePagination = (page: number, rowsPerPage: number): void => {
+		reload({
+			page,
+			limit: rowsPerPage,
+			eventId: id,
+		});
+	};
+
+	if (status === "ERROR") {
+		return (
+			<Alert
+				severity="error"
+				action={
+					<Button
+						size="small"
+						variant="outlined"
+						color="error"
+						onClick={() => {
+							reload({});
+						}}
+					>
+						Reload
+					</Button>
+				}
+			>
+				{error ?? ""}
+			</Alert>
+		);
+	}
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -42,6 +97,10 @@ export const VideoTableTab = (): JSX.Element => {
 					<AbstractTable<object>
 						cols={videosTableStructure}
 						rows={videoStreamsData}
+						limit={limit}
+						page={page}
+						total={totalCount}
+						onChangePagination={onChangePagination}
 						renderActions={item => (
 							<Box
 								sx={{
