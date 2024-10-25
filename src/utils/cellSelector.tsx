@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import moment, { type MomentInput } from "moment";
 
 import React from "react";
@@ -39,4 +40,5 @@ export const cellSelector: Record<
 			}}
 		/>
 	),
+	url: value => <Typography sx={{ maxWidth: 200 }}>{value}</Typography>,
 };

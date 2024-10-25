@@ -180,11 +180,8 @@ export const bannersTableStructure: keyValueInterface[] = [
 	},
 	{
 		key: "redirectUrl",
+		cellComponent: "url",
 		label: "On tap, go to",
-	},
-	{
-		key: "sections",
-		label: "Appears on",
 	},
 ];
 
@@ -196,6 +193,7 @@ export const videosTableStructure: keyValueInterface[] = [
 	{
 		key: "url",
 		label: "Channel url",
+		cellComponent: "url",
 	},
 	{
 		key: "category",

@@ -43,17 +43,31 @@ export const AbstractTable = <T extends object>(
 			onChangePagination(0, parseInt(event.target.value, 10));
 		}
 	};
+	console.log(rows);
 
 	return (
 		<Table>
 			<TableHead>
 				<TableRow>
 					{cols.map((item, index) => (
-						<TableCell key={`table_headier_item_${index}`}>
+						<TableCell
+							key={`table_headier_item_${index}`}
+							sx={{
+								width: "20%",
+							}}
+						>
 							{item.label}
 						</TableCell>
 					))}
-					{renderActions !== undefined ? <TableCell>Actions</TableCell> : null}
+					{renderActions !== undefined ? (
+						<TableCell
+							sx={{
+								width: "20%",
+							}}
+						>
+							Actions
+						</TableCell>
+					) : null}
 				</TableRow>
 			</TableHead>
 			<TableBody>
@@ -61,8 +75,16 @@ export const AbstractTable = <T extends object>(
 					<TableRow key={`row_${indexItem}`}>
 						{cols.map((subItem, subItemIndex) => {
 							const cellValue = item[subItem.key as keyof T];
+							console.log(cellValue, "cell value");
 							return (
-								<TableCell key={`table_cell_item_${subItemIndex}`}>
+								<TableCell
+									key={`table_cell_item_${subItemIndex}`}
+									size="small"
+									sx={{
+										whiteSpace: "normal",
+										wordWrap: "break-word",
+									}}
+								>
 									{
 										(subItem.cellComponent !== undefined
 											? cellSelector[subItem.cellComponent](cellValue)
@@ -72,7 +94,7 @@ export const AbstractTable = <T extends object>(
 							);
 						})}
 						{renderActions !== undefined ? (
-							<TableCell>{renderActions(item)}</TableCell>
+							<TableCell size="small">{renderActions(item)}</TableCell>
 						) : null}
 					</TableRow>
 				))}
