@@ -86,7 +86,7 @@
 			"^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
 		},
 		"transformIgnorePatterns": [
-			"node_modules/(?!(mui-color-input))"
+			"node_modules/(?!(mui-color-input|axios|array-move))"
 		]
 	}
 }

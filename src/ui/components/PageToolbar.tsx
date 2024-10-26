@@ -26,9 +26,10 @@ export const PageToolbar = ({ title, onAdd, onQueue }: props): JSX.Element => (
 				</Fab>
 				{onQueue !== undefined ? (
 					<Fab
+						id="QueueButton"
 						size="small"
 						color="primary"
-						aria-label="Add"
+						aria-label="Queue"
 						onClick={onQueue}
 						sx={{
 							marginLeft: 2,
