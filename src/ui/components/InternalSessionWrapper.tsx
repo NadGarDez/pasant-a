@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, LinearProgress } from "@mui/material";
+import { Alert, Box, LinearProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
@@ -9,9 +9,12 @@ interface props {
 
 export const InternalSessionWrapper = (props: props): JSX.Element => {
 	const { children } = props;
-	const { status } = useSelector(internalSessionSelector);
+	const { status, errorMesssage } = useSelector(internalSessionSelector);
 
 	if (status === "AUTHENTICATED") return <>{children}</>;
+
+	if (status === "AUTHENTICATION_ERROR")
+		return <Alert severity="error">{errorMesssage ?? ""}</Alert>;
 
 	return (
 		<Box sx={{ width: "100%" }}>

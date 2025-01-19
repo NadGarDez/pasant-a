@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { API_CONSTANTS } from "../constants/apiConstants";
 import { type INTERNAL_LOGIN_REQUEST_PARAMS } from "../types/internalApiTypes";
 import { type OktaAuth } from "@okta/okta-auth-js";
+import type { defaultApiResponse, ListResponse } from "../types/defaultTypes";
 
 export const internalLoginRequest = async (
 	data: INTERNAL_LOGIN_REQUEST_PARAMS,
@@ -232,4 +233,48 @@ export const getMapsRequest = async (
 			params,
 		},
 	);
+};
+
+export const loadMoreRequest = async (
+	params: Record<"token" | "url", string>,
+): Promise<defaultApiResponse<ListResponse<object>>> => {
+	const { token, url } = params;
+
+	try {
+		const { status, data, statusText } = await axios.get(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: {
+					count: 0,
+					next: null,
+					previous: null,
+					results: [],
+				},
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: {
+					count: 0,
+					next: null,
+					previous: null,
+					results: [],
+				},
+				statusText: "Error inesperado",
+			};
+		}
+	}
 };
