@@ -300,28 +300,6 @@ export const advertisementForm: groupOfFields[] = [
 				name: "sections",
 				label: "crf.events.advertisements.sections",
 				type: "text",
-				//   options: [
-				// 	{
-				// 	  value: 'abstracts',
-				// 	  label: 'Abstracts'
-				// 	},
-				// 	{
-				// 	  value: 'attendees',
-				// 	  label: 'Attendees'
-				// 	},
-				// 	{
-				// 	  value: 'events',
-				// 	  label: 'Events'
-				// 	},
-				// 	{
-				// 	  value: 'faculty',
-				// 	  label: 'Faculty'
-				// 	},
-				// 	{
-				// 	  value: 'program',
-				// 	  label: 'Program'
-				// 	}
-				//   ]
 			},
 			{
 				name: "cloudStorageLocation",

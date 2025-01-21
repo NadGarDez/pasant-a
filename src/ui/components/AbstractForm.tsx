@@ -10,10 +10,11 @@ interface props {
 	scheme: object;
 	onSubmit: (values: any) => void;
 	onDimiss?: () => void;
+	loading: boolean;
 }
 
 export const AbstractForm = (props: props): JSX.Element => {
-	const { fields, scheme, initialValues, onSubmit, onDimiss } = props;
+	const { fields, scheme, initialValues, onSubmit, onDimiss, loading } = props;
 	const { values, submitForm, setFieldValue, setFieldTouched } = useFormik({
 		validationSchema: scheme,
 		onSubmit,
@@ -61,6 +62,7 @@ export const AbstractForm = (props: props): JSX.Element => {
 					) : null}
 					<Button
 						variant="contained"
+						disabled={loading}
 						onClick={() => {
 							void submitForm();
 						}}

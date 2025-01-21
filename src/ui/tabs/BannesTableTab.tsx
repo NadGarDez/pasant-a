@@ -209,6 +209,7 @@ export const BannersTableTab = (): JSX.Element => {
 				handleClose={closeModal}
 			>
 				<AbstractForm
+					loading={false}
 					fields={advertisementForm}
 					scheme={advertisementFormSchema}
 					initialValues={{}}

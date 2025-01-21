@@ -31,6 +31,7 @@ test("renders AbstractForm correctly and submits data", async () => {
 	// Render the component with mock data
 	render(
 		<AbstractForm
+			loading={false}
 			fields={mockFields}
 			initialValues={mockInitialValues}
 			scheme={mockScheme}

@@ -33,6 +33,7 @@ export const EventConfigurationPage = (): JSX.Element => {
 	return (
 		<Body>
 			<AbstractForm
+				loading={false}
 				fields={eventConfigurationFieldStructure}
 				onSubmit={onSubmit}
 				onDimiss={close}

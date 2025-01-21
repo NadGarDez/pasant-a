@@ -210,6 +210,7 @@ export const SectionsTableTab = (): JSX.Element => {
 				handleClose={closeModal}
 			>
 				<AbstractForm
+					loading={false}
 					fields={sectionFormFieldStructure}
 					scheme={videoStreamsFormSchema}
 					initialValues={{}}

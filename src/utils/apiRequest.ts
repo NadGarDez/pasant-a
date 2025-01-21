@@ -278,3 +278,47 @@ export const loadMoreRequest = async (
 		}
 	}
 };
+
+export const fudamentalPutRequest = async (
+	params: Record<"token" | "bodyObject" | "eventId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { bodyObject, token, eventId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};

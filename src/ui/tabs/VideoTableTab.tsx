@@ -213,6 +213,7 @@ export const VideoTableTab = (): JSX.Element => {
 				handleClose={closeModal}
 			>
 				<AbstractForm
+					loading={false}
 					fields={videoStreamFormFieldStructure}
 					scheme={videoStreamsFormSchema}
 					initialValues={{}}

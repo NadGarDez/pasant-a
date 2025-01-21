@@ -208,6 +208,7 @@ export const MapsTableTab = (): JSX.Element => {
 				handleClose={closeModal}
 			>
 				<AbstractForm
+					loading={false}
 					fields={mapsFormFieldStructure}
 					scheme={mapsFormSchema}
 					initialValues={{}}
