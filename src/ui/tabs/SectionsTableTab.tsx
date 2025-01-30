@@ -22,8 +22,9 @@ import {
 	modalFormStatusSelector,
 	startModalForm,
 } from "../../redux/slicers/appSlicer";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
@@ -41,6 +42,8 @@ export const SectionsTableTab = (): JSX.Element => {
 
 	const formStatus = useSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+
+	const { data } = useAppSelector(activeitemSelector);
 
 	const {
 		data: sectionsData,
@@ -213,7 +216,7 @@ export const SectionsTableTab = (): JSX.Element => {
 					loading={false}
 					fields={sectionFormFieldStructure}
 					scheme={videoStreamsFormSchema}
-					initialValues={{}}
+					initialValues={data ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>

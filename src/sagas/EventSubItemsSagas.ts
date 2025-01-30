@@ -53,7 +53,6 @@ function* getBannersSagas(
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
-	console.log(action, "hey");
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadBannersAction(action.payload));
@@ -66,7 +65,6 @@ function* getBannersSagas(
 					limit: action.payload.limit,
 				},
 			);
-			console.log(result, "results");
 			yield put(successBannersAction(result.data));
 		} else {
 			console.log("error");
@@ -88,7 +86,6 @@ function* getVideoStreamsSagas(
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
-	console.log(action, "hey");
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadVideoStreamsAction(action.payload));
@@ -101,7 +98,6 @@ function* getVideoStreamsSagas(
 					limit: action.payload.limit,
 				},
 			);
-			console.log(result, "results");
 			yield put(successVideoStreamsAction(result.data));
 		} else {
 			console.log("error");
@@ -123,7 +119,6 @@ function* getMapsSagas(
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
-	console.log(action, "hey");
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadMapsAction(action.payload));
@@ -136,7 +131,6 @@ function* getMapsSagas(
 					limit: action.payload.limit,
 				},
 			);
-			console.log(result, "results");
 			yield put(successMapsAction(result.data));
 		} else {
 			console.log("error");
@@ -158,7 +152,6 @@ function* getSectionsSagas(
 	const value: internalSessionReducerInteface = yield select(
 		internalSessionSelector,
 	);
-	console.log(action, "hey");
 	try {
 		if (value.oktaSessionId !== null) {
 			yield put(loadSectionsAAction(action.payload));
@@ -171,7 +164,6 @@ function* getSectionsSagas(
 					limit: action.payload.limit,
 				},
 			);
-			console.log(result, "results");
 			yield put(successSectionsAction(result.data));
 		} else {
 			console.log("error");

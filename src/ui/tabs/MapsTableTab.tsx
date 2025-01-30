@@ -26,6 +26,7 @@ import {
 } from "../../redux/slicers/appSlicer";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
@@ -39,6 +40,8 @@ export const MapsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const formStatus = useAppSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+
+	const { data } = useAppSelector(activeitemSelector);
 
 	const {
 		data: mapsData,
@@ -211,7 +214,7 @@ export const MapsTableTab = (): JSX.Element => {
 					loading={false}
 					fields={mapsFormFieldStructure}
 					scheme={mapsFormSchema}
-					initialValues={{}}
+					initialValues={data ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
