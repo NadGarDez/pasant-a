@@ -23,6 +23,7 @@ import {
 	startModalForm,
 } from "../../redux/slicers/appSlicer";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
@@ -39,6 +40,8 @@ export const VideoTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const formStatus = useAppSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+	const activeItem = useAppSelector(activeitemSelector);
+	console.log(activeItem, "super item");
 
 	const {
 		data: videoStreamsData,
@@ -55,8 +58,6 @@ export const VideoTableTab = (): JSX.Element => {
 			eventId: id,
 		},
 	});
-
-	console.log(videoStreamsData, "hey jud");
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
@@ -85,6 +86,7 @@ export const VideoTableTab = (): JSX.Element => {
 	};
 
 	const onEdit = (item: eventVideo): void => {
+		console.log(item, "super item");
 		startActiveItem(item as object);
 		openModal("EDIT");
 	};
@@ -216,7 +218,7 @@ export const VideoTableTab = (): JSX.Element => {
 					loading={false}
 					fields={videoStreamFormFieldStructure}
 					scheme={videoStreamsFormSchema}
-					initialValues={{}}
+					initialValues={activeItem.data ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
