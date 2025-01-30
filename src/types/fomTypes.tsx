@@ -5,7 +5,8 @@ export type fieldType =
 	| "color"
 	| "object"
 	| "array"
-	| "file";
+	| "file"
+	| "select";
 
 export interface fieldMetadaInteface {
 	type: fieldType;
@@ -15,6 +16,10 @@ export interface fieldMetadaInteface {
 	additionalProps?: {
 		requiredWidth: number;
 		requiredHeight: number;
+		selectItems: Array<{
+			label: string;
+			value: string;
+		}>;
 	};
 }
 

@@ -79,6 +79,7 @@ export const eventConfigurationFieldStructure: groupOfFields[] = [
 				additionalProps: {
 					requiredWidth: 250,
 					requiredHeight: 250,
+					selectItems: [],
 				},
 			},
 		],
@@ -198,6 +199,7 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 				additionalProps: {
 					requiredWidth: 250,
 					requiredHeight: 250,
+					selectItems: [],
 				},
 			},
 			{
@@ -207,6 +209,7 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 				additionalProps: {
 					requiredWidth: 250,
 					requiredHeight: 250,
+					selectItems: [],
 				},
 			},
 		],
@@ -288,22 +291,17 @@ export const advertisementForm: groupOfFields[] = [
 		fields: [
 			{
 				name: "title",
-				label: "crf.events.advertisements.title",
+				label: "Title",
 				type: "text",
 			},
 			{
 				name: "redirectUrl",
-				label: "crf.events.advertisements.redirectUrl",
-				type: "text",
-			},
-			{
-				name: "sections",
-				label: "crf.events.advertisements.sections",
+				label: "On tap, go to",
 				type: "text",
 			},
 			{
 				name: "cloudStorageLocation",
-				label: "crf.events.advertisements.image",
+				label: "Banner Image",
 				type: "file",
 			},
 		],

@@ -43,7 +43,6 @@ export const AbstractTable = <T extends object>(
 			onChangePagination(0, parseInt(event.target.value, 10));
 		}
 	};
-	console.log(rows);
 
 	return (
 		<Table>
@@ -75,7 +74,6 @@ export const AbstractTable = <T extends object>(
 					<TableRow key={`row_${indexItem}`}>
 						{cols.map((subItem, subItemIndex) => {
 							const cellValue = item[subItem.key as keyof T];
-							console.log(cellValue, "cell value");
 							return (
 								<TableCell
 									key={`table_cell_item_${subItemIndex}`}

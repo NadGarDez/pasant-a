@@ -23,7 +23,6 @@ export const bannersSlice = createSlice({
 			state,
 			action: PayloadAction<{ items: eventBanner[]; totalCount: number }>,
 		) => {
-			console.log("banner success", action);
 			state.status = "SUCCESS";
 			state.data = action.payload.items;
 			state.totalCount = action.payload.totalCount;

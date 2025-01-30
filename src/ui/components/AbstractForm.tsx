@@ -31,6 +31,7 @@ export const AbstractForm = (props: props): JSX.Element => {
 			flex={1}
 			sx={{
 				widows: "100%",
+				paddingTop: 1,
 			}}
 		>
 			<form>

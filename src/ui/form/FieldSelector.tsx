@@ -2,8 +2,12 @@ import React from "react";
 import { type fieldMetadaInteface } from "../../types/fomTypes";
 import {
 	Box,
+	FormControl,
 	FormControlLabel,
 	FormGroup,
+	InputLabel,
+	MenuItem,
+	Select,
 	Switch,
 	TextField,
 	Typography,
@@ -166,6 +170,31 @@ export const FieldSelector = (props: props): JSX.Element => {
 					/>
 				</Box>
 			);
+
+		case "select": {
+			return (
+				<Box flex={1} mb={2}>
+					<FormControl fullWidth>
+						<InputLabel id="demo-simple-select-label">{label}</InputLabel>
+						<Select
+							label={label}
+							onChange={event => {
+								onChange(name, event.target.value);
+							}}
+						>
+							{additionalProps?.selectItems.map((item, index) => (
+								<MenuItem
+									key={`select_item${name}_${index}`}
+									value={item.value}
+								>
+									{item.label}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				</Box>
+			);
+		}
 
 		default: {
 			return <></>;

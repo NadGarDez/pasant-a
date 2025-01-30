@@ -69,13 +69,13 @@ export const FundamentalPage = (): JSX.Element => {
 						<Collapse in={open} style={{ marginTop: 1 }}>
 							{reducerStatus === "SUCCESSED" ? (
 								<Alert severity="success" onClose={close}>
-									This Alert uses a Button component for its action.
+									Event Information saved successfully
 								</Alert>
 							) : null}
 
 							{reducerStatus === "ERROR" ? (
-								<Alert severity="success" onClose={close}>
-									This Alert uses a Button component for its action.
+								<Alert severity="error" onClose={close}>
+									Error saving event information
 								</Alert>
 							) : null}
 						</Collapse>

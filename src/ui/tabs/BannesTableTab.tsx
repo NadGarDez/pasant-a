@@ -29,17 +29,26 @@ import {
 	advertisementForm,
 	advertisementFormSchema,
 } from "../../constants/formConstants";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
 import { type modalFormStatus } from "../../types/uiTypes";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import { bannerPostRequest, bannerPutRequest } from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const BannersTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const formStatus = useSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+	const token = useAppSelector(internalSessionSelector);
+	const { data } = useAppSelector(activeitemSelector);
+
+	const { refetch: refetchPut } = useLocalRequest(bannerPutRequest);
+	const { refetch: refetchPost } = useLocalRequest(bannerPostRequest);
 
 	const {
 		data: bannersData,
@@ -94,18 +103,18 @@ export const BannersTableTab = (): JSX.Element => {
 
 	const onSubmit = (values: eventBanner): void => {
 		if (formStatus === "CREATE") {
-			// dispatch(
-			// 	postBannerSagasAction({
-			// 		data: values,
-			// 	}),
-			// );
+			void refetchPost({
+				token,
+				bodyObject: values,
+				eventId: id,
+			});
 		} else if (formStatus === "EDIT") {
-			// dispatch(
-			// 	putBannerSagasAction({
-			// 		data: values,
-			// 		id: values.idBanner,
-			// 	}),
-			// );
+			void refetchPut({
+				token,
+				bodyObject: values,
+				bannerId: values.idResource,
+				eventId: id,
+			});
 		}
 	};
 
@@ -212,7 +221,7 @@ export const BannersTableTab = (): JSX.Element => {
 					loading={false}
 					fields={advertisementForm}
 					scheme={advertisementFormSchema}
-					initialValues={{}}
+					initialValues={data ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
