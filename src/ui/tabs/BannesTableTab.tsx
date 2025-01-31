@@ -37,7 +37,11 @@ import {
 } from "../../redux/slicers/activeItemSlicer";
 import { type modalFormStatus } from "../../types/uiTypes";
 import { useLocalRequest } from "../../hooks/useLocalRequest";
-import { bannerPostRequest, bannerPutRequest } from "../../utils/apiRequest";
+import {
+	bannerDeleteRequest,
+	bannerPostRequest,
+	bannerPutRequest,
+} from "../../utils/apiRequest";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const BannersTableTab = (): JSX.Element => {
@@ -49,6 +53,7 @@ export const BannersTableTab = (): JSX.Element => {
 
 	const { refetch: refetchPut } = useLocalRequest(bannerPutRequest);
 	const { refetch: refetchPost } = useLocalRequest(bannerPostRequest);
+	const { refetch: refetchDelete } = useLocalRequest(bannerDeleteRequest);
 
 	const {
 		data: bannersData,
@@ -99,8 +104,12 @@ export const BannersTableTab = (): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (id: string): void => {
-		console.log(id);
+	const onDelete = (bannerId: string): void => {
+		void refetchDelete({
+			token,
+			bannerId,
+			eventId: id,
+		});
 	};
 
 	const onSubmit = (values: eventBanner): void => {

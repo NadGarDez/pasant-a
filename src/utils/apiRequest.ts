@@ -413,3 +413,46 @@ export const bannerPostRequest = async (
 		}
 	}
 };
+
+export const bannerDeleteRequest = async (
+	params: Record<"token" | "eventId" | "bannerId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, eventId, bannerId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resource/${bannerId}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(
+			url,
+
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
