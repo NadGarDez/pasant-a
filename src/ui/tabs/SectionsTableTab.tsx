@@ -36,12 +36,25 @@ import {
 	sectionFormFieldStructure,
 	videoStreamsFormSchema,
 } from "../../constants/formConstants";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import {
+	manageDeleteRequest,
+	managePostRequest,
+	managePutRequest,
+} from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const SectionsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 
 	const formStatus = useSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+
+	const token = useAppSelector(internalSessionSelector);
+
+	const { refetch: refetchPut } = useLocalRequest(managePutRequest);
+	const { refetch: refetchPost } = useLocalRequest(managePostRequest);
+	const { refetch: refetchDelete } = useLocalRequest(manageDeleteRequest);
 
 	const { data } = useAppSelector(activeitemSelector);
 
@@ -92,24 +105,35 @@ export const SectionsTableTab = (): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (id: string): void => {
+	const onDelete = (idSection: string): void => {
 		console.log(id);
+
+		void refetchDelete({
+			token,
+			idSection,
+			eventId: id,
+		});
 	};
 
 	const onSubmit = (values: eventSection): void => {
+		console.log(values);
 		if (formStatus === "CREATE") {
-			// dispatch(
-			// 	postBannerSagasAction({
-			// 		data: values,
-			// 	}),
-			// );
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+					// type: 1,
+					// idEvent: id,
+				},
+				eventId: id,
+			});
 		} else if (formStatus === "EDIT") {
-			// dispatch(
-			// 	putBannerSagasAction({
-			// 		data: values,
-			// 		id: values.idBanner,
-			// 	}),
-			// );
+			void refetchPut({
+				token,
+				bodyObject: values,
+				idSection: values.idSection,
+				eventId: id,
+			});
 		}
 	};
 
