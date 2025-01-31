@@ -343,6 +343,8 @@ export const bannerPutRequest = async (
 			},
 		);
 
+		console.log(data, status, "super");
+
 		return {
 			status,
 			data,
@@ -370,6 +372,7 @@ export const bannerPostRequest = async (
 	params: Record<"token" | "bodyObject" | "eventId", any>,
 ): Promise<defaultApiResponse<object | null>> => {
 	const { bodyObject, token, eventId } = params;
+	console.log(bodyObject);
 
 	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resource`;
 

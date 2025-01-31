@@ -66,6 +66,8 @@ export const BannersTableTab = (): JSX.Element => {
 		},
 	});
 
+	console.log(bannersData);
+
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
 			page,
@@ -105,7 +107,11 @@ export const BannersTableTab = (): JSX.Element => {
 		if (formStatus === "CREATE") {
 			void refetchPost({
 				token,
-				bodyObject: values,
+				bodyObject: {
+					...values,
+					type: 1,
+					idEvent: id,
+				},
 				eventId: id,
 			});
 		} else if (formStatus === "EDIT") {

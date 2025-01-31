@@ -48,10 +48,9 @@ export const DragAndDropField = (props: props): JSX.Element => {
 					type: "FILL",
 					payload: remoteUrl,
 				});
-
 				onChange(name, remoteUrl);
-				onChange("width", width);
-				onChange("height", height);
+				onChange("width", 640);
+				onChange("height", 960);
 			} catch (error) {
 				dispatch({
 					type: "FAIL",
