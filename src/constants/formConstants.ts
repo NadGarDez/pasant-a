@@ -411,11 +411,6 @@ export const mapsFormFieldStructure: groupOfFields[] = [
 				label: "Map Name",
 				type: "text",
 			},
-			{
-				name: "type",
-				label: "Map type",
-				type: "text",
-			},
 
 			{
 				name: "addressField",

@@ -775,7 +775,7 @@ export const mapDeleteRequest = async (
 ): Promise<defaultApiResponse<object | null>> => {
 	const { token, eventId, idEventMap } = params;
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/sections/${idEventMap}`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/maps/${idEventMap}`;
 
 	try {
 		const { status, statusText, data } = await axios.delete(

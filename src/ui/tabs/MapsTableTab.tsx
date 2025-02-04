@@ -119,7 +119,6 @@ export const MapsTableTab = (): JSX.Element => {
 				token,
 				bodyObject: {
 					...values,
-					// type: 1,
 					// idEvent: id,
 				},
 				eventId: id,
