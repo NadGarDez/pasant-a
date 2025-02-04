@@ -550,7 +550,7 @@ export const managePutRequest = async (
 ): Promise<defaultApiResponse<object | null>> => {
 	const { bodyObject, token, idSection, eventId } = params;
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/sections/${idSection}?loading=true`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections/${idSection}?loading=true`;
 
 	try {
 		const { status, statusText, data } = await axios.put(
@@ -596,7 +596,7 @@ export const managePostRequest = async (
 	const { bodyObject, token, eventId } = params;
 	console.log(bodyObject);
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/sections`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections`;
 
 	try {
 		const { status, statusText, data } = await axios.post(
@@ -641,7 +641,7 @@ export const manageDeleteRequest = async (
 ): Promise<defaultApiResponse<object | null>> => {
 	const { token, eventId, idSection } = params;
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/sections/${idSection}`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections/${idSection}`;
 
 	try {
 		const { status, statusText, data } = await axios.delete(
