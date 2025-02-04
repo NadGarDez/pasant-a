@@ -35,6 +35,13 @@ import {
 	mapsFormFieldStructure,
 	mapsFormSchema,
 } from "../../constants/formConstants";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import {
+	mapDeleteRequest,
+	mapPostRequest,
+	mapPutRequest,
+} from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const MapsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
@@ -42,6 +49,12 @@ export const MapsTableTab = (): JSX.Element => {
 	const dispatch = useAppDispatch();
 
 	const { data } = useAppSelector(activeitemSelector);
+
+	const token = useAppSelector(internalSessionSelector);
+
+	const { refetch: refetchPut } = useLocalRequest(mapPutRequest);
+	const { refetch: refetchPost } = useLocalRequest(mapPostRequest);
+	const { refetch: refetchDelete } = useLocalRequest(mapDeleteRequest);
 
 	const {
 		data: mapsData,
@@ -90,24 +103,34 @@ export const MapsTableTab = (): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (id: string): void => {
+	const onDelete = (idEventMap: string): void => {
 		console.log(id);
+
+		void refetchDelete({
+			token,
+			idEventMap,
+			eventId: id,
+		});
 	};
 
 	const onSubmit = (values: eventMap): void => {
 		if (formStatus === "CREATE") {
-			// dispatch(
-			// 	postBannerSagasAction({
-			// 		data: values,
-			// 	}),
-			// );
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+					// type: 1,
+					// idEvent: id,
+				},
+				eventId: id,
+			});
 		} else if (formStatus === "EDIT") {
-			// dispatch(
-			// 	putBannerSagasAction({
-			// 		data: values,
-			// 		id: values.idBanner,
-			// 	}),
-			// );
+			void refetchPut({
+				token,
+				bodyObject: values,
+				idEventMap: values.idEventMap,
+				eventId: id,
+			});
 		}
 	};
 

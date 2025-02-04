@@ -641,7 +641,141 @@ export const manageDeleteRequest = async (
 ): Promise<defaultApiResponse<object | null>> => {
 	const { token, eventId, idSection } = params;
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections/${idSection}`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/maps/${idSection}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(
+			url,
+
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const mapPutRequest = async (
+	params: Record<"token" | "bodyObject" | "idEventMap" | "eventId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { bodyObject, token, idEventMap, eventId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/maps/${idEventMap}`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(data, status, "super");
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const mapPostRequest = async (
+	params: Record<"token" | "bodyObject" | "eventId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { bodyObject, token, eventId } = params;
+	console.log(bodyObject);
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/maps`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const mapDeleteRequest = async (
+	params: Record<"token" | "eventId" | "idEventMap", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, eventId, idEventMap } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/sections/${idEventMap}`;
 
 	try {
 		const { status, statusText, data } = await axios.delete(
