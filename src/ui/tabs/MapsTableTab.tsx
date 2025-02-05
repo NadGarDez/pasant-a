@@ -8,7 +8,7 @@ import {
 	Paper,
 	Switch,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { mapTableStructure } from "../../constants/tableConstants";
 import { AbstractTable } from "../components/AbstractTable";
@@ -42,19 +42,25 @@ import {
 	mapPutRequest,
 } from "../../utils/apiRequest";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useSnackbar } from "notistack";
 
 export const MapsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const formStatus = useAppSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
 
+	const { enqueueSnackbar } = useSnackbar();
+
 	const { data } = useAppSelector(activeitemSelector);
 
 	const token = useAppSelector(internalSessionSelector);
 
-	const { refetch: refetchPut } = useLocalRequest(mapPutRequest);
-	const { refetch: refetchPost } = useLocalRequest(mapPostRequest);
-	const { refetch: refetchDelete } = useLocalRequest(mapDeleteRequest);
+	const { refetch: refetchPut, reducerStatus: statusPut } =
+		useLocalRequest(mapPutRequest);
+	const { refetch: refetchPost, reducerStatus: statusPost } =
+		useLocalRequest(mapPostRequest);
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(mapDeleteRequest);
 
 	const {
 		data: mapsData,
@@ -132,6 +138,29 @@ export const MapsTableTab = (): JSX.Element => {
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 20,
+				eventId: id,
+			});
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [statusPut, statusDelete, statusPost]);
 
 	if (status === "ERROR") {
 		return (
