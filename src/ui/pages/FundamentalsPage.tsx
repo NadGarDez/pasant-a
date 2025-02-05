@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AbstractForm } from "../components/AbstractForm";
 import type * as Yup from "yup";
 import {
@@ -10,8 +10,8 @@ import { useLocalRequest } from "../../hooks/useLocalRequest";
 import { fudamentalPutRequest } from "../../utils/apiRequest";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
-import { Alert, Box, Collapse } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 type formType = Yup.InferType<typeof eventFundamentalsFormSchema>;
 
@@ -23,9 +23,10 @@ export const FundamentalPage = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
 
+	const { enqueueSnackbar } = useSnackbar();
+
 	const { refetch, reducerStatus, clear } =
 		useLocalRequest(fudamentalPutRequest);
-	const [open, setOpen] = useState(false);
 
 	const onSubmit = (values: any): void => {
 		void refetch({
@@ -33,10 +34,6 @@ export const FundamentalPage = (): JSX.Element => {
 			bodyObject: values,
 			eventId: id,
 		});
-	};
-
-	const close = (): void => {
-		setOpen(false);
 	};
 
 	useEffect(() => {
@@ -48,8 +45,10 @@ export const FundamentalPage = (): JSX.Element => {
 	}, [reducerStatus]);
 
 	useEffect(() => {
-		if (reducerStatus === "SUCCESSED" || reducerStatus === "ERROR") {
-			setOpen(true);
+		if (reducerStatus === "SUCCESSED") {
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (reducerStatus === "ERROR") {
+			enqueueSnackbar("Error. Try again", { variant: "error" });
 		}
 	}, [reducerStatus]);
 
@@ -65,21 +64,6 @@ export const FundamentalPage = (): JSX.Element => {
 						initialValues={initialValue}
 						scheme={eventFundamentalsFormSchema}
 					/>
-					<Box mt={2}>
-						<Collapse in={open} style={{ marginTop: 1 }}>
-							{reducerStatus === "SUCCESSED" ? (
-								<Alert severity="success" onClose={close}>
-									Event Information saved successfully
-								</Alert>
-							) : null}
-
-							{reducerStatus === "ERROR" ? (
-								<Alert severity="error" onClose={close}>
-									Error saving event information
-								</Alert>
-							) : null}
-						</Collapse>
-					</Box>
 				</>
 			</Body>
 		</>

@@ -152,7 +152,7 @@ export const SectionsTableTab = (): JSX.Element => {
 			closeModal();
 			reload({
 				page,
-				limit: 20,
+				limit: 5,
 				eventId: id,
 			});
 			enqueueSnackbar("Success", { variant: "success" });

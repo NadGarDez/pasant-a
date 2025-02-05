@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AbstractForm } from "../components/AbstractForm";
 import type * as Yup from "yup";
 import {
@@ -7,11 +7,11 @@ import {
 } from "../../constants/formConstants";
 import { Body } from "../sections/Body";
 import { fudamentalPutRequest } from "../../utils/apiRequest";
-import { Alert, Box, Collapse } from "@mui/material";
 import { useLocalRequest } from "../../hooks/useLocalRequest";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useSnackbar } from "notistack";
 
 type formType = Yup.InferType<typeof eventConfigurationFormSchema>;
 
@@ -25,10 +25,11 @@ const initialValue: formType = {
 export const EventConfigurationPage = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
-	const [open, setOpen] = useState(false);
 
 	const { refetch, reducerStatus, clear } =
 		useLocalRequest(fudamentalPutRequest);
+
+	const { enqueueSnackbar } = useSnackbar();
 
 	const onSubmit = (values: any): void => {
 		void refetch({
@@ -38,9 +39,7 @@ export const EventConfigurationPage = (): JSX.Element => {
 		});
 	};
 
-	const close = (): void => {
-		setOpen(false);
-	};
+	const close = (): void => {};
 
 	useEffect(() => {
 		if (reducerStatus === "SUCCESSED" || reducerStatus === "ERROR") {
@@ -51,8 +50,10 @@ export const EventConfigurationPage = (): JSX.Element => {
 	}, [reducerStatus]);
 
 	useEffect(() => {
-		if (reducerStatus === "SUCCESSED" || reducerStatus === "ERROR") {
-			setOpen(true);
+		if (reducerStatus === "SUCCESSED") {
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (reducerStatus === "ERROR") {
+			enqueueSnackbar("Error. Try again", { variant: "error" });
 		}
 	}, [reducerStatus]);
 
@@ -67,21 +68,6 @@ export const EventConfigurationPage = (): JSX.Element => {
 					initialValues={initialValue}
 					scheme={eventConfigurationFormSchema}
 				/>
-				<Box mt={2}>
-					<Collapse in={open} style={{ marginTop: 1 }}>
-						{reducerStatus === "SUCCESSED" ? (
-							<Alert severity="success" onClose={close}>
-								Event Information saved successfully
-							</Alert>
-						) : null}
-
-						{reducerStatus === "ERROR" ? (
-							<Alert severity="error" onClose={close}>
-								Error saving event information
-							</Alert>
-						) : null}
-					</Collapse>
-				</Box>
 			</>
 		</Body>
 	);
