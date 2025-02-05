@@ -8,7 +8,7 @@ import {
 	Paper,
 	Switch,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
 import { sectionTableStructure } from "../../constants/tableConstants";
@@ -43,6 +43,7 @@ import {
 	managePutRequest,
 } from "../../utils/apiRequest";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useSnackbar } from "notistack";
 
 export const SectionsTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
@@ -52,11 +53,16 @@ export const SectionsTableTab = (): JSX.Element => {
 
 	const token = useAppSelector(internalSessionSelector);
 
-	const { refetch: refetchPut } = useLocalRequest(managePutRequest);
-	const { refetch: refetchPost } = useLocalRequest(managePostRequest);
-	const { refetch: refetchDelete } = useLocalRequest(manageDeleteRequest);
+	const { refetch: refetchPut, reducerStatus: statusPut } =
+		useLocalRequest(managePutRequest);
+	const { refetch: refetchPost, reducerStatus: statusPost } =
+		useLocalRequest(managePostRequest);
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(manageDeleteRequest);
 
 	const { data } = useAppSelector(activeitemSelector);
+
+	const { enqueueSnackbar } = useSnackbar();
 
 	const {
 		data: sectionsData,
@@ -136,6 +142,29 @@ export const SectionsTableTab = (): JSX.Element => {
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 20,
+				eventId: id,
+			});
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [statusPut, statusDelete, statusPost]);
 
 	if (status === "ERROR") {
 		return (
