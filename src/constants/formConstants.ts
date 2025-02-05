@@ -392,8 +392,8 @@ export const videoStreamFormFieldStructure: groupOfFields[] = [
 		fields: [
 			{
 				name: "status",
-				label: "Channel Name",
-				type: "text",
+				label: "Active",
+				type: "boolean",
 			},
 		],
 	},

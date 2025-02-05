@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Alert,
 	Box,
@@ -8,7 +9,7 @@ import {
 	Paper,
 	Switch,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { PageToolbar } from "../components/PageToolbar";
 import { AbstractTable } from "../components/AbstractTable";
 import { videosTableStructure } from "../../constants/tableConstants";
@@ -35,13 +36,30 @@ import {
 	videoStreamsFormSchema,
 } from "../../constants/formConstants";
 import { type modalFormStatus } from "../../types/uiTypes";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import {
+	videoDeleteRequest,
+	videoPostRequest,
+	videoPutRequest,
+} from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useSnackbar } from "notistack";
 
 export const VideoTableTab = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const formStatus = useAppSelector(modalFormStatusSelector);
 	const dispatch = useAppDispatch();
+	const token = useAppSelector(internalSessionSelector);
 	const activeItem = useAppSelector(activeitemSelector);
-	console.log(activeItem, "super item");
+
+	const { refetch: refetchPut, reducerStatus: statusPut } =
+		useLocalRequest(videoPutRequest);
+	const { refetch: refetchPost, reducerStatus: statusPost } =
+		useLocalRequest(videoPostRequest);
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(videoDeleteRequest);
+
+	const { enqueueSnackbar } = useSnackbar();
 
 	const {
 		data: videoStreamsData,
@@ -91,26 +109,79 @@ export const VideoTableTab = (): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (id: string): void => {
-		console.log(id);
+	const onDelete = (videoId: string): void => {
+		void refetchDelete({
+			token,
+			videoId,
+			eventId: id,
+		});
 	};
 
 	const onSubmit = (values: eventVideo): void => {
 		if (formStatus === "CREATE") {
-			// dispatch(
-			// 	postBannerSagasAction({
-			// 		data: values,
-			// 	}),
-			// );
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+					type: 0,
+				},
+				eventId: id,
+			});
 		} else if (formStatus === "EDIT") {
-			// dispatch(
-			// 	putBannerSagasAction({
-			// 		data: values,
-			// 		id: values.idBanner,
-			// 	}),
-			// );
+			void refetchPut({
+				token,
+				bodyObject: {
+					...values,
+					type: 0,
+				},
+				videoId: values.idLiveStream,
+				eventId: id,
+			});
+
+			// {
+			// 	"type": 0,
+			// 	"status": 0,
+			// 	"name": "jjjj",
+			// 	"url": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+			// 	"category": "k",
+			// 	"sessionTitle": "sss",
+			// 	"venue": "fda"
+			// }
+
+			// {
+			// 	"type": 0,
+			// 	"status": 0,
+			// 	"name": "jjjj",
+			// 	"url": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+			// 	"category": "k",
+			// 	"sessionTitle": "sss",
+			// 	"venue": "fda"
+			// }
 		}
 	};
+
+	useEffect(() => {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 5,
+				eventId: id,
+			});
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [statusPut, statusDelete, statusPost]);
 
 	if (status === "ERROR") {
 		return (

@@ -131,7 +131,7 @@ export const FieldSelector = (props: props): JSX.Element => {
 							control={
 								<Switch
 									onChange={(event, checked) => {
-										onChange(name, checked);
+										onChange(name, checked ? 1 : 0);
 									}}
 									checked={value}
 								/>
