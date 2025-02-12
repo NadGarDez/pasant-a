@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { SortableList } from "../components/sortableList";
 import { type eventBanner } from "../../types/events";
 import { useAppSelector } from "../../hooks/reduxHooks";
@@ -11,6 +11,13 @@ import { useSnackbar } from "notistack";
 
 export const SortBannersTab = (): JSX.Element => {
 	const { data } = useAppSelector(bannersSelector);
+
+	const orderedData = useMemo(() => {
+		const copy = [...data];
+		return copy.sort((a, b) => {
+			return a.sortOrder - b.sortOrder;
+		});
+	}, [data]);
 
 	const { refetch, reducerStatus } =
 		useLocalMultiRequest<eventBanner>(listBannerPutRequest);
@@ -44,7 +51,7 @@ export const SortBannersTab = (): JSX.Element => {
 		<SortableList<eventBanner>
 			valueExtractor={extractor}
 			keyExtractor={keyExtractor}
-			data={data}
+			data={orderedData}
 			onChange={onChange}
 		/>
 	);

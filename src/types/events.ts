@@ -67,6 +67,7 @@ export interface eventBanner {
 	creationDate: string; // Can be improved for date parsing
 	modificationDate: string; // Can be improved for date parsing
 	idEvent: string;
+	sortOrder: number;
 }
 
 export interface eventMap {
@@ -103,6 +104,7 @@ export interface eventVideo {
 	type: number;
 	status: number;
 	idEvent: string;
+	sortOrder: number;
 }
 
 export const randomEventconst: event = {

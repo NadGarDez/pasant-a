@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { type eventSection } from "../../types/events";
 import { SortableList } from "../components/sortableList";
 import { sectionsSelector } from "../../redux/slicers/sectionsSlice";
@@ -11,6 +11,13 @@ import { listManagePutRequest } from "../../utils/apiRequest";
 
 export const SortSectionsTab = (): JSX.Element => {
 	const { data } = useAppSelector(sectionsSelector);
+
+	const orderedData = useMemo(() => {
+		const copy = [...data];
+		return copy.sort((a, b) => {
+			return a.sortOrder - b.sortOrder;
+		});
+	}, [data]);
 
 	const { refetch, reducerStatus } =
 		useLocalMultiRequest<eventSection>(listManagePutRequest);
@@ -44,7 +51,7 @@ export const SortSectionsTab = (): JSX.Element => {
 		<SortableList<eventSection>
 			valueExtractor={extractor}
 			keyExtractor={keyExtractor}
-			data={data}
+			data={orderedData}
 			onChange={onChange}
 		/>
 	);

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { SortableList } from "../components/sortableList";
 import type { eventVideo } from "../../types/events";
 import { videoStreamsSelector } from "../../redux/slicers/videoStreamsSlice";
@@ -11,6 +11,13 @@ import { listVideoPutRequest } from "../../utils/apiRequest";
 
 export const SortVideoTab = (): JSX.Element => {
 	const { data } = useAppSelector(videoStreamsSelector);
+
+	const orderedData = useMemo(() => {
+		const copy = [...data];
+		return copy.sort((a, b) => {
+			return a.sortOrder - b.sortOrder;
+		});
+	}, [data]);
 
 	const { refetch, reducerStatus } =
 		useLocalMultiRequest<eventVideo>(listVideoPutRequest);
@@ -44,7 +51,7 @@ export const SortVideoTab = (): JSX.Element => {
 		<SortableList<eventVideo>
 			valueExtractor={extractor}
 			keyExtractor={keyExtractor}
-			data={data}
+			data={orderedData}
 			onChange={onChange}
 		/>
 	);
