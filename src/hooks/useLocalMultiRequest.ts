@@ -6,8 +6,12 @@ interface requestStatus<T> {
 	responseObject: defaultApiResponse<T> | null;
 }
 
-interface methods {
-	refetch: (params: Record<string, any>) => Promise<any>;
+interface methods<T> {
+	refetch: (params: {
+		token: any;
+		items: T[];
+		eventId: string;
+	}) => Promise<undefined>;
 	clear: () => void;
 }
 
@@ -54,18 +58,22 @@ function reducer<T extends object>(
 	}
 }
 
-export const useLocalRequest = <T extends object>(
-	request: (params: Record<string, any>) => Promise<{
+export const useLocalMultiRequest = <T extends object>(
+	request: (params: { token: any; items: T[]; eventId: string }) => Promise<{
 		errors: object[];
 		results: object[];
 	}>,
-): requestStatus<T> & methods => {
+): requestStatus<T> & methods<T> => {
 	const [state, dispatch] = useReducer(reducer<T>, {
 		reducerStatus: "INITIAL",
 		responseObject: null,
 	});
 
-	const refetch = async (params: Record<string, any>): Promise<undefined> => {
+	const refetch = async (params: {
+		token: any;
+		items: T[];
+		eventId: string;
+	}): Promise<undefined> => {
 		dispatch({
 			name: "startRequest",
 			payload: undefined,

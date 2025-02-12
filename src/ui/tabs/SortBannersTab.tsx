@@ -6,9 +6,12 @@ import { bannersSelector } from "../../redux/slicers/bannersSlice";
 import { listBannerPutRequest } from "../../utils/apiRequest";
 import { useParams } from "react-router-dom";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useLocalMultiRequest } from "../../hooks/useLocalMultiRequest";
 
 export const SortBannersTab = (): JSX.Element => {
 	const { data } = useAppSelector(bannersSelector);
+
+	const { refetch } = useLocalMultiRequest<eventBanner>(listBannerPutRequest);
 
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
@@ -20,7 +23,7 @@ export const SortBannersTab = (): JSX.Element => {
 	const onChange = (items: eventBanner[]): void => {
 		console.log(items, "super items", token);
 
-		void listBannerPutRequest({
+		void refetch({
 			token,
 			items,
 			eventId: id,
