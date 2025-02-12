@@ -3,6 +3,7 @@ import { API_CONSTANTS } from "../constants/apiConstants";
 import { type INTERNAL_LOGIN_REQUEST_PARAMS } from "../types/internalApiTypes";
 import { type OktaAuth } from "@okta/okta-auth-js";
 import type { defaultApiResponse, ListResponse } from "../types/defaultTypes";
+import { type eventBanner } from "../types/events";
 
 export const internalLoginRequest = async (
 	data: INTERNAL_LOGIN_REQUEST_PARAMS,
@@ -366,6 +367,43 @@ export const bannerPutRequest = async (
 			};
 		}
 	}
+};
+
+export const listBannerPutRequest = async (params: {
+	token: any;
+	items: eventBanner[];
+	eventId: string;
+}): Promise<void> => {
+	const { items = [], token, eventId } = params;
+
+	const promises: Array<Promise<any>> = [];
+
+	items.forEach(item => {
+		promises.push(
+			(async () => {
+				const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resource/${item.idResource}`;
+				const { status, statusText, data } = await axios.put(
+					url,
+					{
+						...item,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				);
+
+				console.log(data, status, statusText, "super");
+			})(),
+		);
+	});
+
+	const results = await Promise.all(promises);
+
+	const validResults = results.filter(result => !(result instanceof Error));
+	const errorResults = results.filter(result => result instanceof Error);
+	console.log(validResults, errorResults);
 };
 
 export const bannerPostRequest = async (

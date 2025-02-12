@@ -137,26 +137,6 @@ export const VideoTableTab = (): JSX.Element => {
 				videoId: values.idLiveStream,
 				eventId: id,
 			});
-
-			// {
-			// 	"type": 0,
-			// 	"status": 0,
-			// 	"name": "jjjj",
-			// 	"url": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-			// 	"category": "k",
-			// 	"sessionTitle": "sss",
-			// 	"venue": "fda"
-			// }
-
-			// {
-			// 	"type": 0,
-			// 	"status": 0,
-			// 	"name": "jjjj",
-			// 	"url": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-			// 	"category": "k",
-			// 	"sessionTitle": "sss",
-			// 	"venue": "fda"
-			// }
 		}
 	};
 
@@ -294,11 +274,6 @@ export const VideoTableTab = (): JSX.Element => {
 					onDimiss={closeModal}
 				/>
 			</ModalForm>
-			{/* <
-				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-				open={activeItemStatus === "ERROR" || activeItemStatus === "SUCCESS"}
-				message={activeItemError ?? "Operation completed successfully"}
-			/> */}
 		</>
 	);
 };

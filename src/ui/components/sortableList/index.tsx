@@ -25,7 +25,13 @@ export const SortableList = <T extends object>(
 		oldIndex: number;
 		newIndex: number;
 	}): void => {
-		const newItems = arrayMoveImmutable(data, oldIndex, newIndex);
+		const newItems = arrayMoveImmutable(data, oldIndex, newIndex).map(
+			(item, index) => ({
+				...item,
+				sortOrder: index,
+			}),
+		);
+
 		setData(newItems);
 	};
 
