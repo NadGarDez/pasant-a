@@ -373,7 +373,10 @@ export const listBannerPutRequest = async (params: {
 	token: any;
 	items: eventBanner[];
 	eventId: string;
-}): Promise<void> => {
+}): Promise<{
+	errors: object[];
+	results: object[];
+}> => {
 	const { items = [], token, eventId } = params;
 
 	const promises: Array<Promise<any>> = [];
@@ -403,7 +406,11 @@ export const listBannerPutRequest = async (params: {
 
 	const validResults = results.filter(result => !(result instanceof Error));
 	const errorResults = results.filter(result => result instanceof Error);
-	console.log(validResults, errorResults);
+
+	return {
+		errors: errorResults,
+		results: validResults,
+	};
 };
 
 export const bannerPostRequest = async (
