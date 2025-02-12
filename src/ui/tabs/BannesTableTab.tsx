@@ -77,8 +77,6 @@ export const BannersTableTab = (): JSX.Element => {
 		},
 	});
 
-	console.log(bannersData);
-
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
 			page,

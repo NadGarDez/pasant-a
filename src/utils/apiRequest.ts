@@ -397,7 +397,11 @@ export const listBannerPutRequest = async (params: {
 					},
 				);
 
-				console.log(data, status, statusText, "super");
+				return {
+					status,
+					statusText,
+					data,
+				};
 			})(),
 		);
 	});
