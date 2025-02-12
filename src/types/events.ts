@@ -77,6 +77,7 @@ export interface eventMap {
 	type: number;
 	creationDate: string; // Consider using a Date object for better date handling
 	idEvent: string;
+	sortOrder: number;
 }
 export interface eventSection {
 	idSection: string;

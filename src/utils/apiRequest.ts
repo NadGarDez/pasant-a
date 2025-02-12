@@ -3,7 +3,12 @@ import { API_CONSTANTS } from "../constants/apiConstants";
 import { type INTERNAL_LOGIN_REQUEST_PARAMS } from "../types/internalApiTypes";
 import { type OktaAuth } from "@okta/okta-auth-js";
 import type { defaultApiResponse, ListResponse } from "../types/defaultTypes";
-import { type eventBanner } from "../types/events";
+import type {
+	eventMap,
+	eventSection,
+	eventVideo,
+	eventBanner,
+} from "../types/events";
 
 export const internalLoginRequest = async (
 	data: INTERNAL_LOGIN_REQUEST_PARAMS,
@@ -598,6 +603,54 @@ export const videoPutRequest = async (
 	}
 };
 
+export const listVideoPutRequest = async (params: {
+	token: any;
+	items: eventVideo[];
+	eventId: string;
+}): Promise<{
+	errors: object[];
+	results: object[];
+}> => {
+	const { items = [], token, eventId } = params;
+
+	const promises: Array<Promise<any>> = [];
+
+	items.forEach(item => {
+		promises.push(
+			(async () => {
+				const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/livestreams/${item.idLiveStream}`; // `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resource/${item.idResource}`;
+				const { status, statusText, data } = await axios.put(
+					url,
+					{
+						...item,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				);
+
+				return {
+					status,
+					statusText,
+					data,
+				};
+			})(),
+		);
+	});
+
+	const results = await Promise.all(promises);
+
+	const validResults = results.filter(result => !(result instanceof Error));
+	const errorResults = results.filter(result => result instanceof Error);
+
+	return {
+		errors: errorResults,
+		results: validResults,
+	};
+};
+
 export const videoDeleteRequest = async (
 	params: Record<"token" | "eventId" | "videoId", any>,
 ): Promise<defaultApiResponse<object | null>> => {
@@ -684,6 +737,54 @@ export const managePutRequest = async (
 			};
 		}
 	}
+};
+
+export const listManagePutRequest = async (params: {
+	token: any;
+	items: eventSection[];
+	eventId: string;
+}): Promise<{
+	errors: object[];
+	results: object[];
+}> => {
+	const { items = [], token, eventId } = params;
+
+	const promises: Array<Promise<any>> = [];
+
+	items.forEach(item => {
+		promises.push(
+			(async () => {
+				const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/sections/v1/event/${eventId}/sections/${item.idSection}?loading=true`; // `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/resource/${item.idResource}`;
+				const { status, statusText, data } = await axios.put(
+					url,
+					{
+						...item,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				);
+
+				return {
+					status,
+					statusText,
+					data,
+				};
+			})(),
+		);
+	});
+
+	const results = await Promise.all(promises);
+
+	const validResults = results.filter(result => !(result instanceof Error));
+	const errorResults = results.filter(result => result instanceof Error);
+
+	return {
+		errors: errorResults,
+		results: validResults,
+	};
 };
 
 export const managePostRequest = async (
@@ -818,6 +919,54 @@ export const mapPutRequest = async (
 			};
 		}
 	}
+};
+
+export const listMapPutRequest = async (params: {
+	token: any;
+	items: eventMap[];
+	eventId: string;
+}): Promise<{
+	errors: object[];
+	results: object[];
+}> => {
+	const { items = [], token, eventId } = params;
+
+	const promises: Array<Promise<any>> = [];
+
+	items.forEach(item => {
+		promises.push(
+			(async () => {
+				const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/maps/${item.idEventMap}`;
+				const { status, statusText, data } = await axios.put(
+					url,
+					{
+						...item,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				);
+
+				return {
+					status,
+					statusText,
+					data,
+				};
+			})(),
+		);
+	});
+
+	const results = await Promise.all(promises);
+
+	const validResults = results.filter(result => !(result instanceof Error));
+	const errorResults = results.filter(result => result instanceof Error);
+
+	return {
+		errors: errorResults,
+		results: validResults,
+	};
 };
 
 export const mapPostRequest = async (
