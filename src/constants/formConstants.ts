@@ -470,3 +470,31 @@ export const generalEventFormSchema = Yup.object({
 	timezone: Yup.string().required(),
 	type: Yup.string().required(),
 });
+
+export const configFormStructure: groupOfFields[] = [
+	{
+		fields: [
+			// {
+			// 	name: "idConfig",
+			// 	label: "id",
+			// 	type: "text",
+			// },
+			{
+				name: "configKey",
+				label: "Key Name",
+				type: "text",
+			},
+			{
+				name: "configValue",
+				label: "Value",
+				type: "text",
+			},
+		],
+	},
+];
+
+export const configFormSchema = Yup.object({
+	// idConfig: Yup.string().required(),
+	configKey: Yup.string().required(),
+	configValue: Yup.string().required(),
+});
