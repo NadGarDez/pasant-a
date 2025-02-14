@@ -536,3 +536,31 @@ export const disclaimerFormSchema = Yup.object({
 	redirectUrl: Yup.string().required(),
 	status: Yup.bool().required(),
 });
+
+export const versionsFormStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "App Version Name",
+				type: "text",
+			},
+			{
+				name: "versionNumber",
+				label: "Version Number Name",
+				type: "text",
+			},
+			{
+				name: "status",
+				label: "Force Update",
+				type: "boolean",
+			},
+		],
+	},
+];
+
+export const versionsFormSchema = Yup.object({
+	name: Yup.string().required(),
+	versionNumber: Yup.string().required(),
+	status: Yup.bool().required(),
+});
