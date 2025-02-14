@@ -498,3 +498,41 @@ export const configFormSchema = Yup.object({
 	configKey: Yup.string().required(),
 	configValue: Yup.string().required(),
 });
+
+export const disclaimersFormStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "title",
+				label: "Title",
+				type: "text",
+			},
+
+			{
+				name: "cloudStorageLocation",
+				label: "Image URL",
+				type: "text",
+			},
+
+			{
+				name: "redirectUrl",
+				label: "Redirect URL",
+				type: "text",
+			},
+
+			{
+				name: "status",
+				label: "Active Status",
+				type: "boolean",
+			},
+		],
+	},
+];
+
+export const disclaimerFormSchema = Yup.object({
+	// idConfig: Yup.string().required(),
+	title: Yup.string().required(),
+	cloudStorageLocation: Yup.string().required(),
+	redirectUrl: Yup.string().required(),
+	status: Yup.bool().required(),
+});

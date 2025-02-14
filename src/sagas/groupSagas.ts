@@ -4,18 +4,18 @@ import { getGroups } from "../utils/apiRequest";
 import { createAction, type PayloadAction } from "@reduxjs/toolkit";
 import { type internalSessionReducerInteface } from "../types/internalApiTypes";
 import { type AxiosResponse } from "axios";
-import { type config } from "../types/configTypes";
 import {
 	failGroupsAction,
 	loadGroupsAction,
 	successGroupsAction,
 } from "../redux/slicers/groupsSlice";
+import { type group } from "../types/groupTypes";
 
 // sagas function
 
 interface getGroupsResponse {
 	totalCount: number;
-	items: config[];
+	items: group[];
 }
 
 function* getGroupsSagas(
