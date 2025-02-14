@@ -564,3 +564,25 @@ export const versionsFormSchema = Yup.object({
 	versionNumber: Yup.string().required(),
 	status: Yup.bool().required(),
 });
+
+export const groupsFormStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "Name",
+				type: "text",
+			},
+			{
+				name: "role",
+				label: "Role Name",
+				type: "text",
+			},
+		],
+	},
+];
+
+export const groupsFormSchema = Yup.object({
+	name: Yup.string().required(),
+	role: Yup.bool().required(),
+});
