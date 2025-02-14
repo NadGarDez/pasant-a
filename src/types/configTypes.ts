@@ -1,1 +1,5 @@
-export type config = Record<string, number | boolean | string | any[]>;
+export interface config {
+	idConfig: string;
+	configKey: string;
+	configValue: string;
+}

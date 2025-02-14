@@ -125,7 +125,7 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 							</IconButton>
 							<IconButton
 								onClick={() => {
-									onDelete("1");
+									onDelete(item.idConfig);
 								}}
 							>
 								<Icon color="error" fontSize="inherit">
