@@ -424,3 +424,49 @@ export const mapsFormFieldStructure: groupOfFields[] = [
 export const mapsFormSchema = Yup.object({
 	name: Yup.string().required(),
 });
+
+export const generalEventFormStructure: groupOfFields[] = [
+	{
+		fields: [
+			{
+				name: "name",
+				label: "Event Name",
+				type: "text",
+			},
+			{
+				name: "mnemonic",
+				label: "Mnemonic Name",
+				type: "text",
+			},
+			{
+				name: "startDate",
+				label: "Start Date",
+				type: "text",
+			},
+			{
+				name: "endDate",
+				label: "End Date",
+				type: "text",
+			},
+			{
+				name: "timezone",
+				label: "Timezone",
+				type: "text",
+			},
+			{
+				name: "type",
+				label: "Type",
+				type: "select",
+			},
+		],
+	},
+];
+
+export const generalEventFormSchema = Yup.object({
+	name: Yup.string().required(),
+	mnemonic: Yup.string().required(),
+	startDate: Yup.date().required(),
+	endDate: Yup.date().required(),
+	timezone: Yup.string().required(),
+	type: Yup.string().required(),
+});
