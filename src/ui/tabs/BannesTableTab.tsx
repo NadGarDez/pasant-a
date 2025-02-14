@@ -1,7 +1,6 @@
 import {
 	Paper,
 	Box,
-	Switch,
 	IconButton,
 	Icon,
 	Alert,
@@ -76,6 +75,8 @@ export const BannersTableTab = (): JSX.Element => {
 			eventId: id,
 		},
 	});
+
+	console.log(bannersData, "super");
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
@@ -225,12 +226,6 @@ export const BannersTableTab = (): JSX.Element => {
 									alignItems: "center",
 								}}
 							>
-								<Switch
-									checked={true}
-									onChange={(event, checked) => {
-										console.log(checked, item);
-									}}
-								/>
 								<IconButton
 									onClick={() => {
 										onEdit(item);

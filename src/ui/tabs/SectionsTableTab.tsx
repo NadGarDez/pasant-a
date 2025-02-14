@@ -6,7 +6,6 @@ import {
 	IconButton,
 	LinearProgress,
 	Paper,
-	Switch,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { PageToolbar } from "../components/PageToolbar";
@@ -231,12 +230,6 @@ export const SectionsTableTab = (): JSX.Element => {
 									alignItems: "center",
 								}}
 							>
-								<Switch
-									checked={true}
-									onChange={(event, checked) => {
-										console.log(checked, item);
-									}}
-								/>
 								<IconButton
 									onClick={() => {
 										onEdit(item); // should be the item ids
