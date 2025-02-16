@@ -411,6 +411,510 @@ export const eventPostRequest = async (
 	}
 };
 
+export const configPutRequest = async (
+	params: Record<"token" | "bodyObject" | "idConfig", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject, idConfig } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/utils/v1/config/${idConfig}`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const configDeleteRequest = async (
+	params: Record<"token" | "idConfig", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idConfig } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/utils/v1/config/${idConfig}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const configPostRequest = async (
+	params: Record<"token" | "bodyObject", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/utils/v1/config/`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const disclaimersPutRequest = async (
+	params: Record<"token" | "bodyObject" | "idDisclaimer", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject, idDisclaimer } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/disclaimers/v1/disclaimer/${idDisclaimer}`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const disclaimersDeleteRequest = async (
+	params: Record<"token" | "idDisclaimer", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idDisclaimer } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/disclaimers/v1/disclaimer/${idDisclaimer}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const disclaimersPostRequest = async (
+	params: Record<"token" | "bodyObject", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/disclaimers/v1/disclaimer`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const versionsPutRequest = async (
+	params: Record<"token" | "bodyObject" | "idVersion", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject, idVersion } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/versions/v1/version/${idVersion}`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const versionsDeleteRequest = async (
+	params: Record<"token" | "idVersion", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idVersion } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/versions/v1/version/${idVersion}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const versionsPostRequest = async (
+	params: Record<"token" | "bodyObject", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/versions/v1/version/`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const grousPutRequest = async (
+	params: Record<"token" | "bodyObject" | "oktaId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject, oktaId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/profile/v1/profile/${oktaId}`;
+
+	try {
+		const { status, statusText, data } = await axios.put(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const groupsDeleteRequest = async (
+	params: Record<"token" | "oktaId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, oktaId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/profile/v1/profile/${oktaId}`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const groupsPostRequest = async (
+	params: Record<"token" | "bodyObject", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/profile/v1/profile`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
 export const bannerPutRequest = async (
 	params: Record<"token" | "bodyObject" | "bannerId" | "eventId", any>,
 ): Promise<defaultApiResponse<object | null>> => {
