@@ -334,7 +334,7 @@ export const eventDeleteRequest = async (
 ): Promise<defaultApiResponse<object | null>> => {
 	const { token, eventId } = params;
 
-	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/`;
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/delete/${eventId}`;
 
 	try {
 		const { status, statusText, data } = await axios.delete(url, {
@@ -368,7 +368,7 @@ export const eventDeleteRequest = async (
 };
 
 export const eventPostRequest = async (
-	params: Record<"token" | "bodyObject" | "eventId", any>,
+	params: Record<"token" | "bodyObject", any>,
 ): Promise<defaultApiResponse<object | null>> => {
 	const { token, bodyObject } = params;
 

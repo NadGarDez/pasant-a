@@ -136,6 +136,11 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 		});
 	};
 
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
+	};
+
 	const handleClick = (item: event): void => {
 		dispatch(initializeActiveEventItemAction(item));
 		history.push(`event/${item.idEvent}/overview`);
@@ -158,7 +163,7 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 				<PageToolbar
 					title="Events"
 					onAdd={() => {
-						console.log("adding");
+						onCreate();
 					}}
 				/>
 				<AbstractTable<event>
