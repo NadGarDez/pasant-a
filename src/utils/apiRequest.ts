@@ -329,6 +329,88 @@ export const fudamentalPutRequest = async (
 	}
 };
 
+export const eventDeleteRequest = async (
+	params: Record<"token" | "eventId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, eventId } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/${eventId}/`;
+
+	try {
+		const { status, statusText, data } = await axios.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const eventPostRequest = async (
+	params: Record<"token" | "bodyObject" | "eventId", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, bodyObject } = params;
+
+	const url = `${API_CONSTANTS.BACKEND_DEV_BASE_URL}/_ah/api/event/v1/event/`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				...bodyObject,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		console.log(status, data);
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
 export const bannerPutRequest = async (
 	params: Record<"token" | "bodyObject" | "bannerId" | "eventId", any>,
 ): Promise<defaultApiResponse<object | null>> => {

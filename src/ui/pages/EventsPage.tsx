@@ -32,7 +32,11 @@ import {
 } from "../../redux/slicers/activeItemSlicer";
 import { type modalFormStatus } from "../../types/uiTypes";
 import { useLocalRequest } from "../../hooks/useLocalRequest";
-import { fudamentalPutRequest } from "../../utils/apiRequest";
+import {
+	eventDeleteRequest,
+	eventPostRequest,
+	fudamentalPutRequest,
+} from "../../utils/apiRequest";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 import { useSnackbar } from "notistack";
 
@@ -44,12 +48,14 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	const dispatch = useAppDispatch();
 	const { enqueueSnackbar } = useSnackbar();
 
-	const {
-		refetch: refetchPut,
-		reducerStatus,
-		clear,
-	} = useLocalRequest(fudamentalPutRequest);
+	const { refetch: refetchPut, reducerStatus: statusPut } =
+		useLocalRequest(fudamentalPutRequest);
 
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(eventDeleteRequest);
+
+	const { refetch: refetchPost, reducerStatus: statusPost } =
+		useLocalRequest(eventPostRequest);
 	const token = useAppSelector(internalSessionSelector);
 
 	const { data: activeItem } = useAppSelector(activeitemSelector);
@@ -66,32 +72,35 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	};
 
 	useEffect(() => {
-		if (reducerStatus === "SUCCESSED" || reducerStatus === "ERROR") {
-			setTimeout(() => {
-				clear();
-			}, 5000);
-		}
-	}, [reducerStatus]);
-
-	useEffect(() => {
-		if (reducerStatus === "SUCCESSED") {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 5,
+			});
 			enqueueSnackbar("Success", { variant: "success" });
-		} else if (reducerStatus === "ERROR") {
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
 			enqueueSnackbar("Error. Try again", { variant: "error" });
 		}
-	}, [reducerStatus]);
+	}, [statusPut, statusDelete, statusPost]);
 
 	const onSubmit = (values: event): void => {
 		if (formStatus === "CREATE") {
-			// void refetchPost({
-			// 	token,
-			// 	bodyObject: {
-			// 		...values,
-			// 		type: 1,
-			// 		idEvent: id,
-			// 	},
-			// 	eventId: id,
-			// });
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+				},
+			});
 		} else if (formStatus === "EDIT") {
 			void refetchPut({
 				token,
@@ -121,12 +130,10 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	};
 
 	const onDelete = (eventId: string): void => {
-		console.log(eventId);
-		// void refetchDelete({
-		// 	token,
-		// 	bannerId,
-		// 	eventId: id,
-		// });
+		void refetchDelete({
+			token,
+			eventId,
+		});
 	};
 
 	const handleClick = (item: event): void => {
