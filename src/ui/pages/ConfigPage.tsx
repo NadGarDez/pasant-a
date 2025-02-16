@@ -1,13 +1,13 @@
 import { Box, Icon, IconButton, LinearProgress, Paper } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useGetConfigs } from "../../hooks/useGetConfig";
 import { AbstractTable } from "../components/AbstractTable";
 import { type config } from "../../types/configTypes";
 import { configTableStructure } from "../../constants/tableConstants";
 import { withInternalSession } from "../../HOCs/withInternalSession";
 import { PageToolbar } from "../components/PageToolbar";
-import { useDispatch } from "react-redux";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
@@ -18,17 +18,40 @@ import {
 	startModalForm,
 } from "../../redux/slicers/appSlicer";
 import { ModalForm } from "../components/ModalForm";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { AbstractForm } from "../components/AbstractForm";
 import {
 	configFormSchema,
 	configFormStructure,
 } from "../../constants/formConstants";
+import { useSnackbar } from "notistack";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import {
+	configDeleteRequest,
+	configPostRequest,
+	configPutRequest,
+} from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const ConfigPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetConfigs();
-	const dispatch = useDispatch();
 	const formStatus = useAppSelector(modalFormStatusSelector);
+
+	const dispatch = useAppDispatch();
+	const { enqueueSnackbar } = useSnackbar();
+
+	const { refetch: refetchPut, reducerStatus: statusPut } =
+		useLocalRequest(configPutRequest);
+
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(configDeleteRequest);
+
+	const { refetch: refetchPost, reducerStatus: statusPost } =
+		useLocalRequest(configPostRequest);
+
+	const token = useAppSelector(internalSessionSelector);
+
+	const { data: activeItem } = useAppSelector(activeitemSelector);
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
@@ -37,13 +60,27 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 		});
 	};
 
-	if (status === "LOADING" || status === "NEUTRAL") {
-		return (
-			<Box sx={{ width: "100%" }}>
-				<LinearProgress color="primary" />
-			</Box>
-		);
-	}
+	useEffect(() => {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 5,
+			});
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [statusPut, statusDelete, statusPost]);
 
 	const startActiveItem = (item: object): void => {
 		dispatch(initializeActiveItem(item));
@@ -57,41 +94,48 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (eventId: string): void => {
-		console.log(eventId);
-		// void refetchDelete({
-		// 	token,
-		// 	bannerId,
-		// 	eventId: id,
-		// });
+	const onDelete = (idConfig: string): void => {
+		void refetchDelete({
+			token,
+			idConfig,
+		});
 	};
 
 	const onSubmit = (values: config): void => {
-		// if (formStatus === "CREATE") {
-		// 	void refetchPost({
-		// 		token,
-		// 		bodyObject: {
-		// 			...values,
-		// 			type: 1,
-		// 			idEvent: id,
-		// 		},
-		// 		eventId: id,
-		// 	});
-		// } else if (formStatus === "EDIT") {
-		// 	void refetchPut({
-		// 		token,
-		// 		bodyObject: values,
-		// 		bannerId: values.idResource,
-		// 		eventId: id,
-		// 	});
-		// }
+		if (formStatus === "CREATE") {
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+				},
+			});
+		} else if (formStatus === "EDIT") {
+			void refetchPut({
+				token,
+				bodyObject: values,
+				idConfig: values.idConfig,
+			});
+		}
 		console.log(values);
+	};
+
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
 	};
 
 	const closeModal = (): void => {
 		dispatch(hideModalForm());
 		dispatch(clearActiveItem());
 	};
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -102,7 +146,7 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 				<PageToolbar
 					title="Configs"
 					onAdd={() => {
-						console.log("adding");
+						onCreate();
 					}}
 				/>
 				<AbstractTable<config>
@@ -145,7 +189,7 @@ export const ConfigPage = withInternalSession((): JSX.Element => {
 					loading={false}
 					fields={configFormStructure}
 					scheme={configFormSchema}
-					initialValues={data ?? {}}
+					initialValues={activeItem ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>
