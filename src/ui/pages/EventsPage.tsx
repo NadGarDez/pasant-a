@@ -26,10 +26,15 @@ import {
 	generalEventFormStructure,
 } from "../../constants/formConstants";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
 import { type modalFormStatus } from "../../types/uiTypes";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import { fudamentalPutRequest } from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useSnackbar } from "notistack";
 
 export const EventsPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetEvents();
@@ -37,6 +42,17 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 	const currentEvents = useAppSelector(activeEventSelector);
 	const history = useHistory();
 	const dispatch = useAppDispatch();
+	const { enqueueSnackbar } = useSnackbar();
+
+	const {
+		refetch: refetchPut,
+		reducerStatus,
+		clear,
+	} = useLocalRequest(fudamentalPutRequest);
+
+	const token = useAppSelector(internalSessionSelector);
+
+	const { data: activeItem } = useAppSelector(activeitemSelector);
 
 	useEffect(() => {
 		dispatch(clearActiveEventAction());
@@ -49,25 +65,40 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 		});
 	};
 
+	useEffect(() => {
+		if (reducerStatus === "SUCCESSED" || reducerStatus === "ERROR") {
+			setTimeout(() => {
+				clear();
+			}, 5000);
+		}
+	}, [reducerStatus]);
+
+	useEffect(() => {
+		if (reducerStatus === "SUCCESSED") {
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (reducerStatus === "ERROR") {
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [reducerStatus]);
+
 	const onSubmit = (values: event): void => {
-		// if (formStatus === "CREATE") {
-		// 	void refetchPost({
-		// 		token,
-		// 		bodyObject: {
-		// 			...values,
-		// 			type: 1,
-		// 			idEvent: id,
-		// 		},
-		// 		eventId: id,
-		// 	});
-		// } else if (formStatus === "EDIT") {
-		// 	void refetchPut({
-		// 		token,
-		// 		bodyObject: values,
-		// 		bannerId: values.idResource,
-		// 		eventId: id,
-		// 	});
-		// }
+		if (formStatus === "CREATE") {
+			// void refetchPost({
+			// 	token,
+			// 	bodyObject: {
+			// 		...values,
+			// 		type: 1,
+			// 		idEvent: id,
+			// 	},
+			// 	eventId: id,
+			// });
+		} else if (formStatus === "EDIT") {
+			void refetchPut({
+				token,
+				bodyObject: values,
+				eventId: values.idEvent,
+			});
+		}
 		console.log(values);
 	};
 
@@ -172,7 +203,7 @@ export const EventsPage = withInternalSession((): JSX.Element => {
 					loading={false}
 					fields={generalEventFormStructure}
 					scheme={generalEventFormSchema}
-					initialValues={data ?? {}}
+					initialValues={activeItem ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>

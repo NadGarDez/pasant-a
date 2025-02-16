@@ -457,6 +457,20 @@ export const generalEventFormStructure: groupOfFields[] = [
 				name: "type",
 				label: "Type",
 				type: "select",
+				additionalProps: {
+					requiredWidth: 250,
+					requiredHeight: 250,
+					selectItems: [
+						{
+							value: "0",
+							label: "Normal",
+						},
+						{
+							value: "1",
+							label: "Parent",
+						},
+					],
+				},
 			},
 		],
 	},

@@ -177,6 +177,7 @@ export const FieldSelector = (props: props): JSX.Element => {
 					<FormControl fullWidth>
 						<InputLabel id="demo-simple-select-label">{label}</InputLabel>
 						<Select
+							value={value}
 							label={label}
 							onChange={event => {
 								onChange(name, event.target.value);
