@@ -546,8 +546,8 @@ export const disclaimersFormStructure: groupOfFields[] = [
 export const disclaimerFormSchema = Yup.object({
 	// idConfig: Yup.string().required(),
 	title: Yup.string().required(),
-	cloudStorageLocation: Yup.string().required(),
-	redirectUrl: Yup.string().required(),
+	cloudStorageLocation: Yup.string(),
+	redirectUrl: Yup.string(),
 	status: Yup.bool().required(),
 });
 

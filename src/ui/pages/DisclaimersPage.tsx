@@ -1,5 +1,5 @@
 import { Box, Icon, IconButton, LinearProgress, Paper } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { withInternalSession } from "../../HOCs/withInternalSession";
 import { AbstractTable } from "../components/AbstractTable";
 import type { disclaimer } from "../../types/disclaimerTypes";
@@ -19,24 +19,64 @@ import {
 	disclaimersFormStructure,
 } from "../../constants/formConstants";
 import {
+	activeitemSelector,
 	clearActiveItem,
 	initializeActiveItem,
 } from "../../redux/slicers/activeItemSlicer";
 import { type modalFormStatus } from "../../types/uiTypes";
 import { useDispatch } from "react-redux";
+import {
+	disclaimersDeleteRequest,
+	disclaimersPostRequest,
+	disclaimersPutRequest,
+} from "../../utils/apiRequest";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import { useSnackbar } from "notistack";
 
 export const DisclaimersPage = withInternalSession((): JSX.Element => {
 	const { data, status, totalCount, reload, limit, page } = useGetDisclaimers();
 	const formStatus = useAppSelector(modalFormStatusSelector);
 	const dispatch = useDispatch();
 
-	if (status === "LOADING" || status === "NEUTRAL") {
-		return (
-			<Box sx={{ width: "100%" }}>
-				<LinearProgress color="primary" />
-			</Box>
-		);
-	}
+	const { enqueueSnackbar } = useSnackbar();
+
+	const { refetch: refetchPut, reducerStatus: statusPut } = useLocalRequest(
+		disclaimersPutRequest,
+	);
+
+	const { refetch: refetchDelete, reducerStatus: statusDelete } =
+		useLocalRequest(disclaimersDeleteRequest);
+
+	const { refetch: refetchPost, reducerStatus: statusPost } = useLocalRequest(
+		disclaimersPostRequest,
+	);
+
+	const token = useAppSelector(internalSessionSelector);
+
+	const { data: activeItem } = useAppSelector(activeitemSelector);
+
+	useEffect(() => {
+		if (
+			statusPut === "SUCCESSED" ||
+			statusDelete === "SUCCESSED" ||
+			statusPost === "SUCCESSED"
+		) {
+			closeModal();
+			reload({
+				page,
+				limit: 5,
+			});
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			statusPut === "ERROR" ||
+			statusDelete === "ERROR" ||
+			statusPost === "ERROR"
+		) {
+			closeModal();
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [statusPut, statusDelete, statusPost]);
 
 	const onChangePagination = (page: number, rowsPerPage: number): void => {
 		reload({
@@ -46,24 +86,21 @@ export const DisclaimersPage = withInternalSession((): JSX.Element => {
 	};
 
 	const onSubmit = (values: disclaimer): void => {
-		// if (formStatus === "CREATE") {
-		// 	void refetchPost({
-		// 		token,
-		// 		bodyObject: {
-		// 			...values,
-		// 			type: 1,
-		// 			idEvent: id,
-		// 		},
-		// 		eventId: id,
-		// 	});
-		// } else if (formStatus === "EDIT") {
-		// 	void refetchPut({
-		// 		token,
-		// 		bodyObject: values,
-		// 		bannerId: values.idResource,
-		// 		eventId: id,
-		// 	});
-		// }
+		console.log("super");
+		if (formStatus === "CREATE") {
+			void refetchPost({
+				token,
+				bodyObject: {
+					...values,
+				},
+			});
+		} else if (formStatus === "EDIT") {
+			void refetchPut({
+				token,
+				bodyObject: values,
+				idDisclaimer: values.idDisclaimer,
+			});
+		}
 		console.log(values);
 	};
 
@@ -85,14 +122,25 @@ export const DisclaimersPage = withInternalSession((): JSX.Element => {
 		openModal("EDIT");
 	};
 
-	const onDelete = (eventId: string): void => {
-		console.log(eventId);
-		// void refetchDelete({
-		// 	token,
-		// 	bannerId,
-		// 	eventId: id,
-		// });
+	const onDelete = (idDisclaimer: string): void => {
+		void refetchDelete({
+			token,
+			idDisclaimer,
+		});
 	};
+
+	const onCreate = (): void => {
+		startActiveItem({}); // should be a default value for void form
+		openModal("CREATE");
+	};
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -103,7 +151,7 @@ export const DisclaimersPage = withInternalSession((): JSX.Element => {
 				<PageToolbar
 					title="Disclaimers"
 					onAdd={() => {
-						console.log("adding");
+						onCreate();
 					}}
 				/>
 				<AbstractTable<disclaimer>
@@ -146,7 +194,7 @@ export const DisclaimersPage = withInternalSession((): JSX.Element => {
 					loading={false}
 					fields={disclaimersFormStructure}
 					scheme={disclaimerFormSchema}
-					initialValues={data ?? {}}
+					initialValues={activeItem ?? {}}
 					onSubmit={onSubmit}
 					onDimiss={closeModal}
 				/>

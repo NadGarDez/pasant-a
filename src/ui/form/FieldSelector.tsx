@@ -172,6 +172,7 @@ export const FieldSelector = (props: props): JSX.Element => {
 			);
 
 		case "select": {
+			console.log("super value", value);
 			return (
 				<Box flex={1} mb={2}>
 					<FormControl fullWidth>
