@@ -54,6 +54,7 @@ export interface event {
 	scheduleVersion?: string;
 	venueVersion?: string;
 	lastUpdated?: string;
+	length?: number;
 }
 
 export interface eventBanner {

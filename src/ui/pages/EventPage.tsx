@@ -7,13 +7,12 @@ import {
 	CardHeader,
 	FormControlLabel,
 	LinearProgress,
-	Switch,
 	Table,
 	TableCell,
 	TableRow,
 	Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEvent } from "../../hooks/useEvent";
 import { withInternalSession } from "../../HOCs/withInternalSession";
@@ -31,11 +30,17 @@ import {
 	exportEvent,
 	recreateDatabase,
 	resetFeed,
+	fudamentalPutRequest,
 } from "../../utils/apiRequest";
 import { useSnackbar } from "notistack";
+import { UncontrolledSwitchField } from "../form/UncontrolledSwitchField";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+
+	const token = useAppSelector(internalSessionSelector);
 
 	const [areWorkersActive] = useState<boolean>(false);
 
@@ -53,6 +58,9 @@ export const EventPage = withInternalSession((): JSX.Element => {
 	const { refetch: resetRequest, reducerStatus: resetStatus } =
 		useLocalRequest(resetFeed);
 
+	const { refetch: refetchPut, reducerStatus } =
+		useLocalRequest(fudamentalPutRequest);
+
 	const {
 		activeItem: { data, status, error },
 		get,
@@ -61,6 +69,13 @@ export const EventPage = withInternalSession((): JSX.Element => {
 	useEffect(() => {
 		get();
 	}, [id]);
+
+	const length = useMemo(() => {
+		if (data?.length !== undefined) {
+			return data.length / 1024 / 1024;
+		}
+		return 0;
+	}, [data]);
 
 	const recreateInternal = (): void => {
 		if (areWorkersActive) {
@@ -107,18 +122,40 @@ export const EventPage = withInternalSession((): JSX.Element => {
 			resetStatus === "SUCCESSED" ||
 			recreateStatus === "SUCCESSED" ||
 			exportStatus === "SUCCESSED" ||
-			regenerateStaus === "SUCCESSED"
+			regenerateStaus === "SUCCESSED" ||
+			reducerStatus === "SUCCESSED"
 		) {
 			enqueueSnackbar("Success", { variant: "success" });
+			get();
 		} else if (
 			resetStatus === "ERROR" ||
 			recreateStatus === "ERROR" ||
 			exportStatus === "ERROR" ||
-			regenerateStaus === "ERROR"
+			regenerateStaus === "ERROR" ||
+			reducerStatus === "ERROR"
 		) {
 			enqueueSnackbar("Error. Try again", { variant: "error" });
 		}
-	}, [resetStatus, recreateStatus, exportStatus, regenerateStaus]);
+	}, [
+		resetStatus,
+		recreateStatus,
+		exportStatus,
+		regenerateStaus,
+		reducerStatus,
+	]);
+
+	const onChange = (checked: boolean): void => {
+		const status = checked ? "PUBLISHED" : "READY";
+
+		void refetchPut({
+			token,
+			eventId: id,
+			bodyObject: {
+				...data,
+				status,
+			},
+		});
+	};
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (
@@ -157,7 +194,12 @@ export const EventPage = withInternalSession((): JSX.Element => {
 				}}
 			>
 				<FormControlLabel
-					control={<Switch checked color="primary" />}
+					control={
+						<UncontrolledSwitchField
+							initialValue={data?.status === "PUBLISHED"}
+							onChange={onChange}
+						/>
+					}
 					label={<Typography>Show event in the app</Typography>}
 					labelPlacement="start"
 				/>
@@ -233,7 +275,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 								}}
 								align="right"
 							>
-								50 MB
+								{length} MB
 							</TableCell>
 						</TableRow>
 						<TableRow>
