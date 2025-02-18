@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { AbstractForm } from "../components/AbstractForm";
-import type * as Yup from "yup";
 import {
 	eventConfigurationFieldStructure,
 	eventConfigurationFormSchema,
@@ -12,19 +11,13 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 import { useSnackbar } from "notistack";
-
-type formType = Yup.InferType<typeof eventConfigurationFormSchema>;
-
-const initialValue: formType = {
-	// form with value from fetch
-	primaryColor: "#ffffff",
-	secondaryColor: "#000000",
-	extraColor: "#ff00ff",
-};
+import { activeEventSelector } from "../../redux/slicers/eventsSlice";
 
 export const EventConfigurationPage = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
+
+	const { data } = useAppSelector(activeEventSelector);
 
 	const { refetch, reducerStatus, clear } =
 		useLocalRequest(fudamentalPutRequest);
@@ -65,7 +58,7 @@ export const EventConfigurationPage = (): JSX.Element => {
 					fields={eventConfigurationFieldStructure}
 					onSubmit={onSubmit}
 					onDimiss={close}
-					initialValues={initialValue}
+					initialValues={data ?? {}}
 					scheme={eventConfigurationFormSchema}
 				/>
 			</>

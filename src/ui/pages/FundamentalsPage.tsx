@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { AbstractForm } from "../components/AbstractForm";
-import type * as Yup from "yup";
 import {
 	eventFundamentalFieldStructure,
 	eventFundamentalsFormSchema,
@@ -12,16 +11,13 @@ import { useAppSelector } from "../../hooks/reduxHooks";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 import { useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
-
-type formType = Yup.InferType<typeof eventFundamentalsFormSchema>;
-
-const initialValue: formType = {
-	name: "123",
-};
+import { activeEventSelector } from "../../redux/slicers/eventsSlice";
 
 export const FundamentalPage = (): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
+
+	const { data } = useAppSelector(activeEventSelector);
 
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -61,7 +57,7 @@ export const FundamentalPage = (): JSX.Element => {
 						fields={eventFundamentalFieldStructure}
 						onSubmit={onSubmit}
 						onDimiss={close}
-						initialValues={initialValue}
+						initialValues={data ?? {}}
 						scheme={eventFundamentalsFormSchema}
 					/>
 				</>
