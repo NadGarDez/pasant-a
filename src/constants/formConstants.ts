@@ -165,12 +165,12 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 			{
 				name: "startDate",
 				label: "Start Date",
-				type: "text",
+				type: "datetime",
 			},
 			{
 				name: "endDate",
 				label: "End Date",
-				type: "text",
+				type: "datetime",
 			},
 		],
 	},

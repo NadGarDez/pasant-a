@@ -15,6 +15,7 @@ import {
 import _ from "underscore";
 import { MuiColorInput } from "mui-color-input";
 import { DragAndDropField } from "../components/dnd";
+import moment from "moment";
 
 type props = fieldMetadaInteface & {
 	onChange: (name: string, value: any) => void;
@@ -194,6 +195,26 @@ export const FieldSelector = (props: props): JSX.Element => {
 							))}
 						</Select>
 					</FormControl>
+				</Box>
+			);
+		}
+
+		case "datetime": {
+			const date = value !== undefined ? new Date(value as string) : new Date();
+
+			return (
+				<Box flex={1} mb={2}>
+					<TextField
+						type="datetime-local"
+						fullWidth
+						InputLabelProps={{ shrink: true }}
+						onChange={event => {
+							console.log(event.target.value);
+							onChange(name, event.target.value);
+						}}
+						value={moment(date).format("YYYY-MM-DDTHH:mm")}
+						label={label}
+					/>
 				</Box>
 			);
 		}

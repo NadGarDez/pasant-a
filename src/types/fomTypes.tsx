@@ -6,7 +6,8 @@ export type fieldType =
 	| "object"
 	| "array"
 	| "file"
-	| "select";
+	| "select"
+	| "datetime";
 
 export interface fieldMetadaInteface {
 	type: fieldType;
