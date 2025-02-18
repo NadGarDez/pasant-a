@@ -5,7 +5,7 @@ import React from "react";
 
 interface props {
 	title?: string;
-	onAdd: () => void;
+	onAdd?: () => void;
 	onQueue?: () => void;
 }
 
@@ -21,9 +21,17 @@ export const PageToolbar = ({ title, onAdd, onQueue }: props): JSX.Element => (
 			sx={{ width: "100%" }}
 		>
 			<Box display="flex" alignItems="center">
-				<Fab size="small" color="primary" aria-label="Add" onClick={onAdd}>
-					<Add />
-				</Fab>
+				{onAdd !== undefined ? (
+					<Fab
+						size="small"
+						color="primary"
+						aria-label="Add"
+						onClick={onAdd}
+						sx={{ marginRight: 20 / 8 }}
+					>
+						<Add />
+					</Fab>
+				) : null}
 				{onQueue !== undefined ? (
 					<Fab
 						id="QueueButton"
@@ -39,7 +47,7 @@ export const PageToolbar = ({ title, onAdd, onQueue }: props): JSX.Element => (
 					</Fab>
 				) : null}
 				{title !== undefined ? (
-					<Typography variant="h6" id="tableTitle" ml={20 / 8}>
+					<Typography variant="h6" id="tableTitle">
 						{title}
 					</Typography>
 				) : null}

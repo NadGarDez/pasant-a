@@ -31,12 +31,7 @@ export const GroupsPage = withInternalSession((): JSX.Element => {
 				sx={{ minHeight: 400, width: "100%", padding: 24 / 8 }}
 				elevation={3}
 			>
-				<PageToolbar
-					title="Groups"
-					onAdd={() => {
-						console.log("adding");
-					}}
-				/>
+				<PageToolbar title="Groups" />
 				<AbstractTable<group>
 					cols={groupsTableStructure}
 					rows={data}
