@@ -1643,3 +1643,175 @@ export const mapDeleteRequest = async (
 		}
 	}
 };
+
+export const regenerateFeed = async (
+	params: Record<"token" | "idEvent", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idEvent } = params;
+
+	const url = `https://stage-dot-crf-events-app.appspot.com/_ah/custom/jobs/checker`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				idEvent,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const resetFeed = async (
+	params: Record<"token" | "idEvent", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idEvent } = params;
+
+	const url = `https://stage-dot-crf-events-app.appspot.com/_ah/custom/jobs/resetter`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				idEvent,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const exportEvent = async (
+	params: Record<"token" | "idEvent", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idEvent } = params;
+
+	const url = `https://stage-dot-crf-events-app.appspot.com/_ah/custom/jobs/exporter`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				idEvent,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};
+
+export const recreateDatabase = async (
+	params: Record<"token" | "idEvent", any>,
+): Promise<defaultApiResponse<object | null>> => {
+	const { token, idEvent } = params;
+
+	const url = `https://stage-dot-crf-events-app.appspot.com/_ah/custom/jobs/dbpackager`;
+
+	try {
+		const { status, statusText, data } = await axios.post(
+			url,
+			{
+				idEvent,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+
+		return {
+			status,
+			data,
+			statusText,
+		};
+	} catch (error: any) {
+		if (error.response !== undefined) {
+			const { data, status } = error.response as AxiosResponse;
+			return {
+				status,
+				data: null,
+				statusText: data.detail,
+			};
+		} else {
+			return {
+				status: 500,
+				data: null,
+				statusText: "Error inesperado",
+			};
+		}
+	}
+};

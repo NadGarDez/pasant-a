@@ -13,7 +13,7 @@ import {
 	TableRow,
 	Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEvent } from "../../hooks/useEvent";
 import { withInternalSession } from "../../HOCs/withInternalSession";
@@ -25,9 +25,33 @@ import {
 	PowerSettingsNew,
 	Redo,
 } from "@mui/icons-material";
+import { useLocalRequest } from "../../hooks/useLocalRequest";
+import {
+	regenerateFeed,
+	exportEvent,
+	recreateDatabase,
+	resetFeed,
+} from "../../utils/apiRequest";
+import { useSnackbar } from "notistack";
 
 export const EventPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
+
+	const [areWorkersActive] = useState<boolean>(false);
+
+	const { enqueueSnackbar } = useSnackbar();
+
+	const { refetch: regenerateRequest, reducerStatus: regenerateStaus } =
+		useLocalRequest(regenerateFeed);
+
+	const { refetch: exportRequest, reducerStatus: exportStatus } =
+		useLocalRequest(exportEvent);
+
+	const { refetch: recreateRequest, reducerStatus: recreateStatus } =
+		useLocalRequest(recreateDatabase);
+
+	const { refetch: resetRequest, reducerStatus: resetStatus } =
+		useLocalRequest(resetFeed);
 
 	const {
 		activeItem: { data, status, error },
@@ -37,6 +61,64 @@ export const EventPage = withInternalSession((): JSX.Element => {
 	useEffect(() => {
 		get();
 	}, [id]);
+
+	const recreateInternal = (): void => {
+		if (areWorkersActive) {
+			void regenerateRequest({
+				id,
+			});
+		} else {
+			enqueueSnackbar("The worker functions are disabled", { variant: "info" });
+		}
+	};
+
+	const regenerateInternal = (): void => {
+		if (areWorkersActive) {
+			void exportRequest({
+				id,
+			});
+		} else {
+			enqueueSnackbar("The worker functions are disabled", { variant: "info" });
+		}
+	};
+
+	const exportEventInternal = (): void => {
+		if (areWorkersActive) {
+			void recreateRequest({
+				id,
+			});
+		} else {
+			enqueueSnackbar("The worker functions are disabled", { variant: "info" });
+		}
+	};
+
+	const resetInternal = (): void => {
+		if (areWorkersActive) {
+			void resetRequest({
+				id,
+			});
+		} else {
+			enqueueSnackbar("The worker functions are disabled", { variant: "info" });
+		}
+	};
+
+	useEffect(() => {
+		if (
+			resetStatus === "SUCCESSED" ||
+			recreateStatus === "SUCCESSED" ||
+			exportStatus === "SUCCESSED" ||
+			regenerateStaus === "SUCCESSED"
+		) {
+			enqueueSnackbar("Success", { variant: "success" });
+		} else if (
+			resetStatus === "ERROR" ||
+			recreateStatus === "ERROR" ||
+			exportStatus === "ERROR" ||
+			regenerateStaus === "ERROR"
+		) {
+			enqueueSnackbar("Error. Try again", { variant: "error" });
+		}
+	}, [resetStatus, recreateStatus, exportStatus, regenerateStaus]);
 
 	if (status === "LOADING" || status === "NEUTRAL") {
 		return (
@@ -221,7 +303,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => {}}
+						onClick={resetInternal}
 						sx={{ margin: 1 }}
 					>
 						<PowerSettingsNew sx={{ marginRight: 1 }} />
@@ -230,7 +312,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => {}}
+						onClick={regenerateInternal}
 						sx={{ margin: 1 }}
 					>
 						<Loop sx={{ marginRight: 1 }} />
@@ -239,7 +321,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => {}}
+						onClick={recreateInternal}
 						sx={{ margin: 1 }}
 					>
 						<Redo sx={{ marginRight: 1 }} />
@@ -248,7 +330,7 @@ export const EventPage = withInternalSession((): JSX.Element => {
 					<Button
 						variant="contained"
 						color="primary"
-						onClick={() => {}}
+						onClick={exportEventInternal}
 						sx={{ margin: 1 }}
 					>
 						<GetApp sx={{ marginRight: 1 }} />
