@@ -210,7 +210,7 @@ export const FieldSelector = (props: props): JSX.Element => {
 						InputLabelProps={{ shrink: true }}
 						onChange={event => {
 							console.log(event.target.value);
-							onChange(name, event.target.value);
+							onChange(name, moment(event.target.value).toISOString());
 						}}
 						value={moment(date).format("YYYY-MM-DDTHH:mm")}
 						label={label}
