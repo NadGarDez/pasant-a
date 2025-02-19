@@ -172,6 +172,11 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 				label: "End Date",
 				type: "datetime",
 			},
+			{
+				name: "hay",
+				label: "End Date",
+				type: "icon",
+			},
 		],
 	},
 	{

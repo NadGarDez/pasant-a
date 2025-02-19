@@ -16,6 +16,7 @@ import _ from "underscore";
 import { MuiColorInput } from "mui-color-input";
 import { DragAndDropField } from "../components/dnd";
 import moment from "moment";
+import { IconSelector } from "./IconSelector";
 
 type props = fieldMetadaInteface & {
 	onChange: (name: string, value: any) => void;
@@ -216,6 +217,19 @@ export const FieldSelector = (props: props): JSX.Element => {
 						label={label}
 					/>
 				</Box>
+			);
+		}
+
+		case "icon": {
+			return (
+				<IconSelector
+					label={label}
+					initialValue="linechart_AntDesign"
+					name={name}
+					onChange={icon => {
+						onChange(name, icon);
+					}}
+				/>
 			);
 		}
 
