@@ -1,4 +1,4 @@
-export const iconConstant = [
+export const iconNames = [
 	"stepforward_AntDesign",
 	"stepbackward_AntDesign",
 	"forward_AntDesign",

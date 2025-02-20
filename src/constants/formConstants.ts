@@ -50,7 +50,7 @@ export const eventConfigurationFieldStructure: groupOfFields[] = [
 			{
 				name: "favoriteIcon",
 				label: "Favorite Icon",
-				type: "text",
+				type: "icon",
 			},
 			{
 				name: "iconLibrary",
@@ -171,11 +171,6 @@ export const eventFundamentalFieldStructure: groupOfFields[] = [
 				name: "endDate",
 				label: "End Date",
 				type: "datetime",
-			},
-			{
-				name: "hay",
-				label: "End Date",
-				type: "icon",
 			},
 		],
 	},

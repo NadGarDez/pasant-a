@@ -11,3 +11,90 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
 }
+
+
+
+@font-face {
+	font-family: AntDesign;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/AntDesign.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Entypo;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Entypo.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: EvilIcons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/EvilIcons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Feather;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Feather.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/FontAwesome.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Foundation;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Foundation.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Ionicons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Ionicons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: MaterialCommunityIcons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/MaterialCommunityIcons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: MaterialIcons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/MaterialIcons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Octicons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Octicons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: SimpleLineIcons;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/SimpleLineIcons.ttf") format('truetype')
+  }
+  
+  @font-face {
+	font-family: Zocial;
+	font-style: normal;
+	font-weight: 400;
+	src: url("/public/fonts/Zocial.ttf") format('truetype')
+  }
+  

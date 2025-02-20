@@ -16,7 +16,7 @@ import _ from "underscore";
 import { MuiColorInput } from "mui-color-input";
 import { DragAndDropField } from "../components/dnd";
 import moment from "moment";
-import { IconSelector } from "./IconSelector";
+import { IconSelector } from "./iconSelectorModule/IconSelector";
 
 type props = fieldMetadaInteface & {
 	onChange: (name: string, value: any) => void;

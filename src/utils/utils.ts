@@ -49,3 +49,9 @@ export const getOptionsFromEventData = (
 export const getEventIdFromEventObject = (data: event | null): string => {
 	return data?.idEvent ?? "";
 };
+
+export const camelToKebab = (value: string): string =>
+	value
+		.toLowerCase()
+		.replace(/([A-Z])/g, "-$1")
+		.replace(/^-/, "");
