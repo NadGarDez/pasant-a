@@ -163,9 +163,4 @@ export const bannerTabs: tab[] = [
 		icon: "format_list_numbered",
 		name: "sortBanners",
 	},
-	{
-		label: "Interstitial",
-		icon: "remove_from_queue",
-		name: "intestitial",
-	},
 ];
