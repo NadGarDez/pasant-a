@@ -12,10 +12,19 @@ import { useAppSelector } from "../../hooks/reduxHooks";
 import { internalSessionSelector } from "../../redux/slicers/internalSessionSlice";
 import { useSnackbar } from "notistack";
 import { activeEventSelector } from "../../redux/slicers/eventsSlice";
+import { withInternalSession } from "../../HOCs/withInternalSession";
+import { useEvent } from "../../hooks/useEvent";
+import { Box, LinearProgress, Typography } from "@mui/material";
+import { Error } from "@mui/icons-material";
 
-export const EventConfigurationPage = (): JSX.Element => {
+export const EventConfigurationPage = withInternalSession((): JSX.Element => {
 	const { id } = useParams<{ id: string }>();
 	const token = useAppSelector(internalSessionSelector);
+
+	const {
+		get,
+		activeItem: { error, status },
+	} = useEvent(id);
 
 	const { data } = useAppSelector(activeEventSelector);
 
@@ -50,6 +59,37 @@ export const EventConfigurationPage = (): JSX.Element => {
 		}
 	}, [reducerStatus]);
 
+	useEffect(() => {
+		if (data === null) {
+			get();
+		}
+	}, [data]);
+
+	if (status === "LOADING" || status === "NEUTRAL") {
+		return (
+			<Box sx={{ width: "100%" }}>
+				<LinearProgress color="primary" />
+			</Box>
+		);
+	}
+
+	if (status === "ERROR") {
+		return (
+			<Box
+				sx={{
+					width: "80%",
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
+					margin: "0 auto",
+				}}
+			>
+				<Error color="error" sx={{ marginRight: 1 }} />
+				<Typography>{error ?? ""}</Typography>
+			</Box>
+		);
+	}
+
 	return (
 		<Body>
 			<>
@@ -64,4 +104,4 @@ export const EventConfigurationPage = (): JSX.Element => {
 			</>
 		</Body>
 	);
-};
+});
